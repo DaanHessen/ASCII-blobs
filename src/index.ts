@@ -40,3 +40,7 @@ export {
   randomBetween, 
   clamp 
 } from './core/blob';
+
+// Export grid utilities for advanced use cases
+export { setupGrid } from './core/grid';
+export type { GridConfig, GridData } from './core/grid';

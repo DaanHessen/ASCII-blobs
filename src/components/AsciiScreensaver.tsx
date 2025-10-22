@@ -13,6 +13,7 @@ import {
 } from "../core/constants";
 import { gaussianFalloff } from "../core/gaussian";
 import { createBlob, resetBlob, updateBlob, randomBetween, clamp } from "../core/blob";
+import { setupGrid } from "../core/grid";
 import "./AsciiScreensaver.css";
 
 const blobTemp: BlobTempBuffers = {
@@ -270,10 +271,10 @@ const AsciiScreensaver = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       const scale = window.devicePixelRatio || 1;
-      const columns = Math.ceil(width / CELL_SIZE) + 6;
-      const rows = Math.ceil(height / CELL_SIZE) + 6;
-      const gridOffsetX = -CELL_SIZE * 3;
-      const gridOffsetY = -CELL_SIZE * 3;
+
+      // Set up grid using the grid module
+      const gridData = setupGrid({ width, height });
+      const { columns, rows, cellCount } = gridData;
 
       baseCanvas.style.width = `${width}px`;
       baseCanvas.style.height = `${height}px`;
@@ -295,36 +296,8 @@ const AsciiScreensaver = () => {
 
       baseCtx.clearRect(0, 0, width, height);
 
-      const cellCount = columns * rows;
-      const cellCentersX = new Float32Array(cellCount);
-      const cellCentersY = new Float32Array(cellCount);
-      const cellColumns = new Float32Array(cellCount);
-      const cellRows = new Float32Array(cellCount);
-      const baseBrightness = new Float32Array(cellCount);
-      const noiseJitter = new Float32Array(cellCount);
-      const noisePaletteBias = new Float32Array(cellCount);
+      // Initialize reveal delays for animation
       const revealDelays = new Float32Array(cellCount);
-
-      let index = 0;
-      for (let row = 0; row < rows; row += 1) {
-        const verticalGradient = 0.14 + (1 - row / rows) * 0.06;
-        const centerY = gridOffsetY + row * CELL_SIZE + CELL_SIZE / 2;
-        for (let col = 0; col < columns; col += 1) {
-          const jitter = randomBetween(-0.05, 0.05);
-          const bias = Math.random() - 0.5;
-          const centerX = gridOffsetX + col * CELL_SIZE + CELL_SIZE / 2;
-
-          cellCentersX[index] = centerX;
-          cellCentersY[index] = centerY;
-          cellColumns[index] = col;
-          cellRows[index] = row;
-          baseBrightness[index] = verticalGradient + jitter * 0.12;
-          noiseJitter[index] = jitter;
-          noisePaletteBias[index] = bias;
-          index += 1;
-        }
-      }
-
       for (let idx = 0; idx < cellCount; idx += 1) {
         revealDelays[idx] = Math.max(0, randomBetween(-REVEAL_FADE * 0.65, REVEAL_DURATION));
       }
@@ -333,18 +306,7 @@ const AsciiScreensaver = () => {
       const blobs = Array.from({ length: blobCount }, () => createBlob(columns, rows, true));
 
       stateRef.current = {
-        columns,
-        rows,
-        cellCount,
-        gridOffsetX,
-        gridOffsetY,
-        cellCentersX,
-        cellCentersY,
-        cellColumns,
-        cellRows,
-        baseBrightness,
-        noiseJitter,
-        noisePaletteBias,
+        ...gridData,
         revealDelays,
         glyphs,
         blobs,
