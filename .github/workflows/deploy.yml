@@ -33,6 +33,13 @@ jobs:
       - name: Build library
         run: npm run build
       
+      - name: Copy dist files to demo folder
+        run: |
+          cp dist/ascii-blobs.css demo/
+          cp dist/vanilla.mjs demo/
+          cp dist/vanilla.d.ts demo/
+          cp dist/themes-*.mjs demo/ || true
+      
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
