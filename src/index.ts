@@ -7,6 +7,13 @@ export { default as AsciiScreensaver } from './components/AsciiScreensaver';
 
 // Export types for TypeScript users
 export type { CloudBlob, State, BlobTempBuffers } from './core/types';
+export type {
+  AsciiBlobsConfig,
+  ColorConfig,
+  BlobBehaviorConfig,
+  AnimationConfig,
+  PerformanceConfig,
+} from './core/config';
 
 // Export constants for advanced customization
 export {
@@ -48,3 +55,5 @@ export type { GridConfig, GridData } from './core/grid';
 export { drawFrame, pickShadeIndex } from './core/renderer';
 
 export { createGlyphAtlas } from './core/atlas';
+
+export { defaultConfig, mergeConfig } from './core/config';
