@@ -16,6 +16,7 @@
       "require": "./dist/vanilla.cjs",
       "types": "./dist/vanilla.d.ts"
     },
+    "./dist/ascii-blobs.css": "./dist/ascii-blobs.css",
     "./package.json": "./package.json"
   },
   "files": [
