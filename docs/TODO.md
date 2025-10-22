@@ -43,7 +43,7 @@
   - [x] `core/types.ts` - TypeScript interfaces
   - [x] `core/constants.ts` - Tunable parameters
   - [x] `core/gaussian.ts` - LUT and falloff logic
-  - [ ] `core/blob.ts` - Blob creation/update
+  - [x] `core/blob.ts` - Blob creation/update
   - [ ] `core/grid.ts` - Grid and cell management
   - [ ] `core/renderer.ts` - Canvas rendering logic
   - [ ] `core/atlas.ts` - Glyph pre-rendering

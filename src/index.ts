@@ -30,3 +30,13 @@ export {
 
 // Export Gaussian utilities for advanced use cases
 export { gaussianFalloff, gaussianLUT } from './core/gaussian';
+
+// Export blob utilities for advanced use cases
+export { 
+  createBlob, 
+  resetBlob, 
+  updateBlob, 
+  pickSpawnPoint,
+  randomBetween, 
+  clamp 
+} from './core/blob';
