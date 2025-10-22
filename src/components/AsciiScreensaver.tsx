@@ -1,40 +1,6 @@
 import { useEffect, useRef } from "react";
+import type { CloudBlob, State, BlobTempBuffers } from "../core/types";
 import "./AsciiScreensaver.css";
-
-type CloudBlob = {
-  cx: number;
-  cy: number;
-  baseRadiusX: number;
-  baseRadiusY: number;
-  rotation: number;
-  rotationSpeed: number;
-  intensity: number;
-  velocityX: number;
-  velocityY: number;
-  wobbleAmplitude: number;
-  wobbleSpeed: number;
-  wobblePhase: number;
-  life: number;
-  maxLife: number;
-};
-
-type State = {
-  columns: number;
-  rows: number;
-  gridOffsetX: number;
-  gridOffsetY: number;
-  cellCount: number;
-  cellCentersX: Float32Array;
-  cellCentersY: Float32Array;
-  cellColumns: Float32Array;
-  cellRows: Float32Array;
-  baseBrightness: Float32Array;
-  noiseJitter: Float32Array;
-  noisePaletteBias: Float32Array;
-  revealDelays: Float32Array;
-  glyphs: (CanvasImageSource | null)[];
-  blobs: CloudBlob[];
-};
 
 const CELL_SIZE = 14;
 const FRAME_INTERVAL = 1000 / 22;
@@ -71,16 +37,6 @@ const gaussianFalloff = (distanceSq: number) => {
   }
   const lutIndex = Math.min(GAUSSIAN_LUT_SIZE - 1, Math.floor(distanceSq * GAUSSIAN_SCALE));
   return gaussianLUT[lutIndex];
-};
-
-type BlobTempBuffers = {
-  centersX: number[];
-  centersY: number[];
-  cos: number[];
-  sin: number[];
-  invRadiusX: number[];
-  invRadiusY: number[];
-  intensity: number[];
 };
 
 const blobTemp: BlobTempBuffers = {

@@ -28,11 +28,11 @@
 ### Project Files
 - [x] README.md (initial version created)
 - [x] DEVELOPMENT.md (architecture notes)
-- [ ] LICENSE file (MIT suggested)
-- [ ] CHANGELOG.md
+- [x] LICENSE file (MIT suggested)
+- [x] CHANGELOG.md
 - [ ] CONTRIBUTING.md
-- [ ] .gitignore
-- [ ] .npmignore
+- [x] .gitignore
+- [x] .npmignore
 - [ ] .prettierrc
 - [ ] .eslintrc
 
@@ -40,7 +40,7 @@
 
 ### Modularization
 - [ ] Split AsciiScreensaver.tsx into modules:
-  - [ ] `core/types.ts` - TypeScript interfaces
+  - [x] `core/types.ts` - TypeScript interfaces
   - [ ] `core/constants.ts` - Tunable parameters
   - [ ] `core/gaussian.ts` - LUT and falloff logic
   - [ ] `core/blob.ts` - Blob creation/update

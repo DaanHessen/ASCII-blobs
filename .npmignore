@@ -1,0 +1,35 @@
+# Development files
+src/
+docs/
+examples/
+.github/
+*.md
+!README.md
+
+# Build configuration
+tsconfig.json
+vite.config.ts
+rollup.config.js
+.eslintrc*
+.prettierrc*
+
+# Testing
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__/
+coverage/
+
+# CI/CD
+.travis.yml
+.circleci/
+.github/
+
+# Editor
+.vscode/
+.idea/
+
+# Misc
+.DS_Store
+*.log
