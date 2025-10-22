@@ -93,15 +93,15 @@
 
 ### React (Primary)
 - [x] Current implementation working
-- [ ] Refactor with new API
-- [ ] Add TypeScript definitions
+- [x] Refactor with new API
+- [x] Add TypeScript definitions
 - [ ] Test with React 18+ features
 
 ### Vanilla JavaScript
-- [ ] Create class-based vanilla JS API
-- [ ] Similar configuration interface
-- [ ] DOM mounting logic
-- [ ] Cleanup methods
+- [x] Create class-based vanilla JS API
+- [x] Similar configuration interface
+- [x] DOM mounting logic
+- [x] Cleanup methods
 
 ### Vue (Optional)
 - [ ] Create Vue 3 wrapper component
