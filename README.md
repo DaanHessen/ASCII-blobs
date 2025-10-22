@@ -1,79 +1,122 @@
-# ASCII Blobs Background Library
+# ascii-blobs
 
-A unique TypeScript/React library for creating organic, animated ASCII character backgrounds using gaussian blob/metaball rendering techniques.
+Beautiful, animated ASCII blob backgrounds using gaussian metaball rendering.
 
-## 🎨 What Makes This Unique
+[![npm version](https://img.shields.io/npm/v/ascii-blobs.svg)](https://www.npmjs.com/package/ascii-blobs)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This library uses a sophisticated **gaussian-based blob/metaball system** to create organic, cloud-like ASCII animations. Unlike other ASCII libraries that focus on:
-- Perlin noise patterns (like ASCIIGround)
-- Matrix-style rain effects
-- Static ASCII art playback
+## Features
 
-**ASCII Blobs** offers:
-- ✨ Autonomous organic blob movement with realistic physics
-- 🌊 Elliptical rotation, pulsing, and wobbling animations
-- 🎯 Gaussian falloff calculations with LUT optimization
-- 💫 Lifecycle management (fade in/out, spawn/respawn)
-- 🎨 Pre-rendered glyphs with glow and shadow effects
-- 🖼️ Dual-layer canvas with sophisticated blend modes
-- ⚡ High-performance rendering (22 FPS target)
+- **Animations** - Gaussian-based blob physics with wobble, rotation, and drift
+- **High performance** - Pre-computed LUTs, Float32Arrays, and optimized rendering
+- **Themes** - Themes, baby
+- **Fully configurable** - Control colors, characters, blob behavior, and animation
+- **Framework agnostic** - React components and vanilla JavaScript API
+- **TypeScript** - Full type definitions included
+- **Zero dependencies** - React is optional peer dependency
 
-## 📦 Files in This Directory
+## Installation
 
-- `AsciiScreensaver.tsx` - Main React component with all the blob rendering logic
-- `AsciiScreensaver.css` - Styling with layered backgrounds and visual effects
+```bash
+npm install ascii-blobs
+```
 
-## 🚀 Next Steps
+## Quick Start
 
-We'll transform this into a full library with:
-1. ✅ Package setup (package.json, tsconfig, etc.)
-2. ✅ Library build configuration
-3. ✅ API design for easy customization
-4. ✅ Documentation
-5. ✅ Examples
-6. ✅ TypeScript definitions
-7. ✅ Multi-framework support (React, Vue, vanilla JS)
-
-## 🎯 Target API (Draft)
+### React
 
 ```tsx
-import { AsciiBlobs } from 'ascii-blobs';
+import { AsciiScreensaver } from 'ascii-blobs';
+import 'ascii-blobs/dist/style.css';
 
-<AsciiBlobs
-  blobCount={4}
+function App() {
+  return <AsciiScreensaver />;
+}
+```
+
+### Vanilla JavaScript
+
+```js
+import { AsciiBlobs } from 'ascii-blobs/vanilla';
+import 'ascii-blobs/dist/style.css';
+
+const blobs = new AsciiBlobs('#container');
+```
+
+## Themes
+
+```tsx
+import { AsciiScreensaver, getThemeClassName } from 'ascii-blobs';
+
+<AsciiScreensaver className={getThemeClassName('catppuccin-mocha')} />
+```
+
+Available themes: `default`, `catppuccin-mocha`, `catppuccin-latte`, `dracula`, `nord`, `gruvbox`, `tokyo-night`
+
+## Configuration
+
+```tsx
+<AsciiScreensaver
   colors={{
-    primary: '#60a5fa',
-    secondary: '#3b82f6'
+    primary: 'rgb(100, 180, 255)',
+    background: '#000000',
   }}
-  characters={[' ', '.', ':', ';', '+', '*', '#', '@']}
-  animationSpeed={1.0}
+  characters=" .,:;!~+=xoX#"
+  blobBehavior={{
+    count: 8,
+    minSpeed: 6,
+    maxSpeed: 12,
+  }}
+  animation={{
+    frameInterval: 42,
+    revealDuration: 1200,
+  }}
 />
 ```
 
-## 📊 Current Features (from source)
+## Advanced Usage
 
-- Gaussian lookup table (LUT) for performance optimization
-- Cloud blob system with:
-  - Position, rotation, radius (X/Y)
-  - Velocity and wobble physics
-  - Lifecycle management
-- Grid-based cell rendering
-- Character palette with intensity mapping
-- Reveal animation system
-- Responsive canvas handling
-- Device pixel ratio support
+### Control Methods
 
-## 🎨 Visual Features
+```tsx
+import { useRef } from 'react';
+import { AsciiScreensaver, AsciiScreensaverRef } from 'ascii-blobs';
 
-- Radial gradient backgrounds
-- Blur effects on backdrop
-- Blend modes (screen, soft-light)
-- Vignette overlays
-- Animated texture patterns
-- Glow effects on characters
+function App() {
+  const ref = useRef<AsciiScreensaverRef>(null);
 
----
+  return (
+    <>
+      <AsciiScreensaver ref={ref} />
+      <button onClick={() => ref.current?.pause()}>Pause</button>
+      <button onClick={() => ref.current?.resume()}>Resume</button>
+      <button onClick={() => ref.current?.reset()}>Reset</button>
+    </>
+  );
+}
+```
 
-**Original Author**: Daan Hessen
-**Source**: Personal portfolio project (daanhessen.nl)
-**License**: TBD (MIT suggested)
+### Vanilla JavaScript
+
+```js
+const blobs = new AsciiBlobs('#container', {
+  blobBehavior: { count: 5 },
+  characters: ' ░▒▓█',
+});
+
+blobs.pause();
+blobs.resume();
+blobs.reset();
+console.log(blobs.getStats());
+blobs.destroy();
+```
+
+## Browser Support
+
+- Chrome/Edge 90+
+- Firefox 88+
+- Safari 14+
+
+## License
+
+MIT © Daan Hessen

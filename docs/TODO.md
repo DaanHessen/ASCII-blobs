@@ -57,7 +57,7 @@
 
 ### CSS Improvements
 - [x] Make colors themeable (CSS variables)
-- [x] Provide multiple theme presets
+- [x] Provide multiple theme presets (Catppuccin, Dracula, Nord, Gruvbox, Tokyo Night)
 - [x] Ensure no style leakage
 - [ ] Add CSS modules support (optional)
 
@@ -116,28 +116,28 @@
 ## Phase 5: Documentation 📚
 
 ### README.md
-- [ ] Hero/demo GIF or video
-- [ ] Feature highlights
-- [ ] Quick start guide
-- [ ] Installation instructions
-- [ ] Basic usage examples
-- [ ] Link to full docs
+- [x] Hero/demo GIF or video
+- [x] Feature highlights
+- [x] Quick start guide
+- [x] Installation instructions
+- [x] Basic usage examples
+- [x] Link to full docs
 - [ ] Comparison with other libraries
-- [ ] Browser support matrix
+- [x] Browser support matrix
 
 ### API Documentation
-- [ ] Props/configuration reference
-- [ ] Method reference
-- [ ] Event/callback reference
-- [ ] TypeScript types documentation
-- [ ] Theme presets documentation
+- [x] Props/configuration reference
+- [x] Method reference
+- [x] Event/callback reference
+- [x] TypeScript types documentation
+- [x] Theme presets documentation
 
 ### Examples
-- [ ] Basic React example
-- [ ] Custom colors example
-- [ ] Custom characters example
+- [x] Basic React example
+- [x] Custom colors example
+- [x] Custom characters example
 - [ ] Multiple instances example
-- [ ] Vanilla JS example
+- [x] Vanilla JS example
 - [ ] Vue example
 - [ ] Next.js example
 - [ ] CDN usage example

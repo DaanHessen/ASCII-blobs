@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Blobs - Vanilla JS</title>
+  <link rel="stylesheet" href="node_modules/ascii-blobs/dist/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+    }
+    #container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    .controls {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  
+  <div class="controls">
+    <button id="pause">Pause</button>
+    <button id="resume">Resume</button>
+    <button id="reset">Reset</button>
+    <button id="stats">Log Stats</button>
+  </div>
+
+  <script type="module">
+    import { AsciiBlobs } from './node_modules/ascii-blobs/dist/vanilla.js';
+
+    const blobs = new AsciiBlobs('#container', {
+      blobBehavior: {
+        count: 5,
+      },
+      characters: ' ░▒▓█',
+    });
+
+    document.getElementById('pause').addEventListener('click', () => {
+      blobs.pause();
+    });
+
+    document.getElementById('resume').addEventListener('click', () => {
+      blobs.resume();
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      blobs.reset();
+    });
+
+    document.getElementById('stats').addEventListener('click', () => {
+      console.log(blobs.getStats());
+    });
+  </script>
+</body>
+</html>
