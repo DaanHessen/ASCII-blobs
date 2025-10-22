@@ -105,7 +105,7 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       baseCtx.setTransform(scale, 0, 0, scale, 0, 0);
       baseCtx.font = CANVAS_FONT;
 
-      const glyphs = createGlyphAtlas(scale, characterLUT);
+      const glyphs = createGlyphAtlas(scale, characterLUT, config.colors.primary);
 
       overlayCanvas.style.width = `${width}px`;
       overlayCanvas.style.height = `${height}px`;

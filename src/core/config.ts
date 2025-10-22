@@ -16,6 +16,9 @@ export interface BlobBehaviorConfig {
   spawnInterval?: number;
   lifespan?: number;
   fadeInDuration?: number;
+  wobbleAmplitude?: number;
+  wobbleSpeed?: number;
+  rotationSpeed?: number;
 }
 
 export interface AnimationConfig {
@@ -29,6 +32,7 @@ export interface PerformanceConfig {
   gaussianLutSize?: number;
   targetFPS?: number;
   useOffscreenCanvas?: boolean;
+  enableBlur?: boolean;
 }
 
 export interface AsciiBlobsConfig {
@@ -41,9 +45,10 @@ export interface AsciiBlobsConfig {
   style?: React.CSSProperties;
   onReady?: () => void;
   onBlobSpawn?: (blob: CloudBlob) => void;
+  interactive?: boolean;
 }
 
-export const defaultConfig: Required<Omit<AsciiBlobsConfig, 'className' | 'style' | 'onReady' | 'onBlobSpawn'>> = {
+export const defaultConfig: Required<Omit<AsciiBlobsConfig, 'className' | 'style' | 'onReady' | 'onBlobSpawn' | 'interactive'>> = {
   colors: {
     primary: 'rgb(100, 180, 255)',
     background: '#000000',
@@ -60,6 +65,9 @@ export const defaultConfig: Required<Omit<AsciiBlobsConfig, 'className' | 'style
     spawnInterval: 3000,
     lifespan: 30000,
     fadeInDuration: 2000,
+    wobbleAmplitude: 0.15,
+    wobbleSpeed: 0.0004,
+    rotationSpeed: 0.00003,
   },
   animation: {
     frameInterval: 42,
@@ -71,6 +79,7 @@ export const defaultConfig: Required<Omit<AsciiBlobsConfig, 'className' | 'style
     gaussianLutSize: 1024,
     targetFPS: 60,
     useOffscreenCanvas: true,
+    enableBlur: true,
   },
 };
 

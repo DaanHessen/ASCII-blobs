@@ -1,11 +1,17 @@
-import { CELL_SIZE, HALF_CELL, CANVAS_FONT, OVERLAY_RGB } from './constants';
+import { CELL_SIZE, HALF_CELL, CANVAS_FONT } from './constants';
 
 export const createGlyphAtlas = (
   scale: number,
   characters: readonly string[],
+  primaryColor: string = 'rgb(100, 180, 255)',
 ): (CanvasImageSource | null)[] => {
   const atlas: (CanvasImageSource | null)[] = new Array(characters.length).fill(null);
   const pixelSize = Math.max(1, Math.ceil(CELL_SIZE * scale));
+
+  // Parse primary color to create glow/shadow variants
+  const glowColor = primaryColor.replace('rgb', 'rgba').replace(')', ', 0.35)');
+  const shadowColor1 = primaryColor.replace('rgb', 'rgba').replace(')', ', 0.6)');
+  const shadowColor2 = primaryColor.replace('rgb', 'rgba').replace(')', ', 0.3)');
 
   for (let index = 0; index < characters.length; index += 1) {
     const character = characters[index];
@@ -24,8 +30,8 @@ export const createGlyphAtlas = (
       }
       ctx.setTransform(scale, 0, 0, scale, 0, 0);
       ctx.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-      ctx.fillStyle = "rgba(96, 165, 250, 0.35)";
-      ctx.shadowColor = "rgba(59, 130, 246, 0.6)";
+      ctx.fillStyle = glowColor;
+      ctx.shadowColor = shadowColor1;
       ctx.shadowBlur = 6;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;
@@ -33,9 +39,9 @@ export const createGlyphAtlas = (
       ctx.textBaseline = "middle";
       ctx.font = CANVAS_FONT;
       ctx.fillText(character, HALF_CELL, HALF_CELL);
-      ctx.shadowColor = "rgba(59, 130, 246, 0.3)";
+      ctx.shadowColor = shadowColor2;
       ctx.shadowBlur = 2;
-      ctx.fillStyle = OVERLAY_RGB;
+      ctx.fillStyle = primaryColor;
       ctx.fillText(character, HALF_CELL, HALF_CELL);
       atlas[index] = canvas.transferToImageBitmap();
     } else {
@@ -49,8 +55,8 @@ export const createGlyphAtlas = (
       }
       ctx.setTransform(scale, 0, 0, scale, 0, 0);
       ctx.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-      ctx.fillStyle = "rgba(96, 165, 250, 0.35)";
-      ctx.shadowColor = "rgba(59, 130, 246, 0.6)";
+      ctx.fillStyle = glowColor;
+      ctx.shadowColor = shadowColor1;
       ctx.shadowBlur = 6;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;
@@ -58,9 +64,9 @@ export const createGlyphAtlas = (
       ctx.textBaseline = "middle";
       ctx.font = CANVAS_FONT;
       ctx.fillText(character, HALF_CELL, HALF_CELL);
-      ctx.shadowColor = "rgba(59, 130, 246, 0.3)";
+      ctx.shadowColor = shadowColor2;
       ctx.shadowBlur = 2;
-      ctx.fillStyle = OVERLAY_RGB;
+      ctx.fillStyle = primaryColor;
       ctx.fillText(character, HALF_CELL, HALF_CELL);
       atlas[index] = canvas;
     }

@@ -9,6 +9,7 @@ examples/
 # Build configuration
 tsconfig.json
 vite.config.ts
+vitest.config.ts
 rollup.config.js
 .eslintrc*
 .prettierrc*
@@ -20,6 +21,7 @@ rollup.config.js
 *.spec.tsx
 __tests__/
 coverage/
+test.html
 
 # CI/CD
 .travis.yml

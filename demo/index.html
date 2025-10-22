@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Blobs - Interactive Demo</title>
+  <link rel="stylesheet" href="../dist/ascii-blobs.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
+      background: #000;
+      color: #fff;
+    }
+
+    #ascii-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Quick Settings Bar */
+    .quick-settings {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 20, 30, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px 24px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .quick-control {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .quick-control label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .quick-control select,
+    .quick-control input[type="number"] {
+      background: rgba(40, 40, 50, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: #fff;
+      padding: 6px 10px;
+      font-size: 13px;
+      min-width: 120px;
+    }
+
+    .quick-control input[type="color"] {
+      width: 60px;
+      height: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-primary {
+      background: rgba(100, 180, 255, 0.2);
+      border-color: rgba(100, 180, 255, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: rgba(100, 180, 255, 0.3);
+      border-color: rgba(100, 180, 255, 0.5);
+    }
+
+    /* Stats Display */
+    .stats {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(20, 20, 30, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      z-index: 999;
+    }
+
+    .stats div {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+
+    .stats div:last-child {
+      margin-bottom: 0;
+    }
+
+    .stats-label {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .stats-value {
+      color: rgba(100, 180, 255, 0.9);
+    }
+
+    /* Settings Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: rgba(20, 20, 30, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 900px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .close-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .modal-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .tabs {
+      width: 180px;
+      background: rgba(15, 15, 25, 0.6);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 16px 0;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      cursor: pointer;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+    }
+
+    .tab:hover {
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab.active {
+      color: rgba(100, 180, 255, 0.95);
+      background: rgba(100, 180, 255, 0.08);
+      border-left-color: rgba(100, 180, 255, 0.8);
+    }
+
+    .tab-content {
+      flex: 1;
+      padding: 28px;
+      overflow-y: auto;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .control-group {
+      margin-bottom: 20px;
+    }
+
+    .control-label {
+      display: block;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .control-value {
+      float: right;
+      color: rgba(100, 180, 255, 0.8);
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(100, 180, 255, 0.9);
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(100, 180, 255, 0.9);
+      cursor: pointer;
+      border: none;
+    }
+
+    input[type="text"],
+    input[type="color"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      background: rgba(40, 40, 50, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: #fff;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    input[type="color"] {
+      height: 40px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: rgba(100, 180, 255, 0.5);
+      background: rgba(40, 40, 50, 0.8);
+    }
+
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: rgb(100, 180, 255);
+    }
+
+    .modal-footer {
+      padding: 20px 28px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    /* Scrollbar */
+    .tab-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .tab-content::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-content::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    .tab-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    @media (max-width: 768px) {
+      .quick-settings {
+        flex-direction: column;
+        gap: 12px;
+        max-width: 90vw;
+      }
+
+      .divider {
+        width: 100%;
+        height: 1px;
+      }
+
+      .modal-body {
+        flex-direction: column;
+      }
+
+      .tabs {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        overflow-x: auto;
+        padding: 0;
+      }
+
+      .tab {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+      }
+
+      .tab.active {
+        border-left: none;
+        border-bottom-color: rgba(100, 180, 255, 0.8);
+      }
+
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="ascii-container"></div>
+
+  <div class="stats">
+    <div>
+      <span class="stats-label">FPS:</span>
+      <span class="stats-value" id="fps">0</span>
+    </div>
+    <div>
+      <span class="stats-label">Blobs:</span>
+      <span class="stats-value" id="blobs">0</span>
+    </div>
+    <div>
+      <span class="stats-label">Status:</span>
+      <span class="stats-value" id="status">Running</span>
+    </div>
+  </div>
+
+  <div class="quick-settings">
+    <div class="quick-control">
+      <label>Theme</label>
+      <select id="quick-theme">
+        <option value="default">Default</option>
+        <option value="catppuccin-mocha">Catppuccin Mocha</option>
+        <option value="catppuccin-latte">Catppuccin Latte</option>
+        <option value="dracula">Dracula</option>
+        <option value="nord">Nord</option>
+        <option value="gruvbox">Gruvbox</option>
+        <option value="tokyo-night">Tokyo Night</option>
+      </select>
+    </div>
+
+    <div class="quick-control">
+      <label>Blob Count</label>
+      <input type="number" id="quick-count" value="8" min="1" max="20">
+    </div>
+
+    <div class="quick-control">
+      <label>Primary Color</label>
+      <input type="color" id="quick-color" value="#64B4FF">
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="btn" id="pauseBtn">Pause</button>
+    <button class="btn" id="resetBtn">Reset</button>
+    <button class="btn btn-primary" id="openSettings">All Settings</button>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Configuration</h2>
+        <button class="close-btn" id="closeModal">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="tabs">
+          <div class="tab active" data-tab="colors">Colors</div>
+          <div class="tab" data-tab="behavior">Behavior</div>
+          <div class="tab" data-tab="physics">Physics</div>
+          <div class="tab" data-tab="animation">Animation</div>
+          <div class="tab" data-tab="performance">Performance</div>
+        </div>
+        <div class="tab-content">
+          <!-- Colors Tab -->
+          <div class="tab-panel active" id="colors">
+            <div class="settings-grid">
+              <div class="control-group">
+                <label class="control-label">Primary Color</label>
+                <input type="color" id="primaryColor" value="#64B4FF">
+              </div>
+              <div class="control-group">
+                <label class="control-label">Background Color</label>
+                <input type="color" id="backgroundColor" value="#000000">
+              </div>
+              <div class="control-group">
+                <label class="control-label">Glow Color</label>
+                <input type="color" id="glowColor" value="#64B4FF">
+              </div>
+              <div class="control-group">
+                <label class="control-label">Shadow Color</label>
+                <input type="color" id="shadowColor" value="#64B4FF">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Character Set</label>
+              <input type="text" id="characters" value=" .,:;!~+=xoX#">
+            </div>
+          </div>
+
+          <!-- Behavior Tab -->
+          <div class="tab-panel" id="behavior">
+            <div class="settings-grid">
+              <div class="control-group">
+                <label class="control-label">
+                  Blob Count
+                  <span class="control-value" id="countValue">8</span>
+                </label>
+                <input type="range" id="blobCount" min="1" max="20" value="8">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Min Speed
+                  <span class="control-value" id="minSpeedValue">6</span>
+                </label>
+                <input type="range" id="minSpeed" min="1" max="30" value="6">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Max Speed
+                  <span class="control-value" id="maxSpeedValue">12</span>
+                </label>
+                <input type="range" id="maxSpeed" min="1" max="40" value="12">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Min Radius
+                  <span class="control-value" id="minRadiusValue">60</span>
+                </label>
+                <input type="range" id="minRadius" min="20" max="200" value="60">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Max Radius
+                  <span class="control-value" id="maxRadiusValue">140</span>
+                </label>
+                <input type="range" id="maxRadius" min="40" max="300" value="140">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Spawn Interval (ms)
+                  <span class="control-value" id="spawnIntervalValue">3000</span>
+                </label>
+                <input type="range" id="spawnInterval" min="500" max="10000" step="100" value="3000">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Lifespan (ms)
+                  <span class="control-value" id="lifespanValue">30000</span>
+                </label>
+                <input type="range" id="lifespan" min="5000" max="60000" step="1000" value="30000">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Fade In Duration (ms)
+                  <span class="control-value" id="fadeInValue">2000</span>
+                </label>
+                <input type="range" id="fadeIn" min="0" max="5000" step="100" value="2000">
+              </div>
+            </div>
+          </div>
+
+          <!-- Physics Tab -->
+          <div class="tab-panel" id="physics">
+            <div class="settings-grid">
+              <div class="control-group">
+                <label class="control-label">
+                  Wobble Amplitude
+                  <span class="control-value" id="wobbleAmpValue">0.15</span>
+                </label>
+                <input type="range" id="wobbleAmplitude" min="0" max="1" step="0.01" value="0.15">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Wobble Speed
+                  <span class="control-value" id="wobbleSpeedValue">0.0004</span>
+                </label>
+                <input type="range" id="wobbleSpeed" min="0" max="0.002" step="0.0001" value="0.0004">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Rotation Speed
+                  <span class="control-value" id="rotationSpeedValue">0.00003</span>
+                </label>
+                <input type="range" id="rotationSpeed" min="0" max="0.0002" step="0.00001" value="0.00003">
+              </div>
+            </div>
+          </div>
+
+          <!-- Animation Tab -->
+          <div class="tab-panel" id="animation">
+            <div class="settings-grid">
+              <div class="control-group">
+                <label class="control-label">
+                  Frame Interval (ms)
+                  <span class="control-value" id="frameIntervalValue">42</span>
+                </label>
+                <input type="range" id="frameInterval" min="16" max="100" value="42">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Reveal Duration (ms)
+                  <span class="control-value" id="revealDurationValue">1200</span>
+                </label>
+                <input type="range" id="revealDuration" min="0" max="5000" step="100" value="1200">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Reveal Fade (ms)
+                  <span class="control-value" id="revealFadeValue">400</span>
+                </label>
+                <input type="range" id="revealFade" min="0" max="2000" step="50" value="400">
+              </div>
+            </div>
+          </div>
+
+          <!-- Performance Tab -->
+          <div class="tab-panel" id="performance">
+            <div class="settings-grid">
+              <div class="control-group">
+                <label class="control-label">
+                  Cell Size (px)
+                  <span class="control-value" id="cellSizeValue">14</span>
+                </label>
+                <input type="range" id="cellSize" min="8" max="24" value="14">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Gaussian LUT Size
+                  <span class="control-value" id="lutSizeValue">1024</span>
+                </label>
+                <input type="range" id="lutSize" min="256" max="4096" step="256" value="1024">
+              </div>
+              <div class="control-group">
+                <label class="control-label">
+                  Target FPS
+                  <span class="control-value" id="targetFpsValue">60</span>
+                </label>
+                <input type="range" id="targetFps" min="15" max="120" step="5" value="60">
+              </div>
+              <div class="control-group">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox" id="offscreenCanvas" checked>
+                  <span class="control-label" style="margin: 0;">Use Offscreen Canvas</span>
+                </label>
+              </div>
+              <div class="control-group">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox" id="enableBlur" checked>
+                  <span class="control-label" style="margin: 0;">Enable Blur Effect</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="cancelBtn">Cancel</button>
+        <button class="btn btn-primary" id="applyBtn">Apply Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { AsciiBlobs } from '/dist/vanilla.mjs';
+    
+    let asciiBlobs = null;
+    let isPaused = false;
+
+    const themes = {
+      'default': { primary: '#64B4FF', background: '#000000', glow: '#64B4FF', shadow: '#64B4FF' },
+      'catppuccin-mocha': { primary: '#89B4FA', background: '#1E1E2E', glow: '#89B4FA', shadow: '#89B4FA' },
+      'catppuccin-latte': { primary: '#1E66F5', background: '#EFF1F5', glow: '#1E66F5', shadow: '#1E66F5' },
+      'dracula': { primary: '#BD93F9', background: '#282A36', glow: '#BD93F9', shadow: '#BD93F9' },
+      'nord': { primary: '#88C0D0', background: '#2E3440', glow: '#88C0D0', shadow: '#88C0D0' },
+      'gruvbox': { primary: '#FABD2F', background: '#282828', glow: '#FABD2F', shadow: '#FABD2F' },
+      'tokyo-night': { primary: '#7AA2F7', background: '#1A1B26', glow: '#7AA2F7', shadow: '#7AA2F7' },
+    };
+
+    function getConfig() {
+      return {
+        colors: {
+          primary: document.getElementById('primaryColor').value,
+          background: document.getElementById('backgroundColor').value,
+          glow: document.getElementById('glowColor').value,
+          shadow: document.getElementById('shadowColor').value,
+        },
+        characters: document.getElementById('characters').value,
+        blobBehavior: {
+          count: parseInt(document.getElementById('blobCount').value),
+          minSpeed: parseInt(document.getElementById('minSpeed').value),
+          maxSpeed: parseInt(document.getElementById('maxSpeed').value),
+          minRadius: parseInt(document.getElementById('minRadius').value),
+          maxRadius: parseInt(document.getElementById('maxRadius').value),
+          spawnInterval: parseInt(document.getElementById('spawnInterval').value),
+          lifespan: parseInt(document.getElementById('lifespan').value),
+          fadeInDuration: parseInt(document.getElementById('fadeIn').value),
+          wobbleAmplitude: parseFloat(document.getElementById('wobbleAmplitude').value),
+          wobbleSpeed: parseFloat(document.getElementById('wobbleSpeed').value),
+          rotationSpeed: parseFloat(document.getElementById('rotationSpeed').value),
+        },
+        animation: {
+          frameInterval: parseInt(document.getElementById('frameInterval').value),
+          revealDuration: parseInt(document.getElementById('revealDuration').value),
+          revealFade: parseInt(document.getElementById('revealFade').value),
+        },
+        performance: {
+          cellSize: parseInt(document.getElementById('cellSize').value),
+          gaussianLutSize: parseInt(document.getElementById('lutSize').value),
+          targetFPS: parseInt(document.getElementById('targetFps').value),
+          useOffscreenCanvas: document.getElementById('offscreenCanvas').checked,
+          enableBlur: document.getElementById('enableBlur').checked,
+        },
+      };
+    }
+
+    function init() {
+      if (asciiBlobs) {
+        asciiBlobs.destroy();
+      }
+      const container = document.getElementById('ascii-container');
+      asciiBlobs = new AsciiBlobs(container, getConfig());
+      if (!isPaused) {
+        updateStats();
+      }
+    }
+
+    function updateStats() {
+      if (asciiBlobs) {
+        const stats = asciiBlobs.getStats();
+        document.getElementById('fps').textContent = Math.round(stats.fps);
+        document.getElementById('blobs').textContent = stats.blobCount;
+        document.getElementById('status').textContent = stats.isPaused ? 'Paused' : 'Running';
+      }
+      requestAnimationFrame(updateStats);
+    }
+
+    // Range input listeners
+    document.querySelectorAll('input[type="range"]').forEach(input => {
+      const valueId = input.id + 'Value';
+      const valueDisplay = document.getElementById(valueId);
+      if (valueDisplay) {
+        input.addEventListener('input', (e) => {
+          valueDisplay.textContent = e.target.value;
+        });
+      }
+    });
+
+    // Quick theme selector
+    document.getElementById('quick-theme').addEventListener('change', (e) => {
+      const theme = themes[e.target.value];
+      if (theme) {
+        document.getElementById('primaryColor').value = theme.primary;
+        document.getElementById('backgroundColor').value = theme.background;
+        document.getElementById('glowColor').value = theme.glow;
+        document.getElementById('shadowColor').value = theme.shadow;
+        document.getElementById('quick-color').value = theme.primary;
+        init();
+      }
+    });
+
+    // Quick count
+    document.getElementById('quick-count').addEventListener('change', (e) => {
+      document.getElementById('blobCount').value = e.target.value;
+      document.getElementById('countValue').textContent = e.target.value;
+      init();
+    });
+
+    // Quick color
+    document.getElementById('quick-color').addEventListener('change', (e) => {
+      document.getElementById('primaryColor').value = e.target.value;
+      document.getElementById('glowColor').value = e.target.value;
+      document.getElementById('shadowColor').value = e.target.value;
+      init();
+    });
+
+    // Pause/Resume
+    document.getElementById('pauseBtn').addEventListener('click', () => {
+      if (!asciiBlobs) return;
+      isPaused = !isPaused;
+      const btn = document.getElementById('pauseBtn');
+      if (isPaused) {
+        asciiBlobs.pause();
+        btn.textContent = 'Resume';
+      } else {
+        asciiBlobs.resume();
+        btn.textContent = 'Pause';
+      }
+    });
+
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (asciiBlobs) asciiBlobs.reset();
+    });
+
+    // Modal controls
+    const modal = document.getElementById('modalOverlay');
+    document.getElementById('openSettings').addEventListener('click', () => {
+      modal.classList.add('active');
+    });
+    document.getElementById('closeModal').addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+    document.getElementById('applyBtn').addEventListener('click', () => {
+      init();
+      modal.classList.remove('active');
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Initialize
+    init();
+  </script>
+</body>
+</html>

@@ -64,6 +64,16 @@ export class AsciiBlobs {
       Object.assign(wrapper.style, this.config.style);
     }
 
+    // Apply color configuration via CSS variables
+    if (this.config.colors) {
+      wrapper.style.setProperty('--ascii-primary', this.config.colors.primary);
+      if (this.config.colors.background) {
+        wrapper.style.setProperty('--ascii-bg-base', this.config.colors.background);
+        wrapper.style.setProperty('--ascii-bg-mid', this.config.colors.background);
+        wrapper.style.setProperty('--ascii-bg-dark', this.config.colors.background);
+      }
+    }
+
     const backdrop = document.createElement('div');
     backdrop.className = 'ascii-screensaver__backdrop';
 
@@ -126,7 +136,7 @@ export class AsciiBlobs {
     this.baseCtx.setTransform(scale, 0, 0, scale, 0, 0);
     this.baseCtx.font = CANVAS_FONT;
 
-    const glyphs = createGlyphAtlas(scale, this.characterLUT);
+    const glyphs = createGlyphAtlas(scale, this.characterLUT, this.config.colors.primary);
 
     this.overlayCanvas.style.width = `${width}px`;
     this.overlayCanvas.style.height = `${height}px`;

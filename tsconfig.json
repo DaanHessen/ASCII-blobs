@@ -40,6 +40,6 @@
     "**/*.test.tsx",
     "**/*.spec.ts",
     "**/*.spec.tsx",
-    "examples"
+    "docs/examples"
   ]
 }

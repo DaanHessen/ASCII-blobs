@@ -5,6 +5,10 @@ Beautiful, animated ASCII blob backgrounds using gaussian metaball rendering.
 [![npm version](https://img.shields.io/npm/v/ascii-blobs.svg)](https://www.npmjs.com/package/ascii-blobs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+## [🎨 Interactive Demo →](https://daanh.github.io/ascii-blobs-library/)
+
+Play with all configuration options in real-time!
+
 ## Features
 
 - **Animations** - Gaussian-based blob physics with wobble, rotation, and drift
