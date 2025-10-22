@@ -27,3 +27,6 @@ export {
   GAUSSIAN_LUT_MAX,
   GAUSSIAN_SCALE,
 } from './core/constants';
+
+// Export Gaussian utilities for advanced use cases
+export { gaussianFalloff, gaussianLUT } from './core/gaussian';

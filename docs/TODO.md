@@ -42,7 +42,7 @@
 - [ ] Split AsciiScreensaver.tsx into modules:
   - [x] `core/types.ts` - TypeScript interfaces
   - [x] `core/constants.ts` - Tunable parameters
-  - [ ] `core/gaussian.ts` - LUT and falloff logic
+  - [x] `core/gaussian.ts` - LUT and falloff logic
   - [ ] `core/blob.ts` - Blob creation/update
   - [ ] `core/grid.ts` - Grid and cell management
   - [ ] `core/renderer.ts` - Canvas rendering logic

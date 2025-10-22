@@ -14,28 +14,9 @@ import {
   CANVAS_FONT,
   OVERLAY_RGB,
   ALPHA_EPSILON,
-  GAUSSIAN_LUT_SIZE,
-  GAUSSIAN_LUT_MAX,
-  GAUSSIAN_SCALE,
 } from "../core/constants";
+import { gaussianFalloff } from "../core/gaussian";
 import "./AsciiScreensaver.css";
-
-const gaussianLUT = (() => {
-  const lut = new Float32Array(GAUSSIAN_LUT_SIZE);
-  for (let index = 0; index < GAUSSIAN_LUT_SIZE; index += 1) {
-    const distanceSq = index / GAUSSIAN_SCALE;
-    lut[index] = Math.exp(-distanceSq * 1.05);
-  }
-  return lut;
-})();
-
-const gaussianFalloff = (distanceSq: number) => {
-  if (distanceSq >= GAUSSIAN_LUT_MAX) {
-    return 0;
-  }
-  const lutIndex = Math.min(GAUSSIAN_LUT_SIZE - 1, Math.floor(distanceSq * GAUSSIAN_SCALE));
-  return gaussianLUT[lutIndex];
-};
 
 const blobTemp: BlobTempBuffers = {
   centersX: [],
