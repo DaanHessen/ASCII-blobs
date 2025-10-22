@@ -9,7 +9,7 @@ export const createGlyphAtlas = (
 
   for (let index = 0; index < characters.length; index += 1) {
     const character = characters[index];
-    if (!character.trim()) {
+    if (!character || !character.trim()) {
       atlas[index] = null;
       continue;
     }

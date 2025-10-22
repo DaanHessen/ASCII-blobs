@@ -20,9 +20,9 @@ export default defineConfig({
         vanilla: resolve(__dirname, 'src/vanilla.ts'),
       },
       name: 'AsciiBlobs',
-      formats: ['es', 'cjs', 'umd'],
+      formats: ['es', 'cjs'],
       fileName: (format, entryName) => {
-        const ext = format === 'es' ? 'mjs' : format === 'cjs' ? 'cjs' : 'js';
+        const ext = format === 'es' ? 'mjs' : 'cjs';
         return `${entryName}.${ext}`;
       },
     },

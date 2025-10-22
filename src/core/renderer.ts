@@ -54,7 +54,7 @@ export const drawFrame = (
   intensity.length = blobCount;
 
   for (let b = 0; b < blobCount; b += 1) {
-    const blob = blobs[b];
+    const blob = blobs[b]!;
     const cosVal = Math.cos(blob.rotation);
     const sinVal = Math.sin(blob.rotation);
     const pulse =
@@ -76,7 +76,7 @@ export const drawFrame = (
   }
 
   for (let idx = 0; idx < cellCount; idx += 1) {
-    const revealDelay = revealDelays[idx];
+    const revealDelay = revealDelays[idx]!;
     const revealProgressRaw = (revealElapsed - revealDelay) / REVEAL_FADE;
     const revealProgress = clamp(revealProgressRaw, 0, 1);
     if (revealProgress <= 0) {
@@ -84,22 +84,22 @@ export const drawFrame = (
     }
 
     const easedReveal = revealProgress * revealProgress * (3 - 2 * revealProgress);
-    let brightness = baseBrightness[idx];
+    let brightness = baseBrightness[idx]!;
 
-    const col = cellColumns[idx];
-    const row = cellRows[idx];
+    const col = cellColumns[idx]!;
+    const row = cellRows[idx]!;
 
     for (let b = 0; b < blobCount; b += 1) {
-      const blobIntensity = intensity[b];
+      const blobIntensity = intensity[b]!;
       if (blobIntensity <= 0) {
         continue;
       }
 
-      const dx = col - centersX[b];
-      const dy = row - centersY[b];
+      const dx = col - centersX[b]!;
+      const dy = row - centersY[b]!;
 
-      const localX = (dx * cos[b] - dy * sin[b]) * invRadiusX[b];
-      const localY = (dx * sin[b] + dy * cos[b]) * invRadiusY[b];
+      const localX = (dx * cos[b]! - dy * sin[b]!) * invRadiusX[b]!;
+      const localY = (dx * sin[b]! + dy * cos[b]!) * invRadiusY[b]!;
       const distanceSq = localX * localX + localY * localY;
       const influence = gaussianFalloff(distanceSq);
 
@@ -114,8 +114,8 @@ export const drawFrame = (
 
     const shadeIndex = pickShadeIndex(
       brightness,
-      noiseJitter[idx],
-      noisePaletteBias[idx],
+      noiseJitter[idx]!,
+      noisePaletteBias[idx]!,
       characterLUT.length,
     );
 
@@ -137,8 +137,8 @@ export const drawFrame = (
     ctx.globalAlpha = alpha;
     ctx.drawImage(
       glyph,
-      cellCentersX[idx] - HALF_CELL,
-      cellCentersY[idx] - HALF_CELL,
+      cellCentersX[idx]! - HALF_CELL,
+      cellCentersY[idx]! - HALF_CELL,
       CELL_SIZE,
       CELL_SIZE,
     );

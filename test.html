@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Blobs Test</title>
+  <link rel="stylesheet" href="./dist/ascii-blobs.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #000;
+    }
+    #container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    .controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+    button {
+      padding: 10px 20px;
+      background: rgba(100, 180, 255, 0.2);
+      border: 1px solid rgba(100, 180, 255, 0.4);
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+    }
+    button:hover {
+      background: rgba(100, 180, 255, 0.3);
+    }
+    #stats {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  
+  <div class="controls">
+    <button id="pause">Pause</button>
+    <button id="resume">Resume</button>
+    <button id="reset">Reset</button>
+    <button id="theme-mocha">Catppuccin Mocha</button>
+    <button id="theme-dracula">Dracula</button>
+    <button id="theme-nord">Nord</button>
+    <button id="theme-gruvbox">Gruvbox</button>
+    <button id="theme-tokyo">Tokyo Night</button>
+    <button id="theme-default">Default</button>
+    <button id="chars-blocks">Block Characters</button>
+    <button id="chars-default">Default Characters</button>
+    <div id="stats"></div>
+  </div>
+
+  <script type="module">
+    import { AsciiBlobs } from './dist/vanilla.mjs';
+
+    let currentBlobs = new AsciiBlobs('#container', {
+      blobBehavior: {
+        count: 6,
+        minSpeed: 8,
+        maxSpeed: 14,
+      },
+      animation: {
+        frameInterval: 33,
+      },
+    });
+
+    function recreateBlobs(config = {}) {
+      currentBlobs.destroy();
+      currentBlobs = new AsciiBlobs('#container', {
+        blobBehavior: {
+          count: 6,
+          minSpeed: 8,
+          maxSpeed: 14,
+        },
+        animation: {
+          frameInterval: 33,
+        },
+        ...config,
+      });
+    }
+
+    document.getElementById('pause').addEventListener('click', () => {
+      currentBlobs.pause();
+    });
+
+    document.getElementById('resume').addEventListener('click', () => {
+      currentBlobs.resume();
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      currentBlobs.reset();
+    });
+
+    document.getElementById('theme-mocha').addEventListener('click', () => {
+      recreateBlobs({ className: 'ascii-screensaver--theme-catppuccin-mocha' });
+    });
+
+    document.getElementById('theme-dracula').addEventListener('click', () => {
+      recreateBlobs({ className: 'ascii-screensaver--theme-dracula' });
+    });
+
+    document.getElementById('theme-nord').addEventListener('click', () => {
+      recreateBlobs({ className: 'ascii-screensaver--theme-nord' });
+    });
+
+    document.getElementById('theme-gruvbox').addEventListener('click', () => {
+      recreateBlobs({ className: 'ascii-screensaver--theme-gruvbox' });
+    });
+
+    document.getElementById('theme-tokyo').addEventListener('click', () => {
+      recreateBlobs({ className: 'ascii-screensaver--theme-tokyo-night' });
+    });
+
+    document.getElementById('theme-default').addEventListener('click', () => {
+      recreateBlobs();
+    });
+
+    document.getElementById('chars-blocks').addEventListener('click', () => {
+      recreateBlobs({ characters: ' ░▒▓█' });
+    });
+
+    document.getElementById('chars-default').addEventListener('click', () => {
+      recreateBlobs({ characters: ' .,:;!~+=xoX#' });
+    });
+
+    setInterval(() => {
+      const stats = currentBlobs.getStats();
+      document.getElementById('stats').innerHTML = `
+        Blobs: ${stats.blobCount}<br>
+        FPS: ${stats.fps}<br>
+        Status: ${stats.isPaused ? 'Paused' : 'Running'}
+      `;
+    }, 500);
+  </script>
+</body>
+</html>
