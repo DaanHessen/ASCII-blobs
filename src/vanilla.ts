@@ -1,8 +1,3 @@
-/**
- * ASCII Blobs Library
- * Vanilla JavaScript entry point
- */
-
 import './components/AsciiScreensaver.css';
 
 export { AsciiBlobs } from './vanilla/AsciiBlobs';

@@ -1,12 +1,6 @@
-/**
- * ASCII Blobs Library
- * Main entry point for React components
- */
-
 export { default as AsciiScreensaver } from './components/AsciiScreensaver';
 export type { AsciiScreensaverRef } from './components/AsciiScreensaver';
 
-// Export types for TypeScript users
 export type { CloudBlob, State, BlobTempBuffers } from './core/types';
 export type {
   AsciiBlobsConfig,
@@ -17,7 +11,6 @@ export type {
   MergedConfig,
 } from './core/config';
 
-// Export constants for advanced customization
 export {
   CELL_SIZE,
   HALF_CELL,
@@ -37,10 +30,8 @@ export {
   GAUSSIAN_SCALE,
 } from './core/constants';
 
-// Export Gaussian utilities for advanced use cases
 export { gaussianFalloff, gaussianLUT } from './core/gaussian';
 
-// Export blob utilities for advanced use cases
 export { 
   createBlob, 
   resetBlob, 
@@ -50,7 +41,6 @@ export {
   clamp 
 } from './core/blob';
 
-// Export grid utilities for advanced use cases
 export { setupGrid } from './core/grid';
 export type { GridConfig, GridData } from './core/grid';
 

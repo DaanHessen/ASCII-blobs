@@ -1,12 +1,13 @@
-export type ThemeName = 'default' | 'ocean' | 'purple' | 'green' | 'amber' | 'monochrome';
+export type ThemeName = 'default' | 'catppuccin-mocha' | 'catppuccin-latte' | 'dracula' | 'nord' | 'gruvbox' | 'tokyo-night';
 
 export const themes = {
   default: 'ascii-screensaver',
-  ocean: 'ascii-screensaver ascii-screensaver--theme-ocean',
-  purple: 'ascii-screensaver ascii-screensaver--theme-purple',
-  green: 'ascii-screensaver ascii-screensaver--theme-green',
-  amber: 'ascii-screensaver ascii-screensaver--theme-amber',
-  monochrome: 'ascii-screensaver ascii-screensaver--theme-monochrome',
+  'catppuccin-mocha': 'ascii-screensaver ascii-screensaver--theme-catppuccin-mocha',
+  'catppuccin-latte': 'ascii-screensaver ascii-screensaver--theme-catppuccin-latte',
+  dracula: 'ascii-screensaver ascii-screensaver--theme-dracula',
+  nord: 'ascii-screensaver ascii-screensaver--theme-nord',
+  gruvbox: 'ascii-screensaver ascii-screensaver--theme-gruvbox',
+  'tokyo-night': 'ascii-screensaver ascii-screensaver--theme-tokyo-night',
 } as const;
 
 export function getThemeClassName(theme: ThemeName = 'default'): string {

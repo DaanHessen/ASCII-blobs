@@ -128,74 +128,88 @@
   }
 }
 
-/* Theme Presets */
-
-.ascii-screensaver--theme-ocean {
-  --ascii-primary: rgb(100, 200, 255);
-  --ascii-bg-base: #021420;
-  --ascii-bg-mid: #032030;
-  --ascii-bg-dark: #010c14;
-  --ascii-accent-1: rgba(56, 150, 220, 0.18);
-  --ascii-accent-2: rgba(34, 120, 180, 0.15);
-  --ascii-backdrop-1: rgba(82, 180, 240, 0.32);
-  --ascii-backdrop-3: rgba(42, 140, 230, 0.24);
-  --ascii-texture-1: rgba(120, 190, 240, 0.08);
-  --ascii-texture-2: rgba(60, 140, 200, 0.09);
-  --ascii-texture-3: rgba(200, 240, 255, 0.07);
+.ascii-screensaver--theme-catppuccin-mocha {
+  --ascii-primary: rgb(137, 180, 250);
+  --ascii-bg-base: #1e1e2e;
+  --ascii-bg-mid: #181825;
+  --ascii-bg-dark: #11111b;
+  --ascii-accent-1: rgba(137, 180, 250, 0.16);
+  --ascii-accent-2: rgba(116, 199, 236, 0.13);
+  --ascii-backdrop-1: rgba(137, 180, 250, 0.28);
+  --ascii-backdrop-3: rgba(116, 199, 236, 0.2);
+  --ascii-texture-1: rgba(137, 180, 250, 0.07);
+  --ascii-texture-2: rgba(116, 199, 236, 0.08);
+  --ascii-texture-3: rgba(205, 214, 244, 0.06);
 }
 
-.ascii-screensaver--theme-purple {
-  --ascii-primary: rgb(180, 100, 255);
-  --ascii-bg-base: #140820;
-  --ascii-bg-mid: #1c0c30;
-  --ascii-bg-dark: #0c0414;
-  --ascii-accent-1: rgba(140, 56, 220, 0.18);
-  --ascii-accent-2: rgba(100, 34, 180, 0.15);
-  --ascii-backdrop-1: rgba(160, 82, 240, 0.32);
-  --ascii-backdrop-3: rgba(130, 42, 230, 0.24);
-  --ascii-texture-1: rgba(180, 120, 240, 0.08);
-  --ascii-texture-2: rgba(120, 60, 200, 0.09);
-  --ascii-texture-3: rgba(220, 200, 255, 0.07);
+.ascii-screensaver--theme-catppuccin-latte {
+  --ascii-primary: rgb(30, 102, 245);
+  --ascii-bg-base: #eff1f5;
+  --ascii-bg-mid: #e6e9ef;
+  --ascii-bg-dark: #dce0e8;
+  --ascii-accent-1: rgba(30, 102, 245, 0.16);
+  --ascii-accent-2: rgba(4, 165, 229, 0.13);
+  --ascii-backdrop-1: rgba(30, 102, 245, 0.28);
+  --ascii-backdrop-3: rgba(4, 165, 229, 0.2);
+  --ascii-texture-1: rgba(30, 102, 245, 0.07);
+  --ascii-texture-2: rgba(4, 165, 229, 0.08);
+  --ascii-texture-3: rgba(76, 79, 105, 0.06);
+  --ascii-vignette-start: rgba(255, 255, 255, 0.56);
+  --ascii-vignette-end: rgba(255, 255, 255, 0.68);
 }
 
-.ascii-screensaver--theme-green {
-  --ascii-primary: rgb(100, 255, 180);
-  --ascii-bg-base: #081408;
-  --ascii-bg-mid: #0c200c;
-  --ascii-bg-dark: #041004;
-  --ascii-accent-1: rgba(56, 220, 150, 0.18);
-  --ascii-accent-2: rgba(34, 180, 120, 0.15);
-  --ascii-backdrop-1: rgba(82, 240, 180, 0.32);
-  --ascii-backdrop-3: rgba(42, 230, 140, 0.24);
-  --ascii-texture-1: rgba(120, 240, 190, 0.08);
-  --ascii-texture-2: rgba(60, 200, 140, 0.09);
-  --ascii-texture-3: rgba(200, 255, 240, 0.07);
+.ascii-screensaver--theme-dracula {
+  --ascii-primary: rgb(139, 233, 253);
+  --ascii-bg-base: #282a36;
+  --ascii-bg-mid: #21222c;
+  --ascii-bg-dark: #191a21;
+  --ascii-accent-1: rgba(139, 233, 253, 0.16);
+  --ascii-accent-2: rgba(189, 147, 249, 0.13);
+  --ascii-backdrop-1: rgba(139, 233, 253, 0.28);
+  --ascii-backdrop-3: rgba(189, 147, 249, 0.2);
+  --ascii-texture-1: rgba(139, 233, 253, 0.07);
+  --ascii-texture-2: rgba(189, 147, 249, 0.08);
+  --ascii-texture-3: rgba(248, 248, 242, 0.06);
 }
 
-.ascii-screensaver--theme-amber {
-  --ascii-primary: rgb(255, 180, 100);
-  --ascii-bg-base: #201408;
-  --ascii-bg-mid: #301c0c;
-  --ascii-bg-dark: #140804;
-  --ascii-accent-1: rgba(220, 140, 56, 0.18);
-  --ascii-accent-2: rgba(180, 100, 34, 0.15);
-  --ascii-backdrop-1: rgba(240, 160, 82, 0.32);
-  --ascii-backdrop-3: rgba(230, 130, 42, 0.24);
-  --ascii-texture-1: rgba(240, 180, 120, 0.08);
-  --ascii-texture-2: rgba(200, 120, 60, 0.09);
-  --ascii-texture-3: rgba(255, 220, 200, 0.07);
+.ascii-screensaver--theme-nord {
+  --ascii-primary: rgb(136, 192, 208);
+  --ascii-bg-base: #2e3440;
+  --ascii-bg-mid: #3b4252;
+  --ascii-bg-dark: #242933;
+  --ascii-accent-1: rgba(136, 192, 208, 0.16);
+  --ascii-accent-2: rgba(129, 161, 193, 0.13);
+  --ascii-backdrop-1: rgba(136, 192, 208, 0.28);
+  --ascii-backdrop-3: rgba(129, 161, 193, 0.2);
+  --ascii-texture-1: rgba(136, 192, 208, 0.07);
+  --ascii-texture-2: rgba(129, 161, 193, 0.08);
+  --ascii-texture-3: rgba(216, 222, 233, 0.06);
 }
 
-.ascii-screensaver--theme-monochrome {
-  --ascii-primary: rgb(200, 200, 200);
-  --ascii-bg-base: #0a0a0a;
-  --ascii-bg-mid: #141414;
-  --ascii-bg-dark: #050505;
-  --ascii-accent-1: rgba(150, 150, 150, 0.16);
-  --ascii-accent-2: rgba(120, 120, 120, 0.13);
-  --ascii-backdrop-1: rgba(180, 180, 180, 0.28);
-  --ascii-backdrop-3: rgba(160, 160, 160, 0.2);
-  --ascii-texture-1: rgba(170, 170, 170, 0.07);
-  --ascii-texture-2: rgba(140, 140, 140, 0.08);
-  --ascii-texture-3: rgba(220, 220, 220, 0.06);
+.ascii-screensaver--theme-gruvbox {
+  --ascii-primary: rgb(131, 165, 152);
+  --ascii-bg-base: #282828;
+  --ascii-bg-mid: #1d2021;
+  --ascii-bg-dark: #1b1b1b;
+  --ascii-accent-1: rgba(131, 165, 152, 0.16);
+  --ascii-accent-2: rgba(142, 192, 124, 0.13);
+  --ascii-backdrop-1: rgba(131, 165, 152, 0.28);
+  --ascii-backdrop-3: rgba(142, 192, 124, 0.2);
+  --ascii-texture-1: rgba(131, 165, 152, 0.07);
+  --ascii-texture-2: rgba(142, 192, 124, 0.08);
+  --ascii-texture-3: rgba(235, 219, 178, 0.06);
+}
+
+.ascii-screensaver--theme-tokyo-night {
+  --ascii-primary: rgb(125, 207, 255);
+  --ascii-bg-base: #1a1b26;
+  --ascii-bg-mid: #16161e;
+  --ascii-bg-dark: #0f0f14;
+  --ascii-accent-1: rgba(125, 207, 255, 0.16);
+  --ascii-accent-2: rgba(122, 162, 247, 0.13);
+  --ascii-backdrop-1: rgba(125, 207, 255, 0.28);
+  --ascii-backdrop-3: rgba(122, 162, 247, 0.2);
+  --ascii-texture-1: rgba(125, 207, 255, 0.07);
+  --ascii-texture-2: rgba(122, 162, 247, 0.08);
+  --ascii-texture-3: rgba(192, 202, 245, 0.06);
 }
