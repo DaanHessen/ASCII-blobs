@@ -1,6 +1,6 @@
 {
   "name": "ascii-blobs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "animated ASCII character backgrounds using gaussian blob/metaball rendering",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
