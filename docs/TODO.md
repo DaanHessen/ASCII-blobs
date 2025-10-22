@@ -72,22 +72,22 @@
 
 ### Component Props
 ```typescript
-- [ ] colors?: ColorConfig
-- [ ] characters?: string[]
-- [ ] blobCount?: number | 'auto'
-- [ ] animationSpeed?: number
-- [ ] cellSize?: number
-- [ ] targetFPS?: number
-- [ ] className?: string
-- [ ] style?: React.CSSProperties
-- [ ] onReady?: () => void
+- [x] colors?: ColorConfig
+- [x] characters?: string[]
+- [x] blobCount?: number | 'auto'
+- [x] animationSpeed?: number
+- [x] cellSize?: number
+- [x] targetFPS?: number
+- [x] className?: string
+- [x] style?: React.CSSProperties
+- [x] onReady?: () => void
 ```
 
 ### Methods/Refs (if needed)
-- [ ] pause() / resume() methods
-- [ ] reset() method
-- [ ] getStats() for debugging
-- [ ] Access to canvas ref
+- [x] pause() / resume() methods
+- [x] reset() method
+- [x] getStats() for debugging
+- [x] Access to canvas ref
 
 ## Phase 4: Multi-Framework Support 🌐
 

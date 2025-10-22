@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import type { State, BlobTempBuffers } from "../core/types";
 import type { AsciiBlobsConfig } from "../core/config";
 import { mergeConfig } from "../core/config";
@@ -8,6 +8,17 @@ import { setupGrid } from "../core/grid";
 import { drawFrame } from "../core/renderer";
 import { createGlyphAtlas } from "../core/atlas";
 import "./AsciiScreensaver.css";
+
+export interface AsciiScreensaverRef {
+  pause: () => void;
+  resume: () => void;
+  reset: () => void;
+  getStats: () => {
+    blobCount: number;
+    fps: number;
+    isPaused: boolean;
+  };
+}
 
 const blobTemp: BlobTempBuffers = {
   centersX: [],
@@ -19,7 +30,7 @@ const blobTemp: BlobTempBuffers = {
   intensity: [],
 };
 
-const AsciiScreensaver = (userConfig?: AsciiBlobsConfig) => {
+const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((userConfig, ref) => {
   const config = mergeConfig(userConfig);
   const baseCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -28,6 +39,35 @@ const AsciiScreensaver = (userConfig?: AsciiBlobsConfig) => {
   const lastTimestampRef = useRef<number>(performance.now());
   const lastDrawRef = useRef<number>(performance.now());
   const revealStartRef = useRef<number>(performance.now());
+  const isPausedRef = useRef(false);
+  const fpsRef = useRef(0);
+  const frameCountRef = useRef(0);
+  const fpsTimestampRef = useRef(performance.now());
+
+  useImperativeHandle(ref, () => ({
+    pause: () => {
+      isPausedRef.current = true;
+    },
+    resume: () => {
+      isPausedRef.current = false;
+      lastTimestampRef.current = performance.now();
+    },
+    reset: () => {
+      const state = stateRef.current;
+      if (state) {
+        const { columns, rows, blobs } = state;
+        for (let i = 0; i < blobs.length; i++) {
+          blobs[i] = createBlob(columns, rows, true);
+        }
+        revealStartRef.current = performance.now();
+      }
+    },
+    getStats: () => ({
+      blobCount: stateRef.current?.blobs.length ?? 0,
+      fps: fpsRef.current,
+      isPaused: isPausedRef.current,
+    }),
+  }));
 
   useEffect(() => {
     const baseCanvas = baseCanvasRef.current;
@@ -121,8 +161,20 @@ const AsciiScreensaver = (userConfig?: AsciiBlobsConfig) => {
         return;
       }
 
+      if (isPausedRef.current) {
+        animationFrameRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
       const delta = Math.min(now - lastTimestampRef.current, 120);
       lastTimestampRef.current = now;
+
+      frameCountRef.current++;
+      if (now - fpsTimestampRef.current >= 1000) {
+        fpsRef.current = Math.round((frameCountRef.current * 1000) / (now - fpsTimestampRef.current));
+        frameCountRef.current = 0;
+        fpsTimestampRef.current = now;
+      }
 
       const revealElapsed = Math.max(0, now - revealStartRef.current);
       const movementFactor = clamp(revealElapsed / config.animation.revealDuration, 0, 1);
@@ -188,6 +240,8 @@ const AsciiScreensaver = (userConfig?: AsciiBlobsConfig) => {
       <div className="ascii-screensaver__vignette"></div>
     </div>
   );
-};
+});
+
+AsciiScreensaver.displayName = 'AsciiScreensaver';
 
 export default AsciiScreensaver;
