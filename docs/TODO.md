@@ -17,13 +17,13 @@
   - [x] Declaration file generation
   - [x] Source maps
 
-- [ ] Build System
-  - [ ] Choose bundler (Rollup recommended)
-  - [ ] ESM output
-  - [ ] CJS output (for compatibility)
-  - [ ] UMD output (for CDN usage)
-  - [ ] Minification
-  - [ ] Tree-shaking support
+- [x] Build System
+  - [x] Choose bundler (Vite chosen - fast, great TypeScript support)
+  - [x] ESM output
+  - [x] CJS output (for compatibility)
+  - [x] UMD output (for CDN usage)
+  - [x] Minification
+  - [x] Tree-shaking support
 
 ### Project Files
 - [x] README.md (initial version created)
