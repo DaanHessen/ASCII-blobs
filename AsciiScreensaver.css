@@ -1,0 +1,111 @@
+.ascii-screensaver {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  isolation: isolate;
+  background:
+    radial-gradient(120% 90% at 15% 20%, rgba(56, 99, 208, 0.16), transparent 55%),
+    radial-gradient(120% 90% at 85% 80%, rgba(34, 74, 168, 0.13), transparent 60%),
+    linear-gradient(180deg, #020817, #030b1c 38%, #010611 100%);
+}
+
+.ascii-screensaver__backdrop,
+.ascii-screensaver__canvas,
+.ascii-screensaver__texture,
+.ascii-screensaver__vignette {
+  position: absolute;
+  inset: 0;
+}
+
+.ascii-screensaver__backdrop {
+  z-index: 1;
+  background:
+    radial-gradient(90% 60% at 28% 18%, rgba(82, 123, 210, 0.28), rgba(5, 15, 36, 0.92)),
+    radial-gradient(75% 85% at 80% 78%, rgba(42, 96, 220, 0.2), rgba(3, 8, 22, 0.92)),
+    linear-gradient(200deg, rgba(7, 20, 44, 0.85), rgba(2, 6, 16, 0.95));
+  filter: blur(42px);
+  opacity: 0.65;
+  mix-blend-mode: screen;
+}
+
+.ascii-screensaver__canvas {
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ascii-screensaver__canvas--base {
+  opacity: 0.95;
+}
+
+.ascii-screensaver__canvas--overlay {
+  z-index: 3;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
+
+.ascii-screensaver__texture {
+  z-index: 4;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(114, 144, 210, 0.07) 0,
+      rgba(114, 144, 210, 0.07) 1px,
+      transparent 1px,
+      transparent 18px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(48, 72, 128, 0.08) 0,
+      rgba(48, 72, 128, 0.08) 1px,
+      transparent 1px,
+      transparent 16px
+    ),
+  radial-gradient(circle at 50% 45%, rgba(230, 238, 255, 0.06), transparent 68%);
+  mix-blend-mode: soft-light;
+  animation: textureDrift 42s linear infinite;
+  opacity: 0.78;
+}
+
+.ascii-screensaver__vignette {
+  z-index: 5;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.62) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.68) 100%);
+}
+
+@keyframes textureDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-22px, 18px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .ascii-screensaver__texture {
+    opacity: 0.62;
+    animation-duration: 56s;
+  }
+
+  .ascii-screensaver__canvas--overlay {
+    opacity: 0.84;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ascii-screensaver__texture {
+    animation: none;
+  }
+}
