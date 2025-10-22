@@ -7,3 +7,23 @@ export { default as AsciiScreensaver } from './components/AsciiScreensaver';
 
 // Export types for TypeScript users
 export type { CloudBlob, State, BlobTempBuffers } from './core/types';
+
+// Export constants for advanced customization
+export {
+  CELL_SIZE,
+  HALF_CELL,
+  FRAME_INTERVAL,
+  REVEAL_DURATION,
+  REVEAL_FADE,
+  WRAP_MARGIN,
+  SPAWN_MARGIN,
+  INTERIOR_MIN,
+  INTERIOR_MAX,
+  ASCII_PALETTE,
+  CANVAS_FONT,
+  OVERLAY_RGB,
+  ALPHA_EPSILON,
+  GAUSSIAN_LUT_SIZE,
+  GAUSSIAN_LUT_MAX,
+  GAUSSIAN_SCALE,
+} from './core/constants';

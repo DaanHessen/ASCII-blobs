@@ -41,7 +41,7 @@
 ### Modularization
 - [ ] Split AsciiScreensaver.tsx into modules:
   - [x] `core/types.ts` - TypeScript interfaces
-  - [ ] `core/constants.ts` - Tunable parameters
+  - [x] `core/constants.ts` - Tunable parameters
   - [ ] `core/gaussian.ts` - LUT and falloff logic
   - [ ] `core/blob.ts` - Blob creation/update
   - [ ] `core/grid.ts` - Grid and cell management

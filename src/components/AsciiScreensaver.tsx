@@ -1,26 +1,24 @@
 import { useEffect, useRef } from "react";
 import type { CloudBlob, State, BlobTempBuffers } from "../core/types";
+import {
+  CELL_SIZE,
+  HALF_CELL,
+  FRAME_INTERVAL,
+  REVEAL_DURATION,
+  REVEAL_FADE,
+  WRAP_MARGIN,
+  SPAWN_MARGIN,
+  INTERIOR_MIN,
+  INTERIOR_MAX,
+  ASCII_PALETTE,
+  CANVAS_FONT,
+  OVERLAY_RGB,
+  ALPHA_EPSILON,
+  GAUSSIAN_LUT_SIZE,
+  GAUSSIAN_LUT_MAX,
+  GAUSSIAN_SCALE,
+} from "../core/constants";
 import "./AsciiScreensaver.css";
-
-const CELL_SIZE = 14;
-const FRAME_INTERVAL = 1000 / 22;
-const WRAP_MARGIN = 8;
-const REVEAL_DURATION = 100;
-const REVEAL_FADE = 520;
-
-const SPAWN_MARGIN = 18;
-const INTERIOR_MIN = 0.18;
-const INTERIOR_MAX = 0.82;
-const HALF_CELL = CELL_SIZE / 2;
-
-const ASCII_PALETTE = [" ", "`", ".", ":", ";", "~", "+", "=", "*", "#", "%", "@"] as const;
-const CANVAS_FONT = `${CELL_SIZE * 0.86}px "JetBrains Mono", "Fira Code", "Menlo", monospace`;
-const OVERLAY_RGB = "rgb(186, 194, 209)";
-const ALPHA_EPSILON = 0.012;
-
-const GAUSSIAN_LUT_SIZE = 1024;
-const GAUSSIAN_LUT_MAX = 8;
-const GAUSSIAN_SCALE = (GAUSSIAN_LUT_SIZE - 1) / GAUSSIAN_LUT_MAX;
 
 const gaussianLUT = (() => {
   const lut = new Float32Array(GAUSSIAN_LUT_SIZE);
