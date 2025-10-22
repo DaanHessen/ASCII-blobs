@@ -1,19 +1,11 @@
-/**
- * Type definitions for ASCII Blobs Library
- */
-
-/**
- * Represents a single animated blob/metaball in the scene.
- * Each blob has position, size, rotation, movement, and lifecycle properties.
- */
 export type CloudBlob = {
   /** Current X center position */
   cx: number;
   /** Current Y center position */
   cy: number;
-  /** Base radius along X axis (before wobble/pulse) */
+  /** Base radius along X axis */
   baseRadiusX: number;
-  /** Base radius along Y axis (before wobble/pulse) */
+  /** Base radius along Y axis  */
   baseRadiusY: number;
   /** Current rotation angle in radians */
   rotation: number;
@@ -37,10 +29,6 @@ export type CloudBlob = {
   maxLife: number;
 };
 
-/**
- * Internal state for the ASCII blob renderer.
- * Contains grid configuration, cell data, and active blob instances.
- */
 export type State = {
   /** Number of grid columns */
   columns: number;
@@ -60,7 +48,7 @@ export type State = {
   cellColumns: Float32Array;
   /** Row index for each cell */
   cellRows: Float32Array;
-  /** Base brightness value for each cell (before blob influence) */
+  /** Base brightness value for each cell  */
   baseBrightness: Float32Array;
   /** Random jitter for organic variation */
   noiseJitter: Float32Array;
@@ -74,10 +62,6 @@ export type State = {
   blobs: CloudBlob[];
 };
 
-/**
- * Temporary buffers used during blob rendering to avoid allocations.
- * Reused each frame and resized as needed.
- */
 export type BlobTempBuffers = {
   /** Center X positions for all blobs */
   centersX: number[];
@@ -87,10 +71,10 @@ export type BlobTempBuffers = {
   cos: number[];
   /** Sine of rotation angle for each blob */
   sin: number[];
-  /** Inverse of effective radiusX (after wobble) */
+  /** Inverse of effective radiusX */
   invRadiusX: number[];
-  /** Inverse of effective radiusY (after wobble) */
+  /** Inverse of effective radiusY */
   invRadiusY: number[];
-  /** Final intensity value (after fade in/out) */
+  /** Final intensity value */
   intensity: number[];
 };
