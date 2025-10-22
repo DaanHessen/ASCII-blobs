@@ -151,17 +151,17 @@
 ## Phase 6: Testing 🧪
 
 ### Unit Tests
-- [ ] Gaussian falloff calculations
-- [ ] Blob spawn logic
-- [ ] Blob update logic
-- [ ] Grid calculations
-- [ ] Character selection logic
+- [x] Gaussian falloff calculations
+- [x] Blob spawn logic
+- [x] Blob update logic
+- [x] Grid calculations
+- [x] Character selection logic
 
 ### Integration Tests
-- [ ] Component mounts correctly
-- [ ] Canvas initializes
-- [ ] Animation loop runs
-- [ ] Cleanup on unmount
+- [x] Component mounts correctly
+- [x] Canvas initializes
+- [x] Animation loop runs
+- [x] Cleanup on unmount
 - [ ] Resize handling
 
 ### Visual Tests (Optional)
