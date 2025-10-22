@@ -27,6 +27,8 @@ export {
   INTERIOR_MAX,
   ASCII_PALETTE,
   CANVAS_FONT,
+  FONT_FAMILY,
+  getCanvasFont,
   OVERLAY_RGB,
   ALPHA_EPSILON,
   GAUSSIAN_LUT_SIZE,
@@ -34,7 +36,7 @@ export {
   GAUSSIAN_SCALE,
 } from './core/constants';
 
-export { gaussianFalloff, gaussianLUT } from './core/gaussian';
+export { gaussianFalloff, gaussianLUT, createGaussianSampler } from './core/gaussian';
 
 export { 
   createBlob, 

@@ -1,7 +1,15 @@
 import type { State, BlobTempBuffers } from './types';
-import { CELL_SIZE, HALF_CELL, ALPHA_EPSILON, REVEAL_FADE } from './constants';
-import { gaussianFalloff } from './gaussian';
+import { ALPHA_EPSILON } from './constants';
 import { clamp } from './blob';
+
+export type GaussianFalloffFn = (distanceSq: number) => number;
+
+export type DrawFrameOptions = {
+  cellSize: number;
+  revealFade: number;
+  fadeInDuration: number;
+  gaussianFalloff: GaussianFalloffFn;
+};
 
 export const pickShadeIndex = (
   intensity: number,
@@ -23,7 +31,11 @@ export const drawFrame = (
   characterLUT: string[],
   revealElapsed: number,
   blobTemp: BlobTempBuffers,
+  options: DrawFrameOptions,
 ): void => {
+  const { cellSize, revealFade, fadeInDuration, gaussianFalloff } = options;
+  const halfCell = cellSize / 2;
+
   const {
     blobs,
     cellCount,
@@ -62,7 +74,8 @@ export const drawFrame = (
     const radiusX = Math.max(blob.baseRadiusX * pulse, 12);
     const radiusY = Math.max(blob.baseRadiusY * pulse, 12);
     const lifeProgress = 1 - blob.life / blob.maxLife;
-    const fadeIn = clamp(lifeProgress / 0.18, 0, 1);
+    const timeAlive = lifeProgress * blob.maxLife;
+    const fadeIn = clamp(fadeInDuration > 0 ? timeAlive / fadeInDuration : 1, 0, 1);
     const fadeOut = clamp(blob.life / (blob.maxLife * 0.25), 0, 1);
     const envelope = fadeIn * fadeOut;
 
@@ -77,7 +90,7 @@ export const drawFrame = (
 
   for (let idx = 0; idx < cellCount; idx += 1) {
     const revealDelay = revealDelays[idx]!;
-    const revealProgressRaw = (revealElapsed - revealDelay) / REVEAL_FADE;
+    const revealProgressRaw = (revealElapsed - revealDelay) / revealFade;
     const revealProgress = clamp(revealProgressRaw, 0, 1);
     if (revealProgress <= 0) {
       continue;
@@ -137,10 +150,10 @@ export const drawFrame = (
     ctx.globalAlpha = alpha;
     ctx.drawImage(
       glyph,
-      cellCentersX[idx]! - HALF_CELL,
-      cellCentersY[idx]! - HALF_CELL,
-      CELL_SIZE,
-      CELL_SIZE,
+      cellCentersX[idx]! - halfCell,
+      cellCentersY[idx]! - halfCell,
+      cellSize,
+      cellSize,
     );
   }
 

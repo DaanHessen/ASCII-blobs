@@ -16,6 +16,8 @@
   --ascii-texture-3: rgba(230, 238, 255, 0.06);
   --ascii-vignette-start: rgba(0, 0, 0, 0.56);
   --ascii-vignette-end: rgba(0, 0, 0, 0.68);
+  --ascii-glow: rgba(100, 180, 255, 0.8);
+  --ascii-shadow: rgba(100, 180, 255, 0.4);
 
   position: absolute;
   inset: 0;

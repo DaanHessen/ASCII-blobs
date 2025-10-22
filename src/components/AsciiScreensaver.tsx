@@ -1,12 +1,14 @@
-import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
+import { useEffect, useRef, forwardRef, useImperativeHandle, useMemo } from "react";
+import type { CSSProperties } from "react";
 import type { State, BlobTempBuffers } from "../core/types";
 import type { AsciiBlobsConfig } from "../core/config";
 import { mergeConfig } from "../core/config";
-import { CANVAS_FONT } from "../core/constants";
+import { getCanvasFont } from "../core/constants";
 import { createBlob, resetBlob, updateBlob, randomBetween, clamp } from "../core/blob";
 import { setupGrid } from "../core/grid";
 import { drawFrame } from "../core/renderer";
 import { createGlyphAtlas } from "../core/atlas";
+import { createGaussianSampler } from "../core/gaussian";
 import "./AsciiScreensaver.css";
 
 export interface AsciiScreensaverRef {
@@ -31,7 +33,7 @@ const blobTemp: BlobTempBuffers = {
 };
 
 const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((userConfig, ref) => {
-  const config = mergeConfig(userConfig);
+  const config = useMemo(() => mergeConfig(userConfig), [userConfig]);
   const baseCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationFrameRef = useRef<number>();
@@ -57,7 +59,7 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       if (state) {
         const { columns, rows, blobs } = state;
         for (let i = 0; i < blobs.length; i++) {
-          blobs[i] = createBlob(columns, rows, true);
+          blobs[i] = createBlob(columns, rows, { warmStart: true, behavior: config.blobBehavior });
         }
         revealStartRef.current = performance.now();
       }
@@ -89,13 +91,19 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       return config.characters[Math.round(adjusted)]!;
     });
 
+    const gaussian = createGaussianSampler(config.performance.gaussianLutSize);
+    const canvasFont = getCanvasFont(config.performance.cellSize);
+
     const setupState = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       const scale = window.devicePixelRatio || 1;
 
-      // Set up grid using the grid module
-      const gridData = setupGrid({ width, height });
+      const gridData = setupGrid({
+        width,
+        height,
+        cellSize: config.performance.cellSize,
+      });
       const { columns, rows, cellCount } = gridData;
 
       baseCanvas.style.width = `${width}px`;
@@ -103,16 +111,23 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       baseCanvas.width = Math.floor(width * scale);
       baseCanvas.height = Math.floor(height * scale);
       baseCtx.setTransform(scale, 0, 0, scale, 0, 0);
-      baseCtx.font = CANVAS_FONT;
+      baseCtx.font = canvasFont;
 
-      const glyphs = createGlyphAtlas(scale, characterLUT, config.colors.primary);
+      const glyphs = createGlyphAtlas(scale, characterLUT, {
+        primaryColor: config.colors.primary,
+        glowColor: config.colors.glow,
+        shadowColor: config.colors.shadow,
+        cellSize: config.performance.cellSize,
+        enableBlur: config.performance.enableBlur,
+        useOffscreenCanvas: config.performance.useOffscreenCanvas,
+      });
 
       overlayCanvas.style.width = `${width}px`;
       overlayCanvas.style.height = `${height}px`;
       overlayCanvas.width = Math.floor(width * scale);
       overlayCanvas.height = Math.floor(height * scale);
       overlayCtx.setTransform(scale, 0, 0, scale, 0, 0);
-      overlayCtx.font = CANVAS_FONT;
+      overlayCtx.font = canvasFont;
       overlayCtx.textAlign = "center";
       overlayCtx.textBaseline = "middle";
 
@@ -125,7 +140,9 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       }
 
       const blobCount = config.blobBehavior.count;
-      const blobs = Array.from({ length: blobCount }, () => createBlob(columns, rows, true));
+      const blobs = Array.from({ length: blobCount }, () =>
+        createBlob(columns, rows, { warmStart: true, behavior: config.blobBehavior }),
+      );
 
       stateRef.current = {
         ...gridData,
@@ -184,13 +201,13 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       for (let index = 0; index < blobs.length; index += 1) {
         const blob = blobs[index]!;
         if (blob.life <= 0) {
-          const newBlob = createBlob(columns, rows);
+          const newBlob = createBlob(columns, rows, { behavior: config.blobBehavior });
           blobs[index] = newBlob;
           config.onBlobSpawn?.(newBlob);
         } else {
           const updated = updateBlob(blob, effectiveDelta, columns, rows, now);
           if (updated.life <= 0) {
-            const newBlob = resetBlob(columns, rows);
+            const newBlob = resetBlob(columns, rows, { behavior: config.blobBehavior });
             blobs[index] = newBlob;
             config.onBlobSpawn?.(newBlob);
           } else {
@@ -200,7 +217,20 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       }
 
       if (now - lastDrawRef.current >= config.animation.frameInterval) {
-        drawFrame(overlayCtx, state, now, characterLUT, revealElapsed, blobTemp);
+        drawFrame(
+          overlayCtx,
+          state,
+          now,
+          characterLUT,
+          revealElapsed,
+          blobTemp,
+          {
+            cellSize: config.performance.cellSize,
+            revealFade: config.animation.revealFade,
+            fadeInDuration: config.blobBehavior.fadeInDuration,
+            gaussianFalloff: gaussian.falloff,
+          },
+        );
         lastDrawRef.current = now;
       }
 
@@ -218,13 +248,33 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       if (resizeTimeout) {
         window.clearTimeout(resizeTimeout);
       }
+      stateRef.current = null;
     };
-  }, []);
+  }, [config]);
+
+  const inlineStyle = useMemo(() => {
+    const cssVariables: Record<string, string> = {
+      '--ascii-primary': config.colors.primary,
+      '--ascii-glow': config.colors.glow,
+      '--ascii-shadow': config.colors.shadow,
+    };
+
+    if (config.colors.background) {
+      cssVariables['--ascii-bg-base'] = config.colors.background;
+      cssVariables['--ascii-bg-mid'] = config.colors.background;
+      cssVariables['--ascii-bg-dark'] = config.colors.background;
+    }
+
+    return {
+      ...cssVariables,
+      ...(config.style ?? {}),
+    } as CSSProperties;
+  }, [config]);
 
   return (
     <div 
       className={`ascii-screensaver ${config.className || ''}`} 
-      style={config.style}
+      style={inlineStyle}
       aria-hidden="true"
     >
       <div className="ascii-screensaver__backdrop"></div>

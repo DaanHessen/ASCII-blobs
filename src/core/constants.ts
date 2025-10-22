@@ -18,7 +18,12 @@ export const INTERIOR_MAX = 0.82;
 
 export const ASCII_PALETTE = [" ", "`", ".", ":", ";", "~", "+", "=", "*", "#", "%", "@"] as const;
 
-export const CANVAS_FONT = `${CELL_SIZE * 0.86}px "JetBrains Mono", "Fira Code", "Menlo", monospace`;
+export const FONT_FAMILY = `"JetBrains Mono", "Fira Code", "Menlo", monospace`;
+
+export const getCanvasFont = (cellSize: number): string =>
+  `${Math.max(cellSize * 0.86, 1)}px ${FONT_FAMILY}`;
+
+export const CANVAS_FONT = getCanvasFont(CELL_SIZE);
 
 export const OVERLAY_RGB = "rgb(186, 194, 209)";
 

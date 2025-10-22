@@ -1,9 +1,9 @@
-import { CELL_SIZE } from './constants';
 import { randomBetween } from './blob';
 
 export type GridConfig = {
   width: number;
   height: number;
+  cellSize: number;
 };
 
 export type GridData = {
@@ -22,12 +22,12 @@ export type GridData = {
 };
 
 export const setupGrid = (config: GridConfig): GridData => {
-  const { width, height } = config;
+  const { width, height, cellSize } = config;
 
-  const columns = Math.ceil(width / CELL_SIZE) + 6;
-  const rows = Math.ceil(height / CELL_SIZE) + 6;
-  const gridOffsetX = -CELL_SIZE * 3;
-  const gridOffsetY = -CELL_SIZE * 3;
+  const columns = Math.ceil(width / cellSize) + 6;
+  const rows = Math.ceil(height / cellSize) + 6;
+  const gridOffsetX = -cellSize * 3;
+  const gridOffsetY = -cellSize * 3;
 
   const cellCount = columns * rows;
 
@@ -42,12 +42,12 @@ export const setupGrid = (config: GridConfig): GridData => {
   let index = 0;
   for (let row = 0; row < rows; row += 1) {
     const verticalGradient = 0.14 + (1 - row / rows) * 0.06;
-    const centerY = gridOffsetY + row * CELL_SIZE + CELL_SIZE / 2;
+    const centerY = gridOffsetY + row * cellSize + cellSize / 2;
     
     for (let col = 0; col < columns; col += 1) {
       const jitter = randomBetween(-0.05, 0.05);
       const bias = Math.random() - 0.5;
-      const centerX = gridOffsetX + col * CELL_SIZE + CELL_SIZE / 2;
+      const centerX = gridOffsetX + col * cellSize + cellSize / 2;
 
       cellCentersX[index] = centerX;
       cellCentersY[index] = centerY;

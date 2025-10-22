@@ -1,4 +1,6 @@
 import type { CloudBlob } from './types';
+import type { BlobBehaviorConfig } from './config';
+import { defaultConfig } from './config';
 import { SPAWN_MARGIN, INTERIOR_MIN, INTERIOR_MAX, WRAP_MARGIN } from './constants';
 
 export const randomBetween = (min: number, max: number): number => 
@@ -52,20 +54,100 @@ export const pickSpawnPoint = (columns: number, rows: number): SpawnPoint => {
   return { cx, cy, baseDirection };
 };
 
-export const createBlob = (columns: number, rows: number, warmStart = false): CloudBlob => {
+type BehaviorSettings = Required<BlobBehaviorConfig>;
+const defaultBehavior = defaultConfig.blobBehavior as BehaviorSettings;
+
+const INTERNAL_RADIUS_MIN = 30;
+const INTERNAL_RADIUS_MAX = 56;
+const INTERNAL_SPEED_MIN = 0.0018;
+const INTERNAL_SPEED_MAX = 0.0031;
+
+const remapBehaviorValue = (
+  value: number,
+  baseMin: number,
+  baseMax: number,
+  targetMin: number,
+  targetMax: number,
+): number => {
+  if (!Number.isFinite(value)) {
+    return targetMin;
+  }
+  const baseRange = baseMax - baseMin;
+  if (Math.abs(baseRange) < 1e-6) {
+    return targetMin;
+  }
+  const t = (value - baseMin) / baseRange;
+  return targetMin + t * (targetMax - targetMin);
+};
+
+type CreateBlobOptions =
+  | undefined
+  | {
+      warmStart?: boolean;
+      behavior?: BehaviorSettings;
+    };
+
+const getBehavior = (behavior?: BehaviorSettings): BehaviorSettings =>
+  behavior ?? defaultBehavior;
+
+export const createBlob = (
+  columns: number,
+  rows: number,
+  warmStartOrOptions?: boolean | CreateBlobOptions,
+  maybeOptions?: CreateBlobOptions,
+): CloudBlob => {
+  const options: CreateBlobOptions =
+    typeof warmStartOrOptions === 'boolean'
+      ? { warmStart: warmStartOrOptions, ...(maybeOptions ?? {}) }
+      : warmStartOrOptions ?? maybeOptions ?? {};
+
+  const warmStart = options?.warmStart ?? false;
+  const behavior = getBehavior(options?.behavior);
+
   const spawn = pickSpawnPoint(columns, rows);
-  
-  const radius = randomBetween(30, 56);
+
+  const radiusSample = randomBetween(behavior.minRadius, behavior.maxRadius);
+  const radius = Math.max(
+    remapBehaviorValue(
+      radiusSample,
+      defaultBehavior.minRadius,
+      defaultBehavior.maxRadius,
+      INTERNAL_RADIUS_MIN,
+      INTERNAL_RADIUS_MAX,
+    ),
+    6,
+  );
   const aspect = randomBetween(0.75, 1.35);
   const radiusX = radius;
   const radiusY = radius * aspect;
-  
-  const speed = randomBetween(0.0018, 0.0031);
-  
+
+  const speedSample = randomBetween(behavior.minSpeed, behavior.maxSpeed);
+  const speed = Math.max(
+    remapBehaviorValue(
+      speedSample,
+      defaultBehavior.minSpeed,
+      defaultBehavior.maxSpeed,
+      INTERNAL_SPEED_MIN,
+      INTERNAL_SPEED_MAX,
+    ),
+    0.00001,
+  );
   const direction = spawn.baseDirection + randomBetween(-0.35, 0.35);
 
-  const lifeSpan = randomBetween(65000, 110000);
-  const life = warmStart ? lifeSpan - randomBetween(0, lifeSpan * 0.5) : lifeSpan;
+  const spawnVariance = behavior.spawnInterval * 0.5;
+  const lifeSpan = Math.max(
+    behavior.fadeInDuration * 1.5,
+    behavior.lifespan + randomBetween(-spawnVariance, spawnVariance),
+  );
+  const life = warmStart
+    ? Math.max(0, lifeSpan - randomBetween(0, behavior.spawnInterval))
+    : lifeSpan;
+
+  const wobbleAmplitude =
+    behavior.wobbleAmplitude *
+    clamp(randomBetween(0.75, 1.25), 0.1, Math.max(behavior.wobbleAmplitude * 2, 0.2));
+  const wobbleSpeed = behavior.wobbleSpeed * randomBetween(0.75, 1.25);
+  const rotationSpeed = randomBetween(-behavior.rotationSpeed, behavior.rotationSpeed);
 
   return {
     cx: spawn.cx,
@@ -73,20 +155,24 @@ export const createBlob = (columns: number, rows: number, warmStart = false): Cl
     baseRadiusX: radiusX,
     baseRadiusY: radiusY,
     rotation: randomBetween(0, Math.PI * 2),
-    rotationSpeed: randomBetween(-0.00005, 0.00005),
+    rotationSpeed,
     intensity: randomBetween(0.24, 0.45),
     velocityX: Math.cos(direction) * speed,
     velocityY: Math.sin(direction) * speed,
-    wobbleAmplitude: randomBetween(0.08, 0.18),
-    wobbleSpeed: randomBetween(0.00025, 0.0006),
+    wobbleAmplitude,
+    wobbleSpeed,
     wobblePhase: randomBetween(0, Math.PI * 2),
     life,
     maxLife: lifeSpan,
   };
 };
 
-export const resetBlob = (columns: number, rows: number): CloudBlob => 
-  createBlob(columns, rows);
+export const resetBlob = (
+  columns: number,
+  rows: number,
+  options?: CreateBlobOptions,
+): CloudBlob =>
+  createBlob(columns, rows, options);
 
 export const updateBlob = (
   blob: CloudBlob,

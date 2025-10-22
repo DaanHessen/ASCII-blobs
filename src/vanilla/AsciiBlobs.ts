@@ -1,11 +1,12 @@
 import type { State, BlobTempBuffers } from '../core/types';
 import type { AsciiBlobsConfig } from '../core/config';
 import { mergeConfig } from '../core/config';
-import { CANVAS_FONT } from '../core/constants';
+import { getCanvasFont, GAUSSIAN_LUT_SIZE } from '../core/constants';
 import { createBlob, resetBlob, updateBlob, randomBetween, clamp } from '../core/blob';
 import { setupGrid } from '../core/grid';
 import { drawFrame } from '../core/renderer';
 import { createGlyphAtlas } from '../core/atlas';
+import { createGaussianSampler } from '../core/gaussian';
 
 export class AsciiBlobs {
   private container: HTMLElement;
@@ -25,6 +26,7 @@ export class AsciiBlobs {
   private fpsTimestamp = performance.now();
   private resizeTimeout: number | undefined;
   private characterLUT: string[] = [];
+  private gaussian = createGaussianSampler(GAUSSIAN_LUT_SIZE);
   
   private readonly blobTemp: BlobTempBuffers = {
     centersX: [],
@@ -46,6 +48,7 @@ export class AsciiBlobs {
     }
 
     this.config = mergeConfig(config);
+    this.gaussian = createGaussianSampler(this.config.performance.gaussianLutSize);
     this.init();
   }
 
@@ -65,13 +68,17 @@ export class AsciiBlobs {
     }
 
     // Apply color configuration via CSS variables
-    if (this.config.colors) {
-      wrapper.style.setProperty('--ascii-primary', this.config.colors.primary);
-      if (this.config.colors.background) {
-        wrapper.style.setProperty('--ascii-bg-base', this.config.colors.background);
-        wrapper.style.setProperty('--ascii-bg-mid', this.config.colors.background);
-        wrapper.style.setProperty('--ascii-bg-dark', this.config.colors.background);
-      }
+    wrapper.style.setProperty('--ascii-primary', this.config.colors.primary);
+    if (this.config.colors.background) {
+      wrapper.style.setProperty('--ascii-bg-base', this.config.colors.background);
+      wrapper.style.setProperty('--ascii-bg-mid', this.config.colors.background);
+      wrapper.style.setProperty('--ascii-bg-dark', this.config.colors.background);
+    }
+    if (this.config.colors.glow) {
+      wrapper.style.setProperty('--ascii-glow', this.config.colors.glow);
+    }
+    if (this.config.colors.shadow) {
+      wrapper.style.setProperty('--ascii-shadow', this.config.colors.shadow);
     }
 
     const backdrop = document.createElement('div');
@@ -126,7 +133,11 @@ export class AsciiBlobs {
     const height = this.container.clientHeight;
     const scale = window.devicePixelRatio || 1;
 
-    const gridData = setupGrid({ width, height });
+    const gridData = setupGrid({
+      width,
+      height,
+      cellSize: this.config.performance.cellSize,
+    });
     const { columns, rows, cellCount } = gridData;
 
     this.baseCanvas.style.width = `${width}px`;
@@ -134,16 +145,24 @@ export class AsciiBlobs {
     this.baseCanvas.width = Math.floor(width * scale);
     this.baseCanvas.height = Math.floor(height * scale);
     this.baseCtx.setTransform(scale, 0, 0, scale, 0, 0);
-    this.baseCtx.font = CANVAS_FONT;
+    const canvasFont = getCanvasFont(this.config.performance.cellSize);
+    this.baseCtx.font = canvasFont;
 
-    const glyphs = createGlyphAtlas(scale, this.characterLUT, this.config.colors.primary);
+    const glyphs = createGlyphAtlas(scale, this.characterLUT, {
+      primaryColor: this.config.colors.primary,
+      glowColor: this.config.colors.glow,
+      shadowColor: this.config.colors.shadow,
+      cellSize: this.config.performance.cellSize,
+      enableBlur: this.config.performance.enableBlur,
+      useOffscreenCanvas: this.config.performance.useOffscreenCanvas,
+    });
 
     this.overlayCanvas.style.width = `${width}px`;
     this.overlayCanvas.style.height = `${height}px`;
     this.overlayCanvas.width = Math.floor(width * scale);
     this.overlayCanvas.height = Math.floor(height * scale);
     this.overlayCtx.setTransform(scale, 0, 0, scale, 0, 0);
-    this.overlayCtx.font = CANVAS_FONT;
+    this.overlayCtx.font = canvasFont;
     this.overlayCtx.textAlign = 'center';
     this.overlayCtx.textBaseline = 'middle';
 
@@ -155,7 +174,9 @@ export class AsciiBlobs {
     }
 
     const blobCount = this.config.blobBehavior.count;
-    const blobs = Array.from({ length: blobCount }, () => createBlob(columns, rows, true));
+    const blobs = Array.from({ length: blobCount }, () =>
+      createBlob(columns, rows, { warmStart: true, behavior: this.config.blobBehavior }),
+    );
 
     this.state = {
       ...gridData,
@@ -210,13 +231,13 @@ export class AsciiBlobs {
     for (let index = 0; index < blobs.length; index += 1) {
       const blob = blobs[index]!;
       if (blob.life <= 0) {
-        const newBlob = createBlob(columns, rows);
+        const newBlob = createBlob(columns, rows, { behavior: this.config.blobBehavior });
         blobs[index] = newBlob;
         this.config.onBlobSpawn?.(newBlob);
       } else {
         const updated = updateBlob(blob, effectiveDelta, columns, rows, now);
         if (updated.life <= 0) {
-          const newBlob = resetBlob(columns, rows);
+          const newBlob = resetBlob(columns, rows, { behavior: this.config.blobBehavior });
           blobs[index] = newBlob;
           this.config.onBlobSpawn?.(newBlob);
         } else {
@@ -226,7 +247,20 @@ export class AsciiBlobs {
     }
 
     if (now - this.lastDraw >= this.config.animation.frameInterval) {
-      drawFrame(this.overlayCtx, state, now, this.characterLUT, revealElapsed, this.blobTemp);
+      drawFrame(
+        this.overlayCtx,
+        state,
+        now,
+        this.characterLUT,
+        revealElapsed,
+        this.blobTemp,
+        {
+          cellSize: this.config.performance.cellSize,
+          revealFade: this.config.animation.revealFade,
+          fadeInDuration: this.config.blobBehavior.fadeInDuration,
+          gaussianFalloff: this.gaussian.falloff,
+        },
+      );
       this.lastDraw = now;
     }
 
@@ -247,7 +281,7 @@ export class AsciiBlobs {
     if (state) {
       const { columns, rows, blobs } = state;
       for (let i = 0; i < blobs.length; i++) {
-        blobs[i] = createBlob(columns, rows, true);
+        blobs[i] = createBlob(columns, rows, { warmStart: true, behavior: this.config.blobBehavior });
       }
       this.revealStart = performance.now();
     }

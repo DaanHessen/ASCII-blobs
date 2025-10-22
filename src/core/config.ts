@@ -96,12 +96,53 @@ export type MergedConfig = {
 };
 
 export function mergeConfig(userConfig?: AsciiBlobsConfig): MergedConfig {
+  const colors = {
+    ...defaultConfig.colors,
+    ...userConfig?.colors,
+  } as Required<ColorConfig>;
+
+  const performance = {
+    ...defaultConfig.performance,
+    ...userConfig?.performance,
+  } as Required<PerformanceConfig>;
+  performance.cellSize = Math.max(6, Math.floor(performance.cellSize));
+  performance.gaussianLutSize = Math.max(32, Math.floor(performance.gaussianLutSize));
+  performance.targetFPS = Math.max(1, Math.min(240, performance.targetFPS));
+
+  const blobBehavior = {
+    ...defaultConfig.blobBehavior,
+    ...userConfig?.blobBehavior,
+  } as Required<BlobBehaviorConfig>;
+  blobBehavior.count = Math.max(1, Math.floor(blobBehavior.count));
+  blobBehavior.minSpeed = Math.max(0, blobBehavior.minSpeed);
+  blobBehavior.maxSpeed = Math.max(blobBehavior.minSpeed, blobBehavior.maxSpeed);
+  blobBehavior.minRadius = Math.max(4, blobBehavior.minRadius);
+  blobBehavior.maxRadius = Math.max(blobBehavior.minRadius, blobBehavior.maxRadius);
+  blobBehavior.spawnInterval = Math.max(0, blobBehavior.spawnInterval);
+  blobBehavior.fadeInDuration = Math.max(0, blobBehavior.fadeInDuration);
+  blobBehavior.lifespan = Math.max(blobBehavior.fadeInDuration + 500, blobBehavior.lifespan);
+  blobBehavior.wobbleAmplitude = Math.max(0, blobBehavior.wobbleAmplitude);
+  blobBehavior.wobbleSpeed = Math.max(0, blobBehavior.wobbleSpeed);
+  blobBehavior.rotationSpeed = Math.max(0, blobBehavior.rotationSpeed);
+
+  const animation = {
+    ...defaultConfig.animation,
+    ...userConfig?.animation,
+  } as Required<AnimationConfig>;
+
+  if (!userConfig?.animation?.frameInterval && userConfig?.performance?.targetFPS) {
+    animation.frameInterval = Math.max(5, Math.round(1000 / performance.targetFPS));
+  }
+  animation.frameInterval = Math.max(5, animation.frameInterval);
+  animation.revealDuration = Math.max(0, animation.revealDuration);
+  animation.revealFade = Math.max(1, animation.revealFade);
+
   return {
-    colors: { ...defaultConfig.colors, ...userConfig?.colors } as Required<ColorConfig>,
+    colors,
     characters: userConfig?.characters ?? defaultConfig.characters,
-    blobBehavior: { ...defaultConfig.blobBehavior, ...userConfig?.blobBehavior } as Required<BlobBehaviorConfig>,
-    animation: { ...defaultConfig.animation, ...userConfig?.animation } as Required<AnimationConfig>,
-    performance: { ...defaultConfig.performance, ...userConfig?.performance } as Required<PerformanceConfig>,
+    blobBehavior,
+    animation,
+    performance,
     className: userConfig?.className,
     style: userConfig?.style,
     onReady: userConfig?.onReady,
