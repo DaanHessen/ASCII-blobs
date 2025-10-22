@@ -56,9 +56,9 @@
 - [ ] Improve error handling
 
 ### CSS Improvements
-- [ ] Make colors themeable (CSS variables)
-- [ ] Provide multiple theme presets
-- [ ] Ensure no style leakage
+- [x] Make colors themeable (CSS variables)
+- [x] Provide multiple theme presets
+- [x] Ensure no style leakage
 - [ ] Add CSS modules support (optional)
 
 ## Phase 3: API Design 🎯

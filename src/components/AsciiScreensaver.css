@@ -1,4 +1,22 @@
 .ascii-screensaver {
+  --ascii-primary: rgb(100, 180, 255);
+  --ascii-bg-base: #020817;
+  --ascii-bg-mid: #030b1c;
+  --ascii-bg-dark: #010611;
+  --ascii-accent-1: rgba(56, 99, 208, 0.16);
+  --ascii-accent-2: rgba(34, 74, 168, 0.13);
+  --ascii-backdrop-1: rgba(82, 123, 210, 0.28);
+  --ascii-backdrop-2: rgba(5, 15, 36, 0.92);
+  --ascii-backdrop-3: rgba(42, 96, 220, 0.2);
+  --ascii-backdrop-4: rgba(3, 8, 22, 0.92);
+  --ascii-backdrop-5: rgba(7, 20, 44, 0.85);
+  --ascii-backdrop-6: rgba(2, 6, 16, 0.95);
+  --ascii-texture-1: rgba(114, 144, 210, 0.07);
+  --ascii-texture-2: rgba(48, 72, 128, 0.08);
+  --ascii-texture-3: rgba(230, 238, 255, 0.06);
+  --ascii-vignette-start: rgba(0, 0, 0, 0.56);
+  --ascii-vignette-end: rgba(0, 0, 0, 0.68);
+
   position: absolute;
   inset: 0;
   width: 100%;
@@ -8,9 +26,9 @@
   z-index: 0;
   isolation: isolate;
   background:
-    radial-gradient(120% 90% at 15% 20%, rgba(56, 99, 208, 0.16), transparent 55%),
-    radial-gradient(120% 90% at 85% 80%, rgba(34, 74, 168, 0.13), transparent 60%),
-    linear-gradient(180deg, #020817, #030b1c 38%, #010611 100%);
+    radial-gradient(120% 90% at 15% 20%, var(--ascii-accent-1), transparent 55%),
+    radial-gradient(120% 90% at 85% 80%, var(--ascii-accent-2), transparent 60%),
+    linear-gradient(180deg, var(--ascii-bg-base), var(--ascii-bg-mid) 38%, var(--ascii-bg-dark) 100%);
 }
 
 .ascii-screensaver__backdrop,
@@ -24,9 +42,9 @@
 .ascii-screensaver__backdrop {
   z-index: 1;
   background:
-    radial-gradient(90% 60% at 28% 18%, rgba(82, 123, 210, 0.28), rgba(5, 15, 36, 0.92)),
-    radial-gradient(75% 85% at 80% 78%, rgba(42, 96, 220, 0.2), rgba(3, 8, 22, 0.92)),
-    linear-gradient(200deg, rgba(7, 20, 44, 0.85), rgba(2, 6, 16, 0.95));
+    radial-gradient(90% 60% at 28% 18%, var(--ascii-backdrop-1), var(--ascii-backdrop-2)),
+    radial-gradient(75% 85% at 80% 78%, var(--ascii-backdrop-3), var(--ascii-backdrop-4)),
+    linear-gradient(200deg, var(--ascii-backdrop-5), var(--ascii-backdrop-6));
   filter: blur(42px);
   opacity: 0.65;
   mix-blend-mode: screen;
@@ -56,19 +74,19 @@
   background:
     repeating-linear-gradient(
       90deg,
-      rgba(114, 144, 210, 0.07) 0,
-      rgba(114, 144, 210, 0.07) 1px,
+      var(--ascii-texture-1) 0,
+      var(--ascii-texture-1) 1px,
       transparent 1px,
       transparent 18px
     ),
     repeating-linear-gradient(
       0deg,
-      rgba(48, 72, 128, 0.08) 0,
-      rgba(48, 72, 128, 0.08) 1px,
+      var(--ascii-texture-2) 0,
+      var(--ascii-texture-2) 1px,
       transparent 1px,
       transparent 16px
     ),
-  radial-gradient(circle at 50% 45%, rgba(230, 238, 255, 0.06), transparent 68%);
+  radial-gradient(circle at 50% 45%, var(--ascii-texture-3), transparent 68%);
   mix-blend-mode: soft-light;
   animation: textureDrift 42s linear infinite;
   opacity: 0.78;
@@ -78,7 +96,7 @@
   z-index: 5;
   background:
     radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.62) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.68) 100%);
+    linear-gradient(180deg, var(--ascii-vignette-start) 0%, rgba(0, 0, 0, 0) 40%, var(--ascii-vignette-end) 100%);
 }
 
 @keyframes textureDrift {
@@ -108,4 +126,76 @@
   .ascii-screensaver__texture {
     animation: none;
   }
+}
+
+/* Theme Presets */
+
+.ascii-screensaver--theme-ocean {
+  --ascii-primary: rgb(100, 200, 255);
+  --ascii-bg-base: #021420;
+  --ascii-bg-mid: #032030;
+  --ascii-bg-dark: #010c14;
+  --ascii-accent-1: rgba(56, 150, 220, 0.18);
+  --ascii-accent-2: rgba(34, 120, 180, 0.15);
+  --ascii-backdrop-1: rgba(82, 180, 240, 0.32);
+  --ascii-backdrop-3: rgba(42, 140, 230, 0.24);
+  --ascii-texture-1: rgba(120, 190, 240, 0.08);
+  --ascii-texture-2: rgba(60, 140, 200, 0.09);
+  --ascii-texture-3: rgba(200, 240, 255, 0.07);
+}
+
+.ascii-screensaver--theme-purple {
+  --ascii-primary: rgb(180, 100, 255);
+  --ascii-bg-base: #140820;
+  --ascii-bg-mid: #1c0c30;
+  --ascii-bg-dark: #0c0414;
+  --ascii-accent-1: rgba(140, 56, 220, 0.18);
+  --ascii-accent-2: rgba(100, 34, 180, 0.15);
+  --ascii-backdrop-1: rgba(160, 82, 240, 0.32);
+  --ascii-backdrop-3: rgba(130, 42, 230, 0.24);
+  --ascii-texture-1: rgba(180, 120, 240, 0.08);
+  --ascii-texture-2: rgba(120, 60, 200, 0.09);
+  --ascii-texture-3: rgba(220, 200, 255, 0.07);
+}
+
+.ascii-screensaver--theme-green {
+  --ascii-primary: rgb(100, 255, 180);
+  --ascii-bg-base: #081408;
+  --ascii-bg-mid: #0c200c;
+  --ascii-bg-dark: #041004;
+  --ascii-accent-1: rgba(56, 220, 150, 0.18);
+  --ascii-accent-2: rgba(34, 180, 120, 0.15);
+  --ascii-backdrop-1: rgba(82, 240, 180, 0.32);
+  --ascii-backdrop-3: rgba(42, 230, 140, 0.24);
+  --ascii-texture-1: rgba(120, 240, 190, 0.08);
+  --ascii-texture-2: rgba(60, 200, 140, 0.09);
+  --ascii-texture-3: rgba(200, 255, 240, 0.07);
+}
+
+.ascii-screensaver--theme-amber {
+  --ascii-primary: rgb(255, 180, 100);
+  --ascii-bg-base: #201408;
+  --ascii-bg-mid: #301c0c;
+  --ascii-bg-dark: #140804;
+  --ascii-accent-1: rgba(220, 140, 56, 0.18);
+  --ascii-accent-2: rgba(180, 100, 34, 0.15);
+  --ascii-backdrop-1: rgba(240, 160, 82, 0.32);
+  --ascii-backdrop-3: rgba(230, 130, 42, 0.24);
+  --ascii-texture-1: rgba(240, 180, 120, 0.08);
+  --ascii-texture-2: rgba(200, 120, 60, 0.09);
+  --ascii-texture-3: rgba(255, 220, 200, 0.07);
+}
+
+.ascii-screensaver--theme-monochrome {
+  --ascii-primary: rgb(200, 200, 200);
+  --ascii-bg-base: #0a0a0a;
+  --ascii-bg-mid: #141414;
+  --ascii-bg-dark: #050505;
+  --ascii-accent-1: rgba(150, 150, 150, 0.16);
+  --ascii-accent-2: rgba(120, 120, 120, 0.13);
+  --ascii-backdrop-1: rgba(180, 180, 180, 0.28);
+  --ascii-backdrop-3: rgba(160, 160, 160, 0.2);
+  --ascii-texture-1: rgba(170, 170, 170, 0.07);
+  --ascii-texture-2: rgba(140, 140, 140, 0.08);
+  --ascii-texture-3: rgba(220, 220, 220, 0.06);
 }

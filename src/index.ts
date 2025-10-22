@@ -59,3 +59,6 @@ export { drawFrame, pickShadeIndex } from './core/renderer';
 export { createGlyphAtlas } from './core/atlas';
 
 export { defaultConfig, mergeConfig } from './core/config';
+
+export { themes, getThemeClassName } from './themes';
+export type { ThemeName } from './themes';
