@@ -46,7 +46,7 @@
   - [x] `core/blob.ts` - Blob creation/update
   - [x] `core/grid.ts` - Grid and cell management
   - [x] `core/renderer.ts` - Canvas rendering logic
-  - [ ] `core/atlas.ts` - Glyph pre-rendering
+  - [x] `core/atlas.ts` - Glyph pre-rendering
 
 ### Component Updates
 - [ ] Make component configurable via props

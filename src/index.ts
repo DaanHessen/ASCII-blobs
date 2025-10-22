@@ -46,3 +46,5 @@ export { setupGrid } from './core/grid';
 export type { GridConfig, GridData } from './core/grid';
 
 export { drawFrame, pickShadeIndex } from './core/renderer';
+
+export { createGlyphAtlas } from './core/atlas';
