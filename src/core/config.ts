@@ -74,13 +74,25 @@ export const defaultConfig: Required<Omit<AsciiBlobsConfig, 'className' | 'style
   },
 };
 
-export function mergeConfig(userConfig?: AsciiBlobsConfig): Required<Omit<AsciiBlobsConfig, 'className' | 'style' | 'onReady' | 'onBlobSpawn'>> & Pick<AsciiBlobsConfig, 'className' | 'style' | 'onReady' | 'onBlobSpawn'> {
+export type MergedConfig = {
+  colors: Required<ColorConfig>;
+  characters: string;
+  blobBehavior: Required<BlobBehaviorConfig>;
+  animation: Required<AnimationConfig>;
+  performance: Required<PerformanceConfig>;
+  className?: string;
+  style?: React.CSSProperties;
+  onReady?: () => void;
+  onBlobSpawn?: (blob: CloudBlob) => void;
+};
+
+export function mergeConfig(userConfig?: AsciiBlobsConfig): MergedConfig {
   return {
-    colors: { ...defaultConfig.colors, ...userConfig?.colors },
+    colors: { ...defaultConfig.colors, ...userConfig?.colors } as Required<ColorConfig>,
     characters: userConfig?.characters ?? defaultConfig.characters,
-    blobBehavior: { ...defaultConfig.blobBehavior, ...userConfig?.blobBehavior },
-    animation: { ...defaultConfig.animation, ...userConfig?.animation },
-    performance: { ...defaultConfig.performance, ...userConfig?.performance },
+    blobBehavior: { ...defaultConfig.blobBehavior, ...userConfig?.blobBehavior } as Required<BlobBehaviorConfig>,
+    animation: { ...defaultConfig.animation, ...userConfig?.animation } as Required<AnimationConfig>,
+    performance: { ...defaultConfig.performance, ...userConfig?.performance } as Required<PerformanceConfig>,
     className: userConfig?.className,
     style: userConfig?.style,
     onReady: userConfig?.onReady,

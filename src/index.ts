@@ -13,6 +13,7 @@ export type {
   BlobBehaviorConfig,
   AnimationConfig,
   PerformanceConfig,
+  MergedConfig,
 } from './core/config';
 
 // Export constants for advanced customization

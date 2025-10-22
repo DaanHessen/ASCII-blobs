@@ -1,12 +1,8 @@
 import { useEffect, useRef } from "react";
 import type { State, BlobTempBuffers } from "../core/types";
-import {
-  FRAME_INTERVAL,
-  REVEAL_DURATION,
-  REVEAL_FADE,
-  ASCII_PALETTE,
-  CANVAS_FONT,
-} from "../core/constants";
+import type { AsciiBlobsConfig } from "../core/config";
+import { mergeConfig } from "../core/config";
+import { CANVAS_FONT } from "../core/constants";
 import { createBlob, resetBlob, updateBlob, randomBetween, clamp } from "../core/blob";
 import { setupGrid } from "../core/grid";
 import { drawFrame } from "../core/renderer";
@@ -23,7 +19,8 @@ const blobTemp: BlobTempBuffers = {
   intensity: [],
 };
 
-const AsciiScreensaver = () => {
+const AsciiScreensaver = (userConfig?: AsciiBlobsConfig) => {
+  const config = mergeConfig(userConfig);
   const baseCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationFrameRef = useRef<number>();
@@ -45,11 +42,11 @@ const AsciiScreensaver = () => {
       return;
     }
 
-    const characterLUT = Array.from({ length: ASCII_PALETTE.length }, (_, index) => {
+    const characterLUT = Array.from({ length: config.characters.length }, (_, index) => {
       const baseIndex = index;
       const bias = randomBetween(-0.2, 0.2);
-      const adjusted = clamp(baseIndex + bias, 0, ASCII_PALETTE.length - 1);
-      return ASCII_PALETTE[Math.round(adjusted)];
+      const adjusted = clamp(baseIndex + bias, 0, config.characters.length - 1);
+      return config.characters[Math.round(adjusted)]!;
     });
 
     const setupState = () => {
@@ -84,10 +81,10 @@ const AsciiScreensaver = () => {
       // Initialize reveal delays for animation
       const revealDelays = new Float32Array(cellCount);
       for (let idx = 0; idx < cellCount; idx += 1) {
-        revealDelays[idx] = Math.max(0, randomBetween(-REVEAL_FADE * 0.65, REVEAL_DURATION));
+        revealDelays[idx] = Math.max(0, randomBetween(-config.animation.revealFade * 0.65, config.animation.revealDuration));
       }
 
-      const blobCount = width < 640 ? 2 : width < 1024 ? 3 : width < 1600 ? 4 : 5;
+      const blobCount = config.blobBehavior.count;
       const blobs = Array.from({ length: blobCount }, () => createBlob(columns, rows, true));
 
       stateRef.current = {
@@ -103,6 +100,8 @@ const AsciiScreensaver = () => {
     };
 
     setupState();
+
+    config.onReady?.();
 
     let resizeTimeout: number | undefined;
     const handleResize = () => {
@@ -126,20 +125,29 @@ const AsciiScreensaver = () => {
       lastTimestampRef.current = now;
 
       const revealElapsed = Math.max(0, now - revealStartRef.current);
-      const movementFactor = clamp(revealElapsed / REVEAL_DURATION, 0, 1);
+      const movementFactor = clamp(revealElapsed / config.animation.revealDuration, 0, 1);
       const effectiveDelta = delta * movementFactor;
 
       const { blobs, columns, rows } = state;
       for (let index = 0; index < blobs.length; index += 1) {
-        let blob = blobs[index];
+        const blob = blobs[index]!;
         if (blob.life <= 0) {
-          blob = createBlob(columns, rows);
+          const newBlob = createBlob(columns, rows);
+          blobs[index] = newBlob;
+          config.onBlobSpawn?.(newBlob);
+        } else {
+          const updated = updateBlob(blob, effectiveDelta, columns, rows, now);
+          if (updated.life <= 0) {
+            const newBlob = resetBlob(columns, rows);
+            blobs[index] = newBlob;
+            config.onBlobSpawn?.(newBlob);
+          } else {
+            blobs[index] = updated;
+          }
         }
-        const updated = updateBlob(blob, effectiveDelta, columns, rows, now);
-        blobs[index] = updated.life <= 0 ? resetBlob(columns, rows) : updated;
       }
 
-      if (now - lastDrawRef.current >= FRAME_INTERVAL) {
+      if (now - lastDrawRef.current >= config.animation.frameInterval) {
         drawFrame(overlayCtx, state, now, characterLUT, revealElapsed, blobTemp);
         lastDrawRef.current = now;
       }
@@ -162,7 +170,11 @@ const AsciiScreensaver = () => {
   }, []);
 
   return (
-    <div className="ascii-screensaver" aria-hidden="true">
+    <div 
+      className={`ascii-screensaver ${config.className || ''}`} 
+      style={config.style}
+      aria-hidden="true"
+    >
       <div className="ascii-screensaver__backdrop"></div>
       <canvas
         ref={baseCanvasRef}

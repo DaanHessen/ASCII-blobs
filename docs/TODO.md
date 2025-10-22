@@ -49,10 +49,10 @@
   - [x] `core/atlas.ts` - Glyph pre-rendering
 
 ### Component Updates
-- [ ] Make component configurable via props
-- [ ] Add prop validation (PropTypes or TypeScript)
-- [ ] Extract hardcoded values to config
-- [ ] Add default props
+- [x] Make component configurable via props
+- [x] Add prop validation (TypeScript)
+- [x] Extract hardcoded values to config
+- [x] Add default props
 - [ ] Improve error handling
 
 ### CSS Improvements
