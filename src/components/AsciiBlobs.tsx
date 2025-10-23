@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-  useMemo,
-} from "react";
+import { useEffect, useRef, forwardRef, useImperativeHandle, useMemo } from "react";
 import type { CSSProperties } from "react";
 import type { State, BlobTempBuffers } from "../core/types";
 import type { AsciiBlobsConfig } from "../core/config";
@@ -38,9 +32,8 @@ const blobTemp: BlobTempBuffers = {
   intensity: [],
 };
 
-const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userConfig, ref) => {
+const AsciiBlobs = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userConfig, ref) => {
   const config = useMemo(() => mergeConfig(userConfig), [userConfig]);
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const baseCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationFrameRef = useRef<number>();
@@ -63,14 +56,13 @@ const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userCon
     },
     reset: () => {
       const state = stateRef.current;
-      if (!state) {
-        return;
+      if (state) {
+        const { columns, rows, blobs } = state;
+        for (let i = 0; i < blobs.length; i += 1) {
+          blobs[i] = createBlob(columns, rows, { warmStart: true, behavior: config.blobBehavior });
+        }
+        revealStartRef.current = performance.now();
       }
-      const { columns, rows, blobs } = state;
-      for (let index = 0; index < blobs.length; index += 1) {
-        blobs[index] = createBlob(columns, rows, { warmStart: true, behavior: config.blobBehavior });
-      }
-      revealStartRef.current = performance.now();
     },
     getStats: () => ({
       blobCount: stateRef.current?.blobs.length ?? 0,
@@ -78,21 +70,6 @@ const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userCon
       isPaused: isPausedRef.current,
     }),
   }));
-
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper || typeof window === "undefined") {
-      return;
-    }
-    const parent = wrapper.parentElement;
-    if (!parent) {
-      return;
-    }
-    const computed = window.getComputedStyle(parent);
-    if (computed.position === "static" && !parent.style.position) {
-      parent.style.position = "relative";
-    }
-  }, []);
 
   useEffect(() => {
     const baseCanvas = baseCanvasRef.current;
@@ -158,10 +135,7 @@ const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userCon
 
       const revealDelays = new Float32Array(cellCount);
       for (let idx = 0; idx < cellCount; idx += 1) {
-        revealDelays[idx] = Math.max(
-          0,
-          randomBetween(-config.animation.revealFade * 0.65, config.animation.revealDuration),
-        );
+        revealDelays[idx] = Math.max(0, randomBetween(-config.animation.revealFade * 0.65, config.animation.revealDuration));
       }
 
       const blobCount = config.blobBehavior.count;
@@ -278,33 +252,30 @@ const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userCon
   }, [config]);
 
   const inlineStyle = useMemo(() => {
-    const style: CSSProperties = {};
-    const styleVars = style as Record<string, string | number>;
-    styleVars["--ascii-layer"] = -1;
-    styleVars["zIndex"] = -1;
-    styleVars["--ascii-primary"] = config.colors.primary;
-    styleVars["--ascii-glow"] = config.colors.glow;
-    styleVars["--ascii-shadow"] = config.colors.shadow;
+    const cssVariables: Record<string, string> = {
+      '--ascii-primary': config.colors.primary,
+      '--ascii-glow': config.colors.glow,
+      '--ascii-shadow': config.colors.shadow,
+    };
 
     if (config.colors.background) {
-      styleVars["--ascii-bg-base"] = config.colors.background;
-      styleVars["--ascii-bg-mid"] = config.colors.background;
-      styleVars["--ascii-bg-dark"] = config.colors.background;
+      cssVariables['--ascii-bg-base'] = config.colors.background;
+      cssVariables['--ascii-bg-mid'] = config.colors.background;
+      cssVariables['--ascii-bg-dark'] = config.colors.background;
     }
 
-    if (config.style) {
-      Object.assign(styleVars, config.style as Record<string, string | number>);
-    }
-
-    return styleVars as CSSProperties;
+    return {
+      ...cssVariables,
+      ...(config.style ?? {}),
+    } as CSSProperties;
   }, [config]);
 
-  const wrapperClassName = useMemo(() => {
-    return ["ascii-blobs", config.className].filter(Boolean).join(" ");
-  }, [config.className]);
-
   return (
-    <div ref={wrapperRef} className={wrapperClassName} style={inlineStyle} aria-hidden="true">
+    <div
+      className={`ascii-blobs ${config.className || ""}`}
+      style={inlineStyle}
+      aria-hidden="true"
+    >
       <div className="ascii-blobs__backdrop"></div>
       <canvas
         ref={baseCanvasRef}
@@ -320,6 +291,6 @@ const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userCon
   );
 });
 
-AsciiBlobsComponent.displayName = "AsciiBlobs";
+AsciiBlobs.displayName = "AsciiBlobs";
 
-export default AsciiBlobsComponent;
+export default AsciiBlobs;

@@ -6,11 +6,11 @@ export default function ControlledExample() {
   const ref = useRef<AsciiBlobsRef>(null);
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+    <div>
       <AsciiBlobs ref={ref} />
       
       <div style={{
-        position: 'absolute',
+        position: 'fixed',
         top: 20,
         left: 20,
         zIndex: 10,

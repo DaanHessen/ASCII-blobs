@@ -85,7 +85,7 @@ Every option on `AsciiBlobs` (React) or the vanilla constructor is optional. Any
 
 - `characters` – ordered string of glyphs from darkest to brightest. You can also pass an array (`[' ', '.', ':']`) and call `.join('')` before handing it to the component.
 - `className` – append extra classes next to the built-in `ascii-blobs` wrapper. Pair this with `getThemeClassName` or your own utility classes.
-- `style` – inline styles merged onto the wrapper. Any CSS custom properties you provide here override the generated variables. The component defaults to `z-index: -1`, so it automatically renders behind siblings; set your own `zIndex` if you need a different stacking order.
+- `style` – inline styles merged onto the wrapper. Any CSS custom properties you provide here override the generated variables. The component defaults to `z-index: 0` and uses `position: fixed`, so it automatically renders as a full-viewport background; set your own `zIndex` or `position` if you need different behavior.
 - `onReady` – called once after canvases are mounted and the first render is scheduled.
 - `onBlobSpawn` – called with each newly spawned blob so you can create analytics or sync other visuals.
 - `interactive` – reserved flag for upcoming pointer controls (currently unused, safe to omit).

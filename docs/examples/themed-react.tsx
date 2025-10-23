@@ -3,8 +3,11 @@ import 'ascii-blobs/dist/style.css';
 
 export default function ThemedExample() {
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+    <div>
       <AsciiBlobs className={getThemeClassName('catppuccin-mocha')} />
+      <main>
+        <h1>Catppuccin Mocha Theme</h1>
+      </main>
     </div>
   );
 }

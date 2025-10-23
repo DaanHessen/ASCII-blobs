@@ -3,8 +3,11 @@ import 'ascii-blobs/dist/style.css';
 
 export default function BasicExample() {
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+    <div>
       <AsciiBlobs />
+      <main>
+        <h1>Your Content Here</h1>
+      </main>
     </div>
   );
 }

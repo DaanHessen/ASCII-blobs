@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASCII Blobs - Interactive Demo</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ascii-blobs@latest/dist/ascii-blobs.css">
+  <link rel="stylesheet" href="./ascii-blobs.css">
   <style>
     * {
       margin: 0;
@@ -25,6 +25,7 @@
       position: relative;
     }
 
+    /* Quick Settings Bar */
     .quick-settings {
       position: fixed;
       bottom: 20px;
@@ -109,6 +110,7 @@
       border-color: rgba(100, 180, 255, 0.5);
     }
 
+    /* Stats Display */
     .stats {
       position: fixed;
       top: 20px;
@@ -460,6 +462,7 @@
     <button class="btn btn-primary" id="openSettings">All Settings</button>
   </div>
 
+  <!-- Settings Modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <div class="modal-header">
@@ -475,6 +478,7 @@
           <div class="tab" data-tab="performance">Performance</div>
         </div>
         <div class="tab-content">
+          <!-- Colors Tab -->
           <div class="tab-panel active" id="colors">
             <div class="settings-grid">
               <div class="control-group">
@@ -500,6 +504,7 @@
             </div>
           </div>
 
+          <!-- Behavior Tab -->
           <div class="tab-panel" id="behavior">
             <div class="settings-grid">
               <div class="control-group">
@@ -561,6 +566,7 @@
             </div>
           </div>
 
+          <!-- Physics Tab -->
           <div class="tab-panel" id="physics">
             <div class="settings-grid">
               <div class="control-group">
@@ -587,6 +593,7 @@
             </div>
           </div>
 
+          <!-- Animation Tab -->
           <div class="tab-panel" id="animation">
             <div class="settings-grid">
               <div class="control-group">
@@ -613,6 +620,7 @@
             </div>
           </div>
 
+          <!-- Performance Tab -->
           <div class="tab-panel" id="performance">
             <div class="settings-grid">
               <div class="control-group">
@@ -660,7 +668,7 @@
   </div>
 
   <script type="module">
-    import { AsciiBlobs } from 'https://cdn.jsdelivr.net/npm/ascii-blobs@latest/dist/vanilla.mjs';
+    import { AsciiBlobs } from './vanilla.mjs';
     
     let asciiBlobs = null;
     let isPaused = false;
@@ -733,6 +741,7 @@
       requestAnimationFrame(updateStats);
     }
 
+    // Range input listeners
     document.querySelectorAll('input[type="range"]').forEach(input => {
       const valueId = input.id + 'Value';
       const valueDisplay = document.getElementById(valueId);
@@ -743,6 +752,7 @@
       }
     });
 
+    // Quick theme selector
     document.getElementById('quick-theme').addEventListener('change', (e) => {
       const theme = themes[e.target.value];
       if (theme) {
@@ -755,12 +765,14 @@
       }
     });
 
+    // Quick count
     document.getElementById('quick-count').addEventListener('change', (e) => {
       document.getElementById('blobCount').value = e.target.value;
       document.getElementById('countValue').textContent = e.target.value;
       init();
     });
 
+    // Quick color
     document.getElementById('quick-color').addEventListener('change', (e) => {
       document.getElementById('primaryColor').value = e.target.value;
       document.getElementById('glowColor').value = e.target.value;
@@ -768,6 +780,7 @@
       init();
     });
 
+    // Pause/Resume
     document.getElementById('pauseBtn').addEventListener('click', () => {
       if (!asciiBlobs) return;
       isPaused = !isPaused;
@@ -781,10 +794,12 @@
       }
     });
 
+    // Reset
     document.getElementById('resetBtn').addEventListener('click', () => {
       if (asciiBlobs) asciiBlobs.reset();
     });
 
+    // Modal controls
     const modal = document.getElementById('modalOverlay');
     document.getElementById('openSettings').addEventListener('click', () => {
       modal.classList.add('active');
@@ -805,6 +820,7 @@
       }
     });
 
+    // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -814,6 +830,7 @@
       });
     });
 
+    // Initialize
     init();
   </script>
 </body>

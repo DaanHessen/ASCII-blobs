@@ -10,13 +10,8 @@
       margin: 0;
       font-family: system-ui, sans-serif;
     }
-    #container {
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-    }
     .controls {
-      position: absolute;
+      position: fixed;
       top: 20px;
       left: 20px;
       z-index: 10;
@@ -37,8 +32,6 @@
   </style>
 </head>
 <body>
-  <div id="container"></div>
-  
   <div class="controls">
     <button id="pause">Pause</button>
     <button id="resume">Resume</button>
@@ -49,7 +42,7 @@
   <script type="module">
     import { AsciiBlobs } from './node_modules/ascii-blobs/dist/vanilla.js';
 
-    const blobs = new AsciiBlobs('#container', {
+    const blobs = new AsciiBlobs(document.body, {
       blobBehavior: {
         count: 5,
       },

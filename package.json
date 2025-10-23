@@ -1,6 +1,6 @@
 {
   "name": "ascii-blobs",
-  "version": "1.0.1",
+  "version": "0.1.2",
   "description": "animated ASCII character backgrounds using gaussian blob/metaball rendering",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -28,7 +28,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "demo": "npx serve demo -l 3000",
+    "demo": "npm run build && npx serve . -l 3000",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",

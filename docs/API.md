@@ -12,7 +12,7 @@ import { AsciiBlobs } from 'ascii-blobs';
 
 #### Props
 
-All props are optional. The component accepts `AsciiBlobsConfig` as props and now positions itself behind sibling content by default.
+All props are optional. The component accepts `AsciiBlobsConfig` as props and uses `position: fixed` to render as a full-viewport background by default.
 
 ##### `colors?: ColorConfig`
 

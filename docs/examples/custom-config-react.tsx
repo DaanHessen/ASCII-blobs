@@ -3,7 +3,7 @@ import 'ascii-blobs/dist/style.css';
 
 export default function CustomConfigExample() {
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+    <div>
       <AsciiBlobs
         characters=" ░▒▓█"
         blobBehavior={{
@@ -16,6 +16,9 @@ export default function CustomConfigExample() {
           revealDuration: 2000,
         }}
       />
+      <main>
+        <h1>Custom Configuration</h1>
+      </main>
     </div>
   );
 }
