@@ -278,8 +278,10 @@ const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userCon
   }, [config]);
 
   const inlineStyle = useMemo(() => {
-    const style: CSSProperties = { zIndex: -1 };
+    const style: CSSProperties = {};
     const styleVars = style as Record<string, string | number>;
+    styleVars["--ascii-layer"] = -1;
+    styleVars["zIndex"] = -1;
     styleVars["--ascii-primary"] = config.colors.primary;
     styleVars["--ascii-glow"] = config.colors.glow;
     styleVars["--ascii-shadow"] = config.colors.shadow;
@@ -291,10 +293,10 @@ const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userCon
     }
 
     if (config.style) {
-      Object.assign(style, config.style);
+      Object.assign(styleVars, config.style as Record<string, string | number>);
     }
 
-    return style;
+    return styleVars as CSSProperties;
   }, [config]);
 
   const wrapperClassName = useMemo(() => {

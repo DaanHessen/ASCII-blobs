@@ -1,6 +1,6 @@
 # 🦍 ascii-blobs 🦍
 
-Beautiful, animated ASCII blob backgrounds using gaussian metaball rendering.
+Beautiful, animated ASCII blob backgrounds using gaussian metaball rendering. It started as a simple background for my [portfolio](https://daanhessen.nl), but I liked it so much I turned it into a libary for others to use. 
 
 [![npm version](https://img.shields.io/npm/v/ascii-blobs.svg)](https://www.npmjs.com/package/ascii-blobs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
