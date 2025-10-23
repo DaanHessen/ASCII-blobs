@@ -1,4 +1,10 @@
-import { useEffect, useRef, forwardRef, useImperativeHandle, useMemo } from "react";
+import {
+  useEffect,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import type { CSSProperties } from "react";
 import type { State, BlobTempBuffers } from "../core/types";
 import type { AsciiBlobsConfig } from "../core/config";
@@ -9,9 +15,9 @@ import { setupGrid } from "../core/grid";
 import { drawFrame } from "../core/renderer";
 import { createGlyphAtlas } from "../core/atlas";
 import { createGaussianSampler } from "../core/gaussian";
-import "./AsciiScreensaver.css";
+import "./AsciiBlobs.css";
 
-export interface AsciiScreensaverRef {
+export interface AsciiBlobsRef {
   pause: () => void;
   resume: () => void;
   reset: () => void;
@@ -32,8 +38,9 @@ const blobTemp: BlobTempBuffers = {
   intensity: [],
 };
 
-const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((userConfig, ref) => {
+const AsciiBlobsComponent = forwardRef<AsciiBlobsRef, AsciiBlobsConfig>((userConfig, ref) => {
   const config = useMemo(() => mergeConfig(userConfig), [userConfig]);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const baseCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationFrameRef = useRef<number>();
@@ -56,13 +63,14 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
     },
     reset: () => {
       const state = stateRef.current;
-      if (state) {
-        const { columns, rows, blobs } = state;
-        for (let i = 0; i < blobs.length; i++) {
-          blobs[i] = createBlob(columns, rows, { warmStart: true, behavior: config.blobBehavior });
-        }
-        revealStartRef.current = performance.now();
+      if (!state) {
+        return;
       }
+      const { columns, rows, blobs } = state;
+      for (let index = 0; index < blobs.length; index += 1) {
+        blobs[index] = createBlob(columns, rows, { warmStart: true, behavior: config.blobBehavior });
+      }
+      revealStartRef.current = performance.now();
     },
     getStats: () => ({
       blobCount: stateRef.current?.blobs.length ?? 0,
@@ -70,6 +78,21 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       isPaused: isPausedRef.current,
     }),
   }));
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper || typeof window === "undefined") {
+      return;
+    }
+    const parent = wrapper.parentElement;
+    if (!parent) {
+      return;
+    }
+    const computed = window.getComputedStyle(parent);
+    if (computed.position === "static" && !parent.style.position) {
+      parent.style.position = "relative";
+    }
+  }, []);
 
   useEffect(() => {
     const baseCanvas = baseCanvasRef.current;
@@ -133,10 +156,12 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
 
       baseCtx.clearRect(0, 0, width, height);
 
-      // Initialize reveal delays for animation
       const revealDelays = new Float32Array(cellCount);
       for (let idx = 0; idx < cellCount; idx += 1) {
-        revealDelays[idx] = Math.max(0, randomBetween(-config.animation.revealFade * 0.65, config.animation.revealDuration));
+        revealDelays[idx] = Math.max(
+          0,
+          randomBetween(-config.animation.revealFade * 0.65, config.animation.revealDuration),
+        );
       }
 
       const blobCount = config.blobBehavior.count;
@@ -186,7 +211,7 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
       const delta = Math.min(now - lastTimestampRef.current, 120);
       lastTimestampRef.current = now;
 
-      frameCountRef.current++;
+      frameCountRef.current += 1;
       if (now - fpsTimestampRef.current >= 1000) {
         fpsRef.current = Math.round((frameCountRef.current * 1000) / (now - fpsTimestampRef.current));
         frameCountRef.current = 0;
@@ -253,45 +278,46 @@ const AsciiScreensaver = forwardRef<AsciiScreensaverRef, AsciiBlobsConfig>((user
   }, [config]);
 
   const inlineStyle = useMemo(() => {
-    const cssVariables: Record<string, string> = {
-      '--ascii-primary': config.colors.primary,
-      '--ascii-glow': config.colors.glow,
-      '--ascii-shadow': config.colors.shadow,
-    };
+    const style: CSSProperties = { zIndex: -1 };
+    const styleVars = style as Record<string, string | number>;
+    styleVars["--ascii-primary"] = config.colors.primary;
+    styleVars["--ascii-glow"] = config.colors.glow;
+    styleVars["--ascii-shadow"] = config.colors.shadow;
 
     if (config.colors.background) {
-      cssVariables['--ascii-bg-base'] = config.colors.background;
-      cssVariables['--ascii-bg-mid'] = config.colors.background;
-      cssVariables['--ascii-bg-dark'] = config.colors.background;
+      styleVars["--ascii-bg-base"] = config.colors.background;
+      styleVars["--ascii-bg-mid"] = config.colors.background;
+      styleVars["--ascii-bg-dark"] = config.colors.background;
     }
 
-    return {
-      ...cssVariables,
-      ...(config.style ?? {}),
-    } as CSSProperties;
+    if (config.style) {
+      Object.assign(style, config.style);
+    }
+
+    return style;
   }, [config]);
 
+  const wrapperClassName = useMemo(() => {
+    return ["ascii-blobs", config.className].filter(Boolean).join(" ");
+  }, [config.className]);
+
   return (
-    <div 
-      className={`ascii-screensaver ${config.className || ''}`} 
-      style={inlineStyle}
-      aria-hidden="true"
-    >
-      <div className="ascii-screensaver__backdrop"></div>
+    <div ref={wrapperRef} className={wrapperClassName} style={inlineStyle} aria-hidden="true">
+      <div className="ascii-blobs__backdrop"></div>
       <canvas
         ref={baseCanvasRef}
-        className="ascii-screensaver__canvas ascii-screensaver__canvas--base"
+        className="ascii-blobs__canvas ascii-blobs__canvas--base"
       />
       <canvas
         ref={overlayCanvasRef}
-        className="ascii-screensaver__canvas ascii-screensaver__canvas--overlay"
+        className="ascii-blobs__canvas ascii-blobs__canvas--overlay"
       />
-      <div className="ascii-screensaver__texture"></div>
-      <div className="ascii-screensaver__vignette"></div>
+      <div className="ascii-blobs__texture"></div>
+      <div className="ascii-blobs__vignette"></div>
     </div>
   );
 });
 
-AsciiScreensaver.displayName = 'AsciiScreensaver';
+AsciiBlobsComponent.displayName = "AsciiBlobs";
 
-export default AsciiScreensaver;
+export default AsciiBlobsComponent;

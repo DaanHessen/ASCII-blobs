@@ -1,5 +1,11 @@
-export { default as AsciiScreensaver } from './components/AsciiScreensaver';
-export type { AsciiScreensaverRef } from './components/AsciiScreensaver';
+import asciiBlobsCss from './components/AsciiBlobs.css?inline';
+import './components/AsciiBlobs.css';
+import { ensureAsciiBlobsStyles } from './core/styles';
+
+ensureAsciiBlobsStyles(asciiBlobsCss);
+
+export { default as AsciiBlobs } from './components/AsciiBlobs';
+export type { AsciiBlobsRef } from './components/AsciiBlobs';
 
 export type { CloudBlob, State, BlobTempBuffers } from './core/types';
 export type {

@@ -1,4 +1,4 @@
-.ascii-screensaver {
+.ascii-blobs {
   --ascii-primary: rgb(100, 180, 255);
   --ascii-bg-base: #020817;
   --ascii-bg-mid: #030b1c;
@@ -25,7 +25,7 @@
   height: 100%;
   pointer-events: none;
   overflow: hidden;
-  z-index: 0;
+  z-index: var(--ascii-layer, -1);
   isolation: isolate;
   background:
     radial-gradient(120% 90% at 15% 20%, var(--ascii-accent-1), transparent 55%),
@@ -33,15 +33,15 @@
     linear-gradient(180deg, var(--ascii-bg-base), var(--ascii-bg-mid) 38%, var(--ascii-bg-dark) 100%);
 }
 
-.ascii-screensaver__backdrop,
-.ascii-screensaver__canvas,
-.ascii-screensaver__texture,
-.ascii-screensaver__vignette {
+.ascii-blobs__backdrop,
+.ascii-blobs__canvas,
+.ascii-blobs__texture,
+.ascii-blobs__vignette {
   position: absolute;
   inset: 0;
 }
 
-.ascii-screensaver__backdrop {
+.ascii-blobs__backdrop {
   z-index: 1;
   background:
     radial-gradient(90% 60% at 28% 18%, var(--ascii-backdrop-1), var(--ascii-backdrop-2)),
@@ -52,7 +52,7 @@
   mix-blend-mode: screen;
 }
 
-.ascii-screensaver__canvas {
+.ascii-blobs__canvas {
   z-index: 2;
   width: 100%;
   height: 100%;
@@ -61,17 +61,17 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.ascii-screensaver__canvas--base {
+.ascii-blobs__canvas--base {
   opacity: 0.95;
 }
 
-.ascii-screensaver__canvas--overlay {
+.ascii-blobs__canvas--overlay {
   z-index: 3;
   mix-blend-mode: screen;
   opacity: 0.9;
 }
 
-.ascii-screensaver__texture {
+.ascii-blobs__texture {
   z-index: 4;
   background:
     repeating-linear-gradient(
@@ -94,7 +94,7 @@
   opacity: 0.78;
 }
 
-.ascii-screensaver__vignette {
+.ascii-blobs__vignette {
   z-index: 5;
   background:
     radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.62) 100%),
@@ -114,23 +114,23 @@
 }
 
 @media (max-width: 768px) {
-  .ascii-screensaver__texture {
+  .ascii-blobs__texture {
     opacity: 0.62;
     animation-duration: 56s;
   }
 
-  .ascii-screensaver__canvas--overlay {
+  .ascii-blobs__canvas--overlay {
     opacity: 0.84;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ascii-screensaver__texture {
+  .ascii-blobs__texture {
     animation: none;
   }
 }
 
-.ascii-screensaver--theme-catppuccin-mocha {
+.ascii-blobs--theme-catppuccin-mocha {
   --ascii-primary: rgb(137, 180, 250);
   --ascii-bg-base: #1e1e2e;
   --ascii-bg-mid: #181825;
@@ -144,7 +144,7 @@
   --ascii-texture-3: rgba(205, 214, 244, 0.06);
 }
 
-.ascii-screensaver--theme-catppuccin-latte {
+.ascii-blobs--theme-catppuccin-latte {
   --ascii-primary: rgb(30, 102, 245);
   --ascii-bg-base: #eff1f5;
   --ascii-bg-mid: #e6e9ef;
@@ -160,7 +160,7 @@
   --ascii-vignette-end: rgba(255, 255, 255, 0.68);
 }
 
-.ascii-screensaver--theme-dracula {
+.ascii-blobs--theme-dracula {
   --ascii-primary: rgb(139, 233, 253);
   --ascii-bg-base: #282a36;
   --ascii-bg-mid: #21222c;
@@ -174,7 +174,7 @@
   --ascii-texture-3: rgba(248, 248, 242, 0.06);
 }
 
-.ascii-screensaver--theme-nord {
+.ascii-blobs--theme-nord {
   --ascii-primary: rgb(136, 192, 208);
   --ascii-bg-base: #2e3440;
   --ascii-bg-mid: #3b4252;
@@ -188,7 +188,7 @@
   --ascii-texture-3: rgba(216, 222, 233, 0.06);
 }
 
-.ascii-screensaver--theme-gruvbox {
+.ascii-blobs--theme-gruvbox {
   --ascii-primary: rgb(131, 165, 152);
   --ascii-bg-base: #282828;
   --ascii-bg-mid: #1d2021;
@@ -202,7 +202,7 @@
   --ascii-texture-3: rgba(235, 219, 178, 0.06);
 }
 
-.ascii-screensaver--theme-tokyo-night {
+.ascii-blobs--theme-tokyo-night {
   --ascii-primary: rgb(125, 207, 255);
   --ascii-bg-base: #1a1b26;
   --ascii-bg-mid: #16161e;

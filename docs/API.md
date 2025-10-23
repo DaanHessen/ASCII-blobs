@@ -2,17 +2,17 @@
 
 ## React Component
 
-### `<AsciiScreensaver />`
+### `<AsciiBlobs />`
 
-Main React component for rendering animated ASCII blobs.
+React component for rendering animated ASCII blobs.
 
 ```tsx
-import { AsciiScreensaver } from 'ascii-blobs';
+import { AsciiBlobs } from 'ascii-blobs';
 ```
 
 #### Props
 
-All props are optional. The component accepts `AsciiBlobsConfig` as props.
+All props are optional. The component accepts `AsciiBlobsConfig` as props and now positions itself behind sibling content by default (no extra z-index tweaks needed).
 
 ##### `colors?: ColorConfig`
 
@@ -97,10 +97,10 @@ Called whenever a new blob is spawned.
 
 #### Ref Methods
 
-Use `ref` with `AsciiScreensaverRef` to control the animation.
+Use `ref` with `AsciiBlobsRef` to control the animation.
 
 ```tsx
-const ref = useRef<AsciiScreensaverRef>(null);
+const ref = useRef<AsciiBlobsRef>(null);
 
 ref.current?.pause();
 ref.current?.resume();
@@ -239,7 +239,7 @@ Get the className for a theme.
 ```tsx
 import { getThemeClassName } from 'ascii-blobs';
 
-<AsciiScreensaver className={getThemeClassName('dracula')} />
+<AsciiBlobs className={getThemeClassName('dracula')} />
 ```
 
 ### `ThemeName`

@@ -53,12 +53,24 @@ export class AsciiBlobs {
   }
 
   private init(): void {
-    this.container.style.position = 'relative';
-    this.container.style.overflow = 'hidden';
-    this.container.style.isolation = 'isolate';
+    const computedStyle = typeof window !== 'undefined'
+      ? window.getComputedStyle(this.container)
+      : null;
+
+    if (!computedStyle || computedStyle.position === '' || computedStyle.position === 'static') {
+      this.container.style.position = 'relative';
+    }
+
+    if (!computedStyle || computedStyle.overflow === '' || computedStyle.overflow === 'visible') {
+      this.container.style.overflow = 'hidden';
+    }
+
+    if (!this.container.style.isolation) {
+      this.container.style.isolation = 'isolate';
+    }
 
     const wrapper = document.createElement('div');
-    wrapper.className = 'ascii-screensaver';
+    wrapper.className = 'ascii-blobs';
     wrapper.setAttribute('aria-hidden', 'true');
     if (this.config.className) {
       wrapper.className += ` ${this.config.className}`;
@@ -66,8 +78,10 @@ export class AsciiBlobs {
     if (this.config.style) {
       Object.assign(wrapper.style, this.config.style);
     }
+    if (!this.config.style || this.config.style.zIndex === undefined) {
+      wrapper.style.zIndex = '-1';
+    }
 
-    // Apply color configuration via CSS variables
     wrapper.style.setProperty('--ascii-primary', this.config.colors.primary);
     if (this.config.colors.background) {
       wrapper.style.setProperty('--ascii-bg-base', this.config.colors.background);
@@ -82,19 +96,19 @@ export class AsciiBlobs {
     }
 
     const backdrop = document.createElement('div');
-    backdrop.className = 'ascii-screensaver__backdrop';
+    backdrop.className = 'ascii-blobs__backdrop';
 
     this.baseCanvas = document.createElement('canvas');
-    this.baseCanvas.className = 'ascii-screensaver__canvas ascii-screensaver__canvas--base';
+    this.baseCanvas.className = 'ascii-blobs__canvas ascii-blobs__canvas--base';
 
     this.overlayCanvas = document.createElement('canvas');
-    this.overlayCanvas.className = 'ascii-screensaver__canvas ascii-screensaver__canvas--overlay';
+    this.overlayCanvas.className = 'ascii-blobs__canvas ascii-blobs__canvas--overlay';
 
     const texture = document.createElement('div');
-    texture.className = 'ascii-screensaver__texture';
+    texture.className = 'ascii-blobs__texture';
 
     const vignette = document.createElement('div');
-    vignette.className = 'ascii-screensaver__vignette';
+    vignette.className = 'ascii-blobs__vignette';
 
     wrapper.appendChild(backdrop);
     wrapper.appendChild(this.baseCanvas);

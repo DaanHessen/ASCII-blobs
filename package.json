@@ -28,7 +28,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "demo": "npm run build && npx serve . -l 3000",
+    "demo": "npx serve demo -l 3000",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",

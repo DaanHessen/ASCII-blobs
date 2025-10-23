@@ -1,13 +1,13 @@
 import { useRef } from 'react';
-import { AsciiScreensaver, AsciiScreensaverRef } from 'ascii-blobs';
+import { AsciiBlobs, AsciiBlobsRef } from 'ascii-blobs';
 import 'ascii-blobs/dist/style.css';
 
 export default function ControlledExample() {
-  const ref = useRef<AsciiScreensaverRef>(null);
+  const ref = useRef<AsciiBlobsRef>(null);
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-      <AsciiScreensaver ref={ref} />
+      <AsciiBlobs ref={ref} />
       
       <div style={{
         position: 'absolute',

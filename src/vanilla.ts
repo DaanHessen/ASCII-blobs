@@ -1,4 +1,8 @@
-import './components/AsciiScreensaver.css';
+import './components/AsciiBlobs.css';
+import asciiBlobsCss from './components/AsciiBlobs.css?inline';
+import { ensureAsciiBlobsStyles } from './core/styles';
+
+ensureAsciiBlobsStyles(asciiBlobsCss);
 
 export { AsciiBlobs } from './vanilla/AsciiBlobs';
 

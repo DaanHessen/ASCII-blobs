@@ -1,10 +1,10 @@
-import { AsciiScreensaver } from 'ascii-blobs';
+import { AsciiBlobs } from 'ascii-blobs';
 import 'ascii-blobs/dist/style.css';
 
 export default function CustomConfigExample() {
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-      <AsciiScreensaver
+      <AsciiBlobs
         characters=" ░▒▓█"
         blobBehavior={{
           count: 5,
