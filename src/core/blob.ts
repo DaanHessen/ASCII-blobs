@@ -59,6 +59,7 @@ const defaultBehavior = defaultConfig.blobBehavior as BehaviorSettings;
 
 const INTERNAL_RADIUS_MIN = 30;
 const INTERNAL_RADIUS_MAX = 56;
+const GRID_BASELINE = 96;
 const INTERNAL_SPEED_MIN = 0.0018;
 const INTERNAL_SPEED_MAX = 0.0031;
 
@@ -107,7 +108,9 @@ export const createBlob = (
   const spawn = pickSpawnPoint(columns, rows);
 
   const radiusSample = randomBetween(behavior.minRadius, behavior.maxRadius);
-  const radius = Math.max(
+  const gridSpan = Math.min(columns, rows);
+  const radiusScale = clamp(gridSpan / GRID_BASELINE, 0.35, 1.15);
+  const baseRadius = Math.max(
     remapBehaviorValue(
       radiusSample,
       defaultBehavior.minRadius,
@@ -117,6 +120,7 @@ export const createBlob = (
     ),
     6,
   );
+  const radius = Math.max(baseRadius * radiusScale, 6);
   const aspect = randomBetween(0.75, 1.35);
   const radiusX = radius;
   const radiusY = radius * aspect;
