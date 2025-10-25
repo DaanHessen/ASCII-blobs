@@ -56,12 +56,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/DaanHessen/ASCII-blobs/"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/DaanHessen/ASCII-blobs/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/DaanHessen/ASCII-blobs#readme",
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
