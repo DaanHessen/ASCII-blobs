@@ -411,43 +411,9 @@
         grid-template-columns: 1fr;
       }
     }
-    .header-nav {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1001;
-      display: flex;
-      gap: 12px;
-    }
-
-    .nav-link {
-      background: rgba(20, 20, 30, 0.92);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 10px 20px;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.2s;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    }
-
-    .nav-link:hover {
-      background: rgba(30, 30, 40, 0.95);
-      border-color: rgba(100, 180, 255, 0.5);
-      color: rgb(100, 180, 255);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
   </style>
 </head>
 <body>
-  <div class="header-nav">
-    <a href="./docs/" class="nav-link">Documentation</a>
-    <a href="https://github.com/DaanHessen/ASCII-blobs" class="nav-link" target="_blank">GitHub</a>
-  </div>
-
   <div id="ascii-container"></div>
 
   <div class="stats">
