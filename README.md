@@ -98,21 +98,11 @@ The library is made to work with both React and vanilla JavaScript:
 ### <a id="usage-react"></a> React
 
 ```tsx
-import { AsciiBlobs } from 'ascii-blobs';
-import 'ascii-blobs/dist/style.css';
-
-function App() {
-  return <AsciiBlobs />;
-}
 ```
 
 ### <a id="usage-js"></a> Vanilla JavaScript
 
 ```js
-import { AsciiBlobs } from 'ascii-blobs/vanilla';
-import 'ascii-blobs/dist/style.css';
-
-const blobs = new AsciiBlobs('#container');
 ```
 
 _For more information, please refer to the [Documentation](https://daanhessen.github.io/ASCII-blobs/docs/)_

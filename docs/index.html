@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+<link href="assets/images/favicon.png" rel="icon" />
+<title>ASCII-blobs Documentation</title>
+<meta name="description" content="ASCII-blobs: animated ASCII metaball backgrounds for React and vanilla JavaScript.">
+<meta name="author" content="Daan Hessen">
+
+<!-- Stylesheet
+============================== -->
+<!-- Bootstrap -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Font Awesome Icon -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css" />
+<!-- Magnific Popup -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/magnific-popup/magnific-popup.min.css" />
+<!-- Highlight Syntax -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/highlight.js/styles/github.css" />
+<!-- Custom Stylesheet -->
+<link rel="stylesheet" type="text/css" href="assets/css/stylesheet.css" />
+<style>
+  body {
+    background: #0a0f1f;
+    color: #e4e7ef;
+  }
+
+  .idocs-navigation {
+    background: #0d1326;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .idocs-navigation .nav-link {
+    color: #cfd5e2;
+  }
+
+  .idocs-navigation .nav-link.active,
+  .idocs-navigation .nav-link:hover {
+    color: #7bdcff;
+  }
+
+  .navbar,
+  .preloader,
+  .dropdown-menu {
+    background: #0d1326 !important;
+  }
+
+  .dropdown-menu {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .primary-menu .navbar-nav > li > a {
+    color: #e4e7ef;
+  }
+
+  .divider {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  code,
+  pre {
+    background-color: #0f172a;
+    color: #e4e7ef;
+  }
+
+  .table {
+    color: #e4e7ef;
+  }
+
+  .table thead th {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .table td,
+  .table th {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .alert {
+    background-color: rgba(255, 255, 255, 0.04);
+    color: #dce2f2;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .changelog li {
+    color: #e4e7ef;
+  }
+</style>
+</head>
+
+<body data-spy="scroll" data-target=".idocs-navigation" data-offset="125">
+
+<!-- Preloader -->
+<div class="preloader">
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+<!-- Preloader End --> 
+
+<!-- Document Wrapper   
+=============================== -->
+<div id="main-wrapper"> 
+  
+  <!-- Header
+  ============================ -->
+  <header id="header" class="sticky-top"> 
+    <!-- Navbar -->
+    <nav class="primary-menu navbar navbar-expand-lg navbar-dropdown-dark">
+      <div class="container-fluid">
+        <!-- Sidebar Toggler -->
+		<button id="sidebarCollapse" class="navbar-toggler d-block d-md-none" type="button"><span></span><span class="w-75"></span><span class="w-50"></span></button>
+		
+		<!-- Logo --> 
+        <a class="logo ml-md-3 text-light font-weight-bold" href="#idocs_start" title="ASCII-blobs">ASCII-blobs</a> 
+		<span class="text-2 ml-2 text-light">v1.0.4</span> 
+        <!-- Logo End -->
+        
+		<!-- Navbar Toggler -->
+		<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#header-nav"><span></span><span></span><span></span></button>
+        
+		<div id="header-nav" class="collapse navbar-collapse justify-content-end">
+          <ul class="navbar-nav">
+            <li><a class="nav-link" href="https://daanhessen.github.io/ASCII-blobs/">Demo</a></li>
+            <li><a class="nav-link" href="https://github.com/DaanHessen/ASCII-blobs">GitHub</a></li>
+            <li><a class="nav-link" href="https://www.npmjs.com/package/ascii-blobs">npm</a></li>
+          </ul>
+        </div>
+        <ul class="social-icons social-icons-sm ml-lg-2 mr-2">
+          <li class="social-icons-github"><a data-toggle="tooltip" href="https://github.com/DaanHessen/ASCII-blobs" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+          <li class="social-icons-globe"><a data-toggle="tooltip" href="https://daanhessen.github.io/ASCII-blobs/" target="_blank" title="Demo"><i class="fas fa-globe"></i></a></li>
+          <li class="social-icons-envelope"><a data-toggle="tooltip" href="mailto:daanh2002@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Navbar End --> 
+  </header>
+  <!-- Header End --> 
+  
+  <!-- Content
+  ============================ -->
+  <div id="content" role="main">
+    
+	<!-- Sidebar Navigation
+	============================ -->
+	<div class="idocs-navigation bg-dark docs-navigation-dark">
+      <ul class="nav flex-column ">
+        <li class="nav-item"><a class="nav-link active" href="#idocs_start">Getting Started</a>
+          <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="#idocs_installation">Installation</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_bundle">Package Layout</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_requirements">Runtime Notes</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#idocs_usage">Usage</a>
+          <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="#idocs_usage_react">React</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_usage_vanilla">Vanilla JS</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_api_refs">Refs & Controls</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#idocs_configuration">Configuration</a>
+          <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="#idocs_colors">Colors & Characters</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_blob_behavior">Blob Behavior</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_animation">Animation</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_performance">Performance</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_callbacks">Callbacks</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_themes">Theming</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#idocs_api">API</a>
+			<ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="#idocs_exports">Exports</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_utilities">Utility Functions</a></li>
+          </ul>
+		</li>
+        <li class="nav-item"><a class="nav-link" href="#idocs_faq">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#idocs_changelog">Changelog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#idocs_support">Support</a></li>
+      </ul>
+    </div>
+    
+    <!-- Docs Content
+	============================ -->
+    <div class="idocs-content">
+      <div class="container"> 
+        
+        <!-- Getting Started
+		============================ -->
+        <section id="idocs_start">
+        <h1>ASCII-blobs</h1>
+        <h2>Animated ASCII metaballs for the web</h2>
+        <p class="lead">A lightweight renderer that turns gaussian metaballs into animated ASCII art. Ships as both a React component and a vanilla JavaScript class, drawing on layered canvases with glow, texture, and vignette effects.</p>
+		<hr>
+		<div class="row">
+			<div class="col-sm-6 col-lg-4">
+				<ul class="list-unstyled">
+					<li><strong>Version:</strong> 1.0.4</li>
+					<li><strong>License:</strong> MIT</li>
+          <li><strong>Author:</strong> <a href="https://github.com/DaanHessen" class="text-light" target="_blank">Daan Hessen</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-6 col-lg-4">
+				<ul class="list-unstyled">
+					<li><strong>Repository:</strong> <a class="text-light" href="https://github.com/DaanHessen/ASCII-blobs" target="_blank">github.com/DaanHessen/ASCII-blobs</a></li>
+					<li><strong>Demo:</strong> <a class="text-light" href="https://daanhessen.github.io/ASCII-blobs/" target="_blank">daanhessen.github.io/ASCII-blobs</a></li>
+				</ul>
+			</div>
+		</div>
+        <p class="alert alert-info">CSS is auto-injected once per page via <code>ensureAsciiBlobsStyles</code>. If you load the prebuilt bundle directly from a CDN without bundling, include <code>dist/ascii-blobs.css</code> manually.</p>
+        </section>
+        
+		<hr class="divider">
+		
+        <!-- Installation
+		============================ -->
+        <section id="idocs_installation">
+          <h2>Installation</h2>
+          <p class="lead">Install from npm. React is optional unless you use the React component.</p>
+          <ol>
+            <li>Install the package:
+<pre><code class="bash">npm install ascii-blobs</code></pre>
+            </li>
+            <li>Use the React component or the vanilla class (examples below). No extra CSS import is required when bundling.</li>
+          </ol>
+          <p class="alert alert-info mb-0">Optional peer dependencies (React build only): <code>react</code>, <code>react-dom</code>.</p>
+        </section>
+        
+		<hr class="divider">
+		
+        <!-- Package Layout
+		============================ -->
+        <section id="idocs_bundle">
+          <h2>Package Layout</h2>
+          <p>Entry points exposed via <code>package.json#exports</code>:</p>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Entry</th>
+                <th>Import</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>React</td>
+                <td><code>import { AsciiBlobs } from 'ascii-blobs'</code></td>
+                <td>Viewport-filling React component.</td>
+              </tr>
+              <tr>
+                <td>Vanilla</td>
+                <td><code>import { AsciiBlobs } from 'ascii-blobs/vanilla'</code></td>
+                <td>Class-based API that attaches to any element.</td>
+              </tr>
+              <tr>
+                <td>Stylesheet</td>
+                <td><code>import 'ascii-blobs/dist/ascii-blobs.css'</code></td>
+                <td>Manual CSS include when not bundling.</td>
+              </tr>
+              <tr>
+                <td>Utils/Types</td>
+                <td><code>import { mergeConfig, themes, createBlob, ... } from 'ascii-blobs'</code></td>
+                <td>Helper functions, constants, and types.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <hr class="divider">
+
+        <!-- Runtime Notes
+		============================ -->
+        <section id="idocs_requirements">
+          <h2>Runtime Notes</h2>
+          <ul>
+            <li>Requires browser APIs: <code>window</code>, <code>document</code>, <code>CanvasRenderingContext2D</code>, <code>requestAnimationFrame</code>.</li>
+            <li>Uses <code>OffscreenCanvas</code> when available; falls back automatically otherwise.</li>
+            <li>React build: fixed-position, full-viewport, <code>pointer-events: none</code> so it stays behind your UI.</li>
+            <li>Vanilla build: wrapper uses the same fixed/inset CSS by default; override <code>style</code> or your CSS if you want it scoped to a container.</li>
+            <li>Not SSR-safe by itself; load only in the browser (e.g., dynamic import on the client).</li>
+          </ul>
+        </section>
+        
+		<hr class="divider">
+		
+        <!-- Usage
+		============================ -->
+        <section id="idocs_usage">
+          <h2>Usage</h2>
+          <p class="lead mb-4">React and vanilla APIs share the same <code>AsciiBlobsConfig</code>.</p>
+        </section>
+		
+        <!-- React
+		============================ -->
+        <section id="idocs_usage_react">
+          <h3>React</h3>
+          <p>Place the component near the top of your tree so it renders behind content.</p>
+<pre><code class="tsx">import { useEffect, useRef } from 'react';
+import { AsciiBlobs, type AsciiBlobsRef } from 'ascii-blobs';
+
+export function HeroBackground() {
+  const blobsRef = useRef&lt;AsciiBlobsRef&gt;(null);
+
+  useEffect(() =&gt; {
+    const id = setInterval(() =&gt; console.log(blobsRef.current?.getStats()), 2000);
+    return () =&gt; clearInterval(id);
+  }, []);
+
+  return (
+    &lt;AsciiBlobs
+      ref={blobsRef}
+      colors={{ primary: '#7dd3fc', background: '#050814' }}
+      blobBehavior={{ count: 10 }}
+      animation={{ frameInterval: 32 }}
+      className="ascii-blobs--theme-dracula"
+    /&gt;
+  );
+}</code></pre>
+          <ul>
+            <li>CSS is injected automatically; no manual stylesheet import needed when bundling.</li>
+            <li><code>className</code> appends classes to the root <code>.ascii-blobs</code> element (use for themes).</li>
+            <li><code>style</code> is merged with CSS variables if you supply <code>colors.*</code>.</li>
+          </ul>
+        </section>
+		
+		<hr class="divider">
+		
+        <!-- Vanilla JS
+		============================ -->
+        <section id="idocs_usage_vanilla">
+          <h3>Vanilla JavaScript</h3>
+          <p>Attach to any element or selector. Pointer events are disabled; default <code>z-index</code> is <code>-1</code> unless overridden via <code>style</code>.</p>
+<pre><code class="javascript">import { AsciiBlobs } from 'ascii-blobs/vanilla';
+
+const ascii = new AsciiBlobs('#hero', {
+  colors: { primary: '#8b5cf6', background: '#0b1021' },
+  blobBehavior: { count: 6, maxSpeed: 10 },
+  animation: { revealDuration: 1400 },
+});
+
+ascii.pause();
+ascii.resume();
+ascii.reset();
+console.log(ascii.getStats());
+ascii.destroy();</code></pre>
+          <p class="alert alert-info mb-0">If the container lacks positioning/overflow styles, the class will set <code>position: relative</code>, <code>overflow: hidden</code>, and <code>isolation: isolate</code>. Override <code>.ascii-blobs</code> positioning (or pass <code>style</code>) to scope it to the container instead of viewport-fixed.</p>
+        </section>
+		
+		<hr class="divider">
+		
+        <!-- Refs & Controls
+		============================ -->
+        <section id="idocs_api_refs">
+          <h3>Refs & Controls</h3>
+          <ul>
+            <li><code>pause()</code> — stop updates/renders.</li>
+            <li><code>resume()</code> — restart animation and timestamps.</li>
+            <li><code>reset()</code> — respawn blobs and restart the reveal.</li>
+            <li><code>getStats()</code> — returns <code>{ blobCount, fps, isPaused }</code>.</li>
+            <li><code>destroy()</code> — (vanilla only) remove canvases/listeners from the container.</li>
+          </ul>
+        </section>
+		
+		<hr class="divider">
+		
+        <!-- Configuration
+		============================ -->
+        <section id="idocs_configuration">
+          <h2>Configuration</h2>
+          <p class="lead mb-4">All options are merged with <code>defaultConfig</code> via <code>mergeConfig</code>, with clamping to safe ranges.</p>
+        </section>
+		  
+		<!-- Colors & Characters
+		============================ -->
+		<section id="idocs_colors">
+		  <h3>Colors & Characters</h3>
+		  <p>Colors become CSS variables used by gradients, glow, and shadow. Characters are jittered per atlas for organic variation.</p>
+		  <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Field</th>
+                      <th>Default</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>colors.primary</code></td>
+                      <td><code>rgb(100, 180, 255)</code></td>
+                      <td>Base glyph color.</td>
+                    </tr>
+                    <tr>
+                      <td><code>colors.background</code></td>
+                      <td><code>#000000</code></td>
+                      <td>Overrides <code>--ascii-bg-base/mid/dark</code> when set.</td>
+                    </tr>
+                    <tr>
+                      <td><code>colors.glow</code></td>
+                      <td><code>rgba(100, 180, 255, 0.8)</code></td>
+                      <td>Outer glow (baked into glyph atlas).</td>
+                    </tr>
+                    <tr>
+                      <td><code>colors.shadow</code></td>
+                      <td><code>rgba(100, 180, 255, 0.4)</code></td>
+                      <td>Inner shadow (baked into glyph atlas).</td>
+                    </tr>
+                    <tr>
+                      <td><code>characters</code></td>
+                      <td><code>' .,:;!~+=xoX#'</code></td>
+                      <td>Ordered darkest → brightest.</td>
+                    </tr>
+                  </tbody>
+                </table>
+		    <p class="mb-0">CSS variables you may override: <code>--ascii-primary</code>, <code>--ascii-bg-base</code>, <code>--ascii-bg-mid</code>, <code>--ascii-bg-dark</code>, <code>--ascii-glow</code>, <code>--ascii-shadow</code>, <code>--ascii-accent-1/2</code>, <code>--ascii-backdrop-1..6</code>, <code>--ascii-texture-1..3</code>, <code>--ascii-vignette-start/end</code>.</p>
+		</section>
+		
+		<hr class="divider">
+		
+        <!-- Blob Behavior
+		============================ -->
+        <section id="idocs_blob_behavior">
+          <h3>Blob Behavior</h3>
+          <p>Speeds and radii are remapped relative to defaults and scaled to viewport size to stay proportional.</p>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Default</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>blobBehavior.count</code></td>
+                <td><code>8</code></td>
+                <td>Number of active blobs (min 1).</td>
+              </tr>
+              <tr>
+                <td><code>blobBehavior.minSpeed</code> / <code>maxSpeed</code></td>
+                <td><code>6</code> / <code>12</code></td>
+                <td>Relative speed samples; clamped to ≥0 and remapped internally.</td>
+              </tr>
+              <tr>
+                <td><code>blobBehavior.minRadius</code> / <code>maxRadius</code></td>
+                <td><code>60</code> / <code>140</code></td>
+                <td>Radius samples before remapping; max ≥ min.</td>
+              </tr>
+              <tr>
+                <td><code>blobBehavior.spawnInterval</code></td>
+                <td><code>3000</code> ms</td>
+                <td>Controls life variance and warm-start offset.</td>
+              </tr>
+              <tr>
+                <td><code>blobBehavior.lifespan</code></td>
+                <td><code>30000</code> ms</td>
+                <td>Min is <code>fadeInDuration + 500</code>.</td>
+              </tr>
+              <tr>
+                <td><code>blobBehavior.fadeInDuration</code></td>
+                <td><code>2000</code> ms</td>
+                <td>Per-blob envelope ramp.</td>
+              </tr>
+              <tr>
+                <td><code>wobbleAmplitude</code></td>
+                <td><code>0.15</code></td>
+                <td>Scale variation multiplier.</td>
+              </tr>
+              <tr>
+                <td><code>wobbleSpeed</code></td>
+                <td><code>0.0004</code></td>
+                <td>Frequency multiplier (ms-based).</td>
+              </tr>
+              <tr>
+                <td><code>rotationSpeed</code></td>
+                <td><code>0.00003</code></td>
+                <td>Radians/ms (randomized positive/negative).</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+		
+		<hr class="divider">
+		
+		<!-- Animation
+		============================ -->
+		<section id="idocs_animation">
+		  <h3>Animation</h3>
+		  <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Field</th>
+                      <th>Default</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>animation.frameInterval</code></td>
+                      <td><code>42</code> ms</td>
+                      <td>Min time between draws (≈24 FPS). If omitted and <code>performance.targetFPS</code> is set, derived from that (min 5 ms).</td>
+                    </tr>
+                    <tr>
+                      <td><code>animation.revealDuration</code></td>
+                      <td><code>1200</code> ms</td>
+                      <td>Length of initial fade-in.</td>
+                    </tr>
+                    <tr>
+                      <td><code>animation.revealFade</code></td>
+                      <td><code>400</code> ms</td>
+                      <td>Per-cell reveal offset; each cell delays between <code>-0.65 × revealFade</code> and <code>revealDuration</code>.</td>
+                    </tr>
+                  </tbody>
+                </table>
+		</section>
+		
+		<hr class="divider">
+		
+        <!-- Performance
+		============================ -->
+        <section id="idocs_performance">
+          <h3>Performance</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Default</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>performance.cellSize</code></td>
+                <td><code>14</code></td>
+                <td>Character cell size in px (min 6). Bigger = fewer cells.</td>
+              </tr>
+              <tr>
+                <td><code>performance.gaussianLutSize</code></td>
+                <td><code>1024</code></td>
+                <td>LUT resolution for gaussian falloff (min 32).</td>
+              </tr>
+              <tr>
+                <td><code>performance.targetFPS</code></td>
+                <td><code>60</code></td>
+                <td>Used only when <code>animation.frameInterval</code> is omitted; clamped 1–240.</td>
+              </tr>
+              <tr>
+                <td><code>performance.useOffscreenCanvas</code></td>
+                <td><code>true</code></td>
+                <td>Uses <code>OffscreenCanvas</code> for glyph atlases when supported.</td>
+              </tr>
+              <tr>
+                <td><code>performance.enableBlur</code></td>
+                <td><code>true</code></td>
+                <td>Enables glow/shadow blur when drawing glyphs.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="alert alert-info mb-0">Lower load by increasing <code>cellSize</code>, reducing <code>blobBehavior.count</code>, disabling <code>enableBlur</code>, or raising <code>frameInterval</code>.</p>
+        </section>
+        
+		<hr class="divider">
+		
+		<!-- Callbacks
+		============================ -->
+        <section id="idocs_callbacks">
+          <h3>Callbacks</h3>
+          <ul>
+            <li><code>onReady?: () =&gt; void</code> — fired after initial setup.</li>
+            <li><code>onBlobSpawn?: (blob)</code> — fired whenever a blob is spawned or respawned.</li>
+          </ul>
+          <p class="mb-0"><code>interactive?: boolean</code> is present for future use and currently unused.</p>
+        </section>
+        
+		<hr class="divider">
+		
+        <!-- Theming
+		============================ -->
+        <section id="idocs_themes">
+          <h3>Theming</h3>
+          <p>Apply theme classes directly or via <code>getThemeClassName</code>.</p>
+		  <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Theme</th>
+                      <th>Class</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Default</td><td><code>ascii-blobs</code></td></tr>
+                    <tr><td>Catppuccin Mocha</td><td><code>ascii-blobs--theme-catppuccin-mocha</code></td></tr>
+                    <tr><td>Catppuccin Latte</td><td><code>ascii-blobs--theme-catppuccin-latte</code></td></tr>
+                    <tr><td>Dracula</td><td><code>ascii-blobs--theme-dracula</code></td></tr>
+                    <tr><td>Nord</td><td><code>ascii-blobs--theme-nord</code></td></tr>
+                    <tr><td>Gruvbox</td><td><code>ascii-blobs--theme-gruvbox</code></td></tr>
+                    <tr><td>Tokyo Night</td><td><code>ascii-blobs--theme-tokyo-night</code></td></tr>
+                  </tbody>
+                </table>
+<pre><code class="tsx">import { AsciiBlobs, getThemeClassName } from 'ascii-blobs';
+
+&lt;AsciiBlobs className="ascii-blobs--theme-nord" /&gt;;
+&lt;AsciiBlobs className={getThemeClassName('dracula')} /&gt;;</code></pre>
+        </section>
+		
+		<hr class="divider">
+		
+        <!-- API
+		============================ -->
+        <section id="idocs_api">
+          <h2>API</h2>
+          <p class="lead mb-4">Main exports plus core utilities.</p>
+        </section>
+		
+        <section id="idocs_exports">
+          <h3>Exports</h3>
+          <ul>
+            <li><code>AsciiBlobs</code> React component and <code>AsciiBlobsRef</code>.</li>
+            <li><code>AsciiBlobs</code> class from <code>ascii-blobs/vanilla</code>.</li>
+            <li>Types: <code>AsciiBlobsConfig</code>, <code>ColorConfig</code>, <code>BlobBehaviorConfig</code>, <code>AnimationConfig</code>, <code>PerformanceConfig</code>, <code>MergedConfig</code>, <code>CloudBlob</code>, <code>State</code>, <code>BlobTempBuffers</code>.</li>
+            <li>Constants: <code>CELL_SIZE</code>, <code>HALF_CELL</code>, <code>FRAME_INTERVAL</code>, <code>REVEAL_DURATION</code>, <code>REVEAL_FADE</code>, <code>WRAP_MARGIN</code>, <code>SPAWN_MARGIN</code>, <code>INTERIOR_MIN</code>, <code>INTERIOR_MAX</code>, <code>ASCII_PALETTE</code>, <code>CANVAS_FONT</code>, <code>FONT_FAMILY</code>, <code>OVERLAY_RGB</code>, <code>ALPHA_EPSILON</code>, <code>GAUSSIAN_LUT_SIZE</code>, <code>GAUSSIAN_LUT_MAX</code>, <code>GAUSSIAN_SCALE</code>.</li>
+            <li>Themes: <code>themes</code> map, <code>getThemeClassName(themeName)</code>.</li>
+            <li>Config helpers: <code>defaultConfig</code>, <code>mergeConfig(userConfig)</code>.</li>
+          </ul>
+        </section>
+        
+		<hr class="divider">
+		
+		<section id="idocs_utilities">
+		  <h3>Utility Functions</h3>
+		  <ul>
+        <li><code>createBlob</code>, <code>resetBlob</code>, <code>updateBlob</code>, <code>pickSpawnPoint</code>, <code>randomBetween</code>, <code>clamp</code> — blob lifecycle helpers.</li>
+        <li><code>setupGrid</code> — builds the cell grid and noise buffers.</li>
+        <li><code>drawFrame</code>, <code>pickShadeIndex</code> — renderer building the ASCII overlay.</li>
+        <li><code>createGlyphAtlas</code> — prerenders glyphs with glow/shadow using canvas or <code>OffscreenCanvas</code>.</li>
+        <li><code>gaussianFalloff</code>, <code>gaussianLUT</code>, <code>createGaussianSampler</code> — gaussian utilities used by the renderer.</li>
+      </ul>
+		</section>
+        
+		<hr class="divider">
+		
+		<!-- FAQ
+		============================ -->
+		<section id="idocs_faq">
+          <h2>FAQ</h2>
+          <div class="accordion accordion-alterate arrow-right" id="faqAscii">
+              <div class="card">
+                <div class="card-header" id="faq1">
+                  <h5 class="mb-0"> <a href="#" class="collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">Do I need to import CSS manually?</a> </h5>
+                </div>
+                <div id="collapse1" class="collapse" aria-labelledby="faq1" data-parent="#faqAscii">
+                  <div class="card-body">Bundled usage auto-injects <code>AsciiBlobs.css</code> exactly once via <code>ensureAsciiBlobsStyles</code>. If you consume the prebuilt ES/CJS bundle directly without bundling, include <code>dist/ascii-blobs.css</code> yourself.</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="faq2">
+                  <h5 class="mb-0"> <a href="#" class="collapsed" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">How do I keep it behind my UI?</a> </h5>
+                </div>
+                <div id="collapse2" class="collapse" aria-labelledby="faq2" data-parent="#faqAscii">
+                  <div class="card-body">React build is fixed, full-viewport, and uses <code>pointer-events: none</code>. Vanilla build defaults to the same, with <code>z-index: -1</code> unless overridden. Override <code>style</code> or CSS if you need a scoped container.</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="faq3">
+                  <h5 class="mb-0"> <a href="#" class="collapsed" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">How can I reduce CPU/GPU usage?</a> </h5>
+                </div>
+                <div id="collapse3" class="collapse" aria-labelledby="faq3" data-parent="#faqAscii">
+                  <div class="card-body">Increase <code>performance.cellSize</code>, reduce <code>blobBehavior.count</code>, disable <code>performance.enableBlur</code>, or raise <code>animation.frameInterval</code>.</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="faq4">
+                  <h5 class="mb-0"> <a href="#" class="collapsed" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">Is it SSR safe?</a> </h5>
+                </div>
+                <div id="collapse4" class="collapse" aria-labelledby="faq4" data-parent="#faqAscii">
+                  <div class="card-body">No. It requires <code>window</code>, <code>document</code>, and canvas. Load only in the browser (e.g., dynamic import on client).</div>
+                </div>
+              </div>
+            </div>
+          
+        </section>
+        
+		<hr class="divider">
+        
+        <!-- Changelog
+		============================ -->
+        <section id="idocs_changelog">
+          <h2>Changelog</h2>
+          <p class="text-4">Release notes for <code>ascii-blobs</code>.</p>
+		  <h3 id="v1-0-4">Version 1.0.4 <small class="text-muted">(current)</small></h3>
+          <ul class="changelog">
+            <li><span class="badge badge-success">Added</span> React component and vanilla class sharing the same config.</li>
+            <li><span class="badge badge-success">Added</span> Built-in themes (default, Catppuccin Mocha/Latte, Dracula, Nord, Gruvbox, Tokyo Night).</li>
+            <li><span class="badge badge-info">Improved</span> Auto-injected CSS via <code>ensureAsciiBlobsStyles</code> to avoid duplicates.</li>
+            <li><span class="badge badge-info">Improved</span> Gaussian metaball renderer with per-cell reveal, wobble, and performance tunables.</li>
+          </ul>
+        </section>        
+
+		<hr class="divider">
+		
+		<!-- Support
+		============================ -->
+        <section id="idocs_support">
+          <h2>Support</h2>
+          <p>If you have questions or find issues, reach out via GitHub or email.</p>
+          <p><a class="btn btn-primary" target="_blank" href="https://github.com/DaanHessen/ASCII-blobs/issues"><i class="fas fa-external-link-alt mr-1"></i> Open a GitHub issue</a></p>
+		  <p><a class="btn btn-outline-light" target="_blank" href="mailto:daanh2002@gmail.com"><i class="fas fa-envelope mr-1"></i> Email the maintainer</a></p>
+          <div class="alert alert-warning mb-4"><span class="badge badge-danger text-uppercase">Note:</span> This is MIT-licensed open source. Contributions and performance reports are welcome.</div>
+        </section>
+        
+      </div>
+    </div>
+	
+  </div>
+  <!-- Content end --> 
+  
+  <!-- Footer
+  ============================ -->
+  <footer id="footer" class="section bg-dark footer-text-light">
+    <div class="container">
+      <ul class="social-icons social-icons-lg social-icons-muted justify-content-center mb-3">
+        <li><a data-toggle="tooltip" href="https://github.com/DaanHessen/ASCII-blobs" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        <li><a data-toggle="tooltip" href="https://daanhessen.github.io/ASCII-blobs/" target="_blank" title="Demo"><i class="fas fa-globe"></i></a></li>
+        <li><a data-toggle="tooltip" href="mailto:daanh2002@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></li>
+      </ul>
+      <p class="text-center">ASCII-blobs &copy; Daan Hessen. MIT licensed.</p>
+	  <p class="text-2 text-center mb-0">Documentation for <code>ascii-blobs</code> v1.0.4.</p>
+    </div>
+  </footer>
+  <!-- Footer end -->
+  
+</div>
+<!-- Document Wrapper end --> 
+
+<!-- Back To Top --> 
+<a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i class="fa fa-chevron-up"></i></a> 
+
+<!-- JavaScript
+============================ -->
+<script src="assets/vendor/jquery/jquery.min.js"></script> 
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
+<!-- Highlight JS -->
+<script src="assets/vendor/highlight.js/highlight.min.js"></script> 
+<!-- Easing --> 
+<script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script> 
+<!-- Magnific Popup --> 
+<script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script> 
+<!-- Custom Script -->
+<script src="assets/js/theme.js"></script>
+</body>
+</html>
