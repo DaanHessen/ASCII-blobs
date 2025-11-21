@@ -40,13 +40,20 @@ jobs:
           cp dist/vanilla.d.ts demo/
           cp dist/themes-*.mjs demo/ || true
       
+      - name: Prepare GitHub Pages structure
+        run: |
+          mkdir -p _site
+          cp -r demo/* _site/
+          mkdir -p _site/docs
+          cp docs/index.html _site/docs/
+      
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './demo'
+          path: './_site'
 
   deploy:
     environment:

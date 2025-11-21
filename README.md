@@ -1,32 +1,101 @@
-# 🦍 ascii-blobs 🦍
+<a id="readme-top"></a>
 
-Beautiful, animated ASCII blob backgrounds using gaussian metaball rendering. It started as a simple background for my [portfolio](https://daanhessen.nl), but I liked it so much I turned it into a libary for others to use. 
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-[![npm version](https://img.shields.io/npm/v/ascii-blobs.svg)](https://www.npmjs.com/package/ascii-blobs)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-## [Demo](https://daanhessen.github.io/ASCII-blobs/)
 
-Check out all configuration options in real-time!
+<br />
 
-## Features
+<h3 align="center">ASCII-blobs</h3>
 
-- **Animations** - Gaussian-based blob physics with wobble, rotation, and drift
-- **High performance** - Pre-computed LUTs, Float32Arrays, and optimized rendering
-- **Themes** - Themes, baby
-- **Fully configurable** - Control colors, characters, blob behavior, and animation
-- **Framework agnostic** - React components and vanilla JavaScript API
-- **TypeScript** - Full type definitions included
+  <p align="center">
+    High performant, highly customizable ASCII backgrounds 
+    <br />
+    <a href="https://daanhessen.github.io/ASCII-blobs/docs/"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://daanhessen.github.io/ASCII-blobs/">View Demo</a>
+    &middot;
+    <a href="https://github.com/DaanHessen/ASCII-blobs/issues/new?labels=bug&template=bug_report.md">Report Bug</a>
+    &middot;
+    <a href="https://github.com/DaanHessen/ASCII-blobs/issues/new?labels=enhancement&template=feature_request.md">Request Feature</a>
+  </p>
+</div>
 
-## Installation
-1
-```bash
-npm install ascii-blobs
-```
 
-## Quick Start
 
-### React
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+      </ul>
+    </li>
+     <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#usage-react">React</a></li>
+        <li><a href="#usage-js">Vanilla JavaScript</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
+
+
+## About The Project
+
+[![screenshot of portfolio using ASCII-blobs][product-screenshot]](https://daanhessen.nl)
+
+A library that offers beautiful animated ASCII backgrounds using gaussian metaball rendering. It's highly customizable and performs great. I originally made this concept for my [portfolio](https://daanhessen.nl), but decided to expand on it and turn it into a library for others to use because I liked it so much.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+### Built With
+
+* [![TypeScript][TypeScript]][TypeScript-url]
+* [![React][React.js]][React-url]
+* [![Vite][Vite]][Vite-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+## Getting Started
+
+### Prerequisites
+
+First, install the library with `npm`:
+* npm
+  ```sh
+  npm install ascii-blobs
+  ```
+
+
+
+## Usage
+
+The library is made to work with both React and vanilla JavaScript:
+
+### <a id="usage-react"></a> React
 
 ```tsx
 import { AsciiBlobs } from 'ascii-blobs';
@@ -37,7 +106,7 @@ function App() {
 }
 ```
 
-### Vanilla JavaScript
+### <a id="usage-js"></a> Vanilla JavaScript
 
 ```js
 import { AsciiBlobs } from 'ascii-blobs/vanilla';
@@ -46,129 +115,70 @@ import 'ascii-blobs/dist/style.css';
 const blobs = new AsciiBlobs('#container');
 ```
 
-## Themes
+_For more information, please refer to the [Documentation](https://daanhessen.github.io/ASCII-blobs/docs/)_
 
-```tsx
-import { AsciiBlobs, getThemeClassName } from 'ascii-blobs';
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<AsciiBlobs className={getThemeClassName('catppuccin-mocha')} />
-```
 
-Available themes: `default`, `catppuccin-mocha`, `catppuccin-latte`, `dracula`, `nord`, `gruvbox`, `tokyo-night`
 
-## Configuration
+## Contributing
 
-```tsx
-<AsciiBlobs
-  colors={{
-    primary: 'rgb(100, 180, 255)',
-    background: '#000000',
-  }}
-  characters=" .,:;!~+=xoX#"
-  blobBehavior={{
-    count: 8,
-    minSpeed: 6,
-    maxSpeed: 12,
-  }}
-  animation={{
-    frameInterval: 42,
-    revealDuration: 1200,
-  }}
-/>
-```
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## Configuration
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-Every option on `AsciiBlobs` (React) or the vanilla constructor is optional. Anything left out falls back to the defaults from `mergeConfig`.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### Top-Level Options
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-- `characters` – ordered string of glyphs from darkest to brightest. You can also pass an array (`[' ', '.', ':']`) and call `.join('')` before handing it to the component.
-- `className` – append extra classes next to the built-in `ascii-blobs` wrapper. Pair this with `getThemeClassName` or your own utility classes.
-- `style` – inline styles merged onto the wrapper. Any CSS custom properties you provide here override the generated variables. The component defaults to `z-index: 0` and uses `position: fixed`, so it automatically renders as a full-viewport background; set your own `zIndex` or `position` if you need different behavior.
-- `onReady` – called once after canvases are mounted and the first render is scheduled.
-- `onBlobSpawn` – called with each newly spawned blob so you can create analytics or sync other visuals.
-- `interactive` – reserved flag for upcoming pointer controls (currently unused, safe to omit).
+### Top contributors:
 
-### `colors`
+<a href="https://github.com/DaanHessen/ASCII-blobs/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DaanHessen/ASCII-blobs" alt="contrib.rocks image" />
+</a>
 
-- `primary` – main glyph color.
-- `background` – backdrop gradient base (also sets `--ascii-bg-*` variables).
-- `glow` – outer glow tint drawn behind the glyphs.
-- `shadow` – inner shadow tint that adds depth to the characters.
 
-### `blobBehavior`
-
-- `count` – number of simultaneous blobs.
-- `minSpeed` / `maxSpeed` – speed range in grid cells per second.
-- `minRadius` / `maxRadius` – blob radii in grid cells (higher = softer, larger blobs).
-- `spawnInterval` – time between new blobs (ms).
-- `lifespan` – maximum blob lifetime (ms). Automatically clamped to stay above `fadeInDuration`.
-- `fadeInDuration` – ramp-up time (ms) before a blob becomes fully visible.
-- `wobbleAmplitude` – scale of the organic wobble to keep blobs from feeling static.
-- `wobbleSpeed` – rate of the wobble animation.
-- `rotationSpeed` – base angular velocity for the metaball rotation pass.
-
-### `animation`
-
-- `frameInterval` – minimum time between draws (ms). Leave undefined to derive from `performance.targetFPS`.
-- `revealDuration` – duration (ms) of the initial reveal animation across the grid.
-- `revealFade` – how long each cell waits before it starts revealing (ms).
-
-### `performance`
-
-- `cellSize` – pixel size of each grid cell. Lower values increase fidelity at the cost of work.
-- `gaussianLutSize` – precision of the Gaussian lookup table used for blending.
-- `targetFPS` – desired frame rate, used when `frameInterval` is not explicitly set.
-- `useOffscreenCanvas` – render glyph atlases via `OffscreenCanvas` when supported.
-- `enableBlur` – toggle the glow/shadow blur passes for lower-power devices.
-
-### Runtime Controls
-
-`AsciiBlobs` exposes an imperative handle (`AsciiBlobsRef`) and the vanilla instance exposes equivalent methods:
-
-- `pause()` / `resume()` – stop or resume the animation loop without destroying state.
-- `reset()` – respawn every blob and restart the reveal animation.
-- `getStats()` – returns `{ blobCount, fps, isPaused }` for heads-up displays or tuning UI.
-- `destroy()` *(vanilla only)* – tear everything down and unregister listeners.
-
-## Advanced Usage
-
-### Control Methods
-
-```tsx
-import { useRef } from 'react';
-import { AsciiBlobs, AsciiBlobsRef } from 'ascii-blobs';
-
-function App() {
-  const ref = useRef<AsciiBlobsRef>(null);
-
-  return (
-    <>
-      <AsciiBlobs ref={ref} />
-      <button onClick={() => ref.current?.pause()}>Pause</button>
-      <button onClick={() => ref.current?.resume()}>Resume</button>
-      <button onClick={() => ref.current?.reset()}>Reset</button>
-    </>
-  );
-}
-```
-
-### Vanilla JavaScript
-
-```js
-const blobs = new AsciiBlobs('#container', {
-  blobBehavior: { count: 5 },
-  characters: ' ░▒▓█',
-});
-
-blobs.pause();
-blobs.resume();
-blobs.reset();
-console.log(blobs.getStats());
-blobs.destroy();
-```
 
 ## License
 
-MIT © Daan Hessen
+Distributed under the MIT license. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+## Contact
+
+Daan Hessen - daanh2002@gmail.com
+
+Project Link: [https://github.com/DaanHessen/ASCII-blobs](https://github.com/DaanHessen/ASCII-blobs)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+[contributors-shield]: https://img.shields.io/github/contributors/DaanHessen/ASCII-blobs.svg?style=for-the-badge
+[contributors-url]: https://github.com/DaanHessen/ASCII-blobs/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/DaanHessen/ASCII-blobs.svg?style=for-the-badge
+[forks-url]: https://github.com/DaanHessen/ASCII-blobs/network/members
+[stars-shield]: https://img.shields.io/github/stars/DaanHessen/ASCII-blobs.svg?style=for-the-badge
+[stars-url]: https://github.com/DaanHessen/ASCII-blobs/stargazers
+[issues-shield]: https://img.shields.io/github/issues/DaanHessen/ASCII-blobs.svg?style=for-the-badge
+[issues-url]: https://github.com/DaanHessen/ASCII-blobs/issues
+[license-shield]: https://img.shields.io/github/license/DaanHessen/ASCII-blobs.svg?style=for-the-badge
+[license-url]: https://github.com/DaanHessen/ASCII-blobs/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/linkedin_username
+[product-screenshot]: docs/screenshot-2025-11-21_22-08-39.png
+<!-- Shields.io badges. You can a comprehensive list with many more badges at: https://github.com/inttter/md-badges -->
+[TypeScript]: https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white
+[TypeScript-url]: https://www.typescriptlang.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vite]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white
+[Vite-url]: https://vitejs.dev/
