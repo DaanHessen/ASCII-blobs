@@ -39,6 +39,13 @@ jobs:
           cp dist/vanilla.mjs demo/
           cp dist/vanilla.d.ts demo/
           cp dist/themes-*.mjs demo/ || true
+
+      - name: Prepare Pages content
+        run: |
+          mkdir -p pages-dist
+          cp -r demo/* pages-dist/
+          mkdir -p pages-dist/docs
+          cp -r docs/* pages-dist/docs/
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -46,7 +53,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './demo'
+          path: './pages-dist'
 
   deploy:
     environment:
