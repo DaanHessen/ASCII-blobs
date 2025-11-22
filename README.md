@@ -24,6 +24,7 @@
     <a href="https://github.com/DaanHessen/ASCII-blobs/issues/new?labels=bug&template=bug_report.md">Report Bug</a>
     &middot;
     <a href="https://github.com/DaanHessen/ASCII-blobs/issues/new?labels=enhancement&template=feature_request.md">Request Feature</a>
+    <a href="https://www.npmjs.com/package/ascii-blobs">npm</a>
   </p>
 </div>
 
