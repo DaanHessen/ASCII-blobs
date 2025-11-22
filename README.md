@@ -63,7 +63,7 @@
 
 [![screenshot of portfolio using ASCII-blobs][product-screenshot]](https://daanhessen.nl)
 
-A library that offers beautiful animated ASCII backgrounds using gaussian metaball rendering. It's highly customizable and performs great. I originally made this concept for my [portfolio](https://daanhessen.nl), but decided to expand on it and turn it into a library for others to use because I liked it so much.
+Animated ASCII backgrounds using gaussian metaball rendering. It's fast, customizable, and framework-agnostic. I originally built this for my [portfolio](https://daanhessen.nl), but liked it enough to package it up for everyone else.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -83,29 +83,58 @@ A library that offers beautiful animated ASCII backgrounds using gaussian metaba
 
 ### Prerequisites
 
-First, install the library with `npm`:
-* npm
-  ```sh
-  npm install ascii-blobs
-  ```
+Install via npm:
+
+```sh
+npm install ascii-blobs
+```
 
 
 
 ## Usage
 
-The library is made to work with both React and vanilla JavaScript:
+It works with both React and vanilla JavaScript.
 
 ### <a id="usage-react"></a> React
 
 ```tsx
+import { useRef } from "react";
+import { AsciiBlobs, getThemeClassName } from "ascii-blobs";
+import type { AsciiBlobsRef } from "ascii-blobs";
+
+export function Hero() {
+  const blobsRef = useRef<AsciiBlobsRef | null>(null);
+
+  return (
+    <section style={{ position: "relative", minHeight: "420px" }}>
+      <AsciiBlobs
+        ref={blobsRef}
+        className={getThemeClassName("dracula")}
+        style={{ position: "absolute", inset: 0, zIndex: -1 }}
+        colors={{ primary: "#BD93F9" }}
+        blobBehavior={{ count: 10 }}
+      />
+    </section>
+  );
+}
 ```
 
 ### <a id="usage-js"></a> Vanilla JavaScript
 
 ```js
+import { AsciiBlobs, getThemeClassName } from "ascii-blobs/vanilla";
+
+const stage = document.querySelector("#stage");
+const blobs = new AsciiBlobs(stage, {
+  className: getThemeClassName("nord"),
+  style: { position: "absolute", inset: "0" },
+  colors: { primary: "#88C0D0" },
+  blobBehavior: { count: 6, maxRadius: 180 },
+  animation: { frameInterval: 42 },
+});
 ```
 
-_For more information, please refer to the [Documentation](https://daanhessen.github.io/ASCII-blobs/docs/)_
+_For full details, check the [Documentation](https://daanhessen.github.io/ASCII-blobs/docs/)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
