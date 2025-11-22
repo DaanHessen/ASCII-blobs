@@ -98,55 +98,11 @@ The library is made to work with both React and vanilla JavaScript:
 ### <a id="usage-react"></a> React
 
 ```tsx
-import { useRef } from "react";
-import { AsciiBlobs, getThemeClassName } from "ascii-blobs";
-import type { AsciiBlobsRef } from "ascii-blobs";
-
-export function HeroBackground() {
-  const blobsRef = useRef<AsciiBlobsRef | null>(null);
-
-  return (
-    <section style={{ position: "relative", minHeight: "360px" }}>
-      <AsciiBlobs
-        ref={blobsRef}
-        className={getThemeClassName("nord")}
-        style={{ position: "absolute", inset: 0, zIndex: -1 }}
-        colors={{ primary: "#88C0D0" }}
-        blobBehavior={{ count: 6 }}
-      />
-
-      <div style={{ position: "relative", padding: "48px 0" }}>
-        <h2>Frosty terminal glow</h2>
-        <button onClick={() => blobsRef.current?.reset()}>Refresh blobs</button>
-      </div>
-    </section>
-  );
-}
 ```
 
 ### <a id="usage-js"></a> Vanilla JavaScript
 
 ```js
-import { AsciiBlobs, getThemeClassName } from "ascii-blobs/vanilla";
-
-const container = document.querySelector("#stage");
-
-const blobs = new AsciiBlobs(container, {
-  className: `demo-blobs ${getThemeClassName("tokyo-night")}`,
-  style: { position: "absolute", inset: "0", zIndex: "-1" },
-  colors: { primary: "#7AA2F7" },
-  blobBehavior: { count: 7, maxRadius: 180 },
-  animation: { frameInterval: 42 },
-});
-
-// Controls
-blobs.pause();
-blobs.resume();
-blobs.reset();
-console.log(blobs.getStats()); // { blobCount, fps, isPaused }
-
-// Cleanup when you remove the container
-window.addEventListener("beforeunload", () => blobs.destroy());
 ```
 
 _For more information, please refer to the [Documentation](https://daanhessen.github.io/ASCII-blobs/docs/)_

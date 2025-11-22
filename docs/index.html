@@ -3,136 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
   <title>ASCII-blobs Documentation</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="../ascii-blobs.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
   <style>
     :root {
-      --bg: #080c18;
-      --panel: rgba(255, 255, 255, 0.03);
-      --panel-strong: rgba(255, 255, 255, 0.06);
-      --border: rgba(255, 255, 255, 0.12);
-      --text: #d7e0ff;
-      --muted: rgba(215, 224, 255, 0.72);
-      --accent: #63b3ff;
-      --accent-2: #7dd0ff;
-      --shadow: 0 18px 60px rgba(4, 7, 18, 0.65);
+      --bg: #0f141f;
+      --text: #e6ecf7;
+      --muted: rgba(230, 236, 247, 0.78);
+      --accent: #91c9ff;
+      --border: rgba(255, 255, 255, 0.09);
       --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
-      --sans: "Space Grotesk", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      --sans: "Epilogue", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html, body {
+      background: var(--bg);
+    }
+
     body {
       margin: 0;
       font-family: var(--sans);
-      background: radial-gradient(120% 100% at 18% 18%, rgba(99, 179, 255, 0.08), transparent 45%), radial-gradient(120% 100% at 82% 12%, rgba(125, 208, 255, 0.09), transparent 45%), linear-gradient(180deg, #060915 0%, #050812 35%, #03050d 100%);
+      font-size: 15px;
+      line-height: 1.65;
       color: var(--text);
       min-height: 100vh;
-      line-height: 1.65;
       -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(120% 120% at 14% 18%, rgba(145, 201, 255, 0.08), transparent 40%),
+        radial-gradient(120% 120% at 86% 10%, rgba(145, 201, 255, 0.06), transparent 40%),
+        linear-gradient(180deg, #0f141f, #0e111a 46%, #0c1017 100%);
     }
 
     .page {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 24px;
-      padding: 28px 28px 64px;
+      grid-template-columns: 180px 1fr;
+      gap: 28px;
+      padding: 32px 36px 48px;
+      width: 100%;
       max-width: 1400px;
       margin: 0 auto;
     }
 
     .sidebar {
       position: sticky;
-      top: 18px;
+      top: 20px;
       align-self: start;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
+      padding: 8px 0;
+      border-right: 1px solid var(--border);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      background: linear-gradient(120deg, rgba(99, 179, 255, 0.1), rgba(99, 179, 255, 0.02));
-      border: 1px solid rgba(99, 179, 255, 0.2);
-      color: #e8f2ff;
-      font-weight: 600;
-      letter-spacing: 0.4px;
-    }
-
-    .brand-badge {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: radial-gradient(circle at 30% 30%, #7dd0ff, #63b3ff 60%, #2a5db1 100%);
-      display: grid;
-      place-items: center;
-      color: #01030a;
+      gap: 6px;
+      padding: 0 0 14px;
+      color: #eef4ff;
       font-weight: 700;
-      font-family: var(--mono);
-      font-size: 14px;
+      letter-spacing: 0.15px;
     }
 
     nav {
-      margin-top: 18px;
+      margin-top: 4px;
       display: grid;
-      gap: 6px;
+      gap: 2px;
     }
 
     .nav-link {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 10px;
+      gap: 8px;
+      padding: 6px 2px;
       color: var(--muted);
       text-decoration: none;
-      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-      border: 1px solid transparent;
+      border-left: 2px solid transparent;
+      transition: color 0.12s ease, border-color 0.12s ease;
       font-weight: 500;
     }
 
     .nav-link span {
       font-family: var(--mono);
-      font-size: 12px;
-      color: rgba(215, 224, 255, 0.6);
+      font-size: 11px;
+      color: rgba(233, 241, 255, 0.55);
     }
 
-    .nav-link.active,
-    .nav-link:hover {
-      background: var(--panel-strong);
+    .nav-link:hover,
+    .nav-link.active {
       color: #f7fbff;
-      border-color: rgba(99, 179, 255, 0.25);
+      border-color: var(--accent);
     }
 
     .main {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      backdrop-filter: blur(10px);
+      padding: 0;
     }
 
     .hero {
-      position: relative;
-      padding: 28px 32px 32px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 6px 0 16px;
+      border-bottom: 1px solid var(--border);
     }
 
     .hero h1 {
-      margin: 0 0 10px;
-      font-size: 34px;
-      letter-spacing: -0.4px;
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: -0.2px;
     }
 
     .hero p {
@@ -141,96 +118,71 @@
       max-width: 900px;
     }
 
+    .meta-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 8px 0 6px;
+    }
+
     .tagline {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      background: rgba(99, 179, 255, 0.1);
-      color: #bfe2ff;
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(99, 179, 255, 0.25);
-      font-weight: 600;
-      margin-bottom: 14px;
+      gap: 8px;
+      color: #c8dcf5;
+      text-transform: uppercase;
+      font-size: 12px;
       letter-spacing: 0.3px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 18px;
-      margin-top: 22px;
-      align-items: stretch;
+      padding: 4px 0;
     }
 
     .cta-row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      margin-top: 18px;
+      margin-top: 8px;
+    }
+
+    .pill-inline {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 11.5px;
+      letter-spacing: 0.15px;
+      color: #dfe9ff;
     }
 
     .cta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 11px 14px;
-      border-radius: 12px;
-      color: #0a0f1d;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #0a1222;
       text-decoration: none;
       font-weight: 700;
-      background: linear-gradient(120deg, #7dd0ff, #63b3ff);
-      box-shadow: 0 12px 40px rgba(99, 179, 255, 0.35);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      background: linear-gradient(120deg, #a9dfff, #7abfff);
+      box-shadow: none;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
 
     .cta.secondary {
       background: transparent;
       color: #dce8ff;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid var(--border);
       box-shadow: none;
     }
 
     .cta:hover {
       transform: translateY(-1px);
-      box-shadow: 0 14px 50px rgba(99, 179, 255, 0.42);
-    }
-
-    .hero-visual {
-      position: relative;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      overflow: hidden;
-      min-height: 280px;
-      background: radial-gradient(140% 120% at 10% 20%, rgba(99, 179, 255, 0.12), transparent 50%), radial-gradient(140% 120% at 80% 60%, rgba(125, 208, 255, 0.12), transparent 45%), linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 10px 40px rgba(0, 0, 0, 0.55);
-    }
-
-    .hero-visual .overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 20% 20%, rgba(10, 15, 30, 0.25), transparent 55%), linear-gradient(180deg, rgba(6, 9, 18, 0.2), rgba(6, 9, 18, 0.6));
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .hero-visual .caption {
-      position: absolute;
-      left: 14px;
-      bottom: 14px;
-      z-index: 4;
-      padding: 8px 12px;
-      border-radius: 10px;
-      background: rgba(6, 9, 18, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      font-family: var(--mono);
-      font-size: 12px;
-      color: #c9e5ff;
+      box-shadow: 0 10px 20px rgba(122, 191, 255, 0.25);
     }
 
     .section {
-      padding: 26px 32px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
     }
 
     .section:last-child {
@@ -238,18 +190,18 @@
     }
 
     h2 {
-      margin: 0 0 12px;
-      font-size: 24px;
-      letter-spacing: -0.2px;
+      margin: 0 0 10px;
+      font-size: 19px;
+      letter-spacing: -0.12px;
     }
 
     h3 {
-      margin: 16px 0 8px;
-      font-size: 18px;
+      margin: 12px 0 6px;
+      font-size: 15px;
     }
 
     p {
-      margin: 0 0 12px;
+      margin: 0 0 10px;
       color: var(--muted);
     }
 
@@ -259,50 +211,50 @@
 
     code {
       font-family: var(--mono);
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
       padding: 2px 6px;
-      border-radius: 6px;
+      border-radius: 5px;
       border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 13px;
     }
 
     pre {
-      margin: 10px 0 14px;
-      padding: 14px 16px;
-      background: #0b1121;
+      margin: 8px 0 12px;
+      padding: 10px 12px;
+      background: #0e1c33;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
+      border-radius: 8px;
       overflow-x: auto;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-      color: #dce8ff;
+      color: #e7eeff;
       font-family: var(--mono);
       font-size: 13px;
     }
 
     ul {
       color: var(--muted);
-      padding-left: 18px;
+      padding-left: 16px;
       margin: 0 0 10px;
-      line-height: 1.7;
+      line-height: 1.65;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
-      margin-top: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px 16px;
+      margin-top: 8px;
     }
 
     .card {
-      padding: 14px;
-      border-radius: 14px;
-      background: var(--panel-strong);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      padding: 6px 0 6px;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
 
     .card h4 {
-      margin: 0 0 8px;
-      font-size: 15px;
+      margin: 0 0 6px;
+      font-size: 14px;
       letter-spacing: 0;
     }
 
@@ -310,20 +262,20 @@
       display: inline-block;
       font-family: var(--mono);
       font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 8px;
-      background: rgba(99, 179, 255, 0.16);
-      color: #c9e5ff;
-      border: 1px solid rgba(99, 179, 255, 0.28);
-      margin-bottom: 8px;
+      padding: 3px 6px;
+      border-radius: 6px;
+      background: rgba(118, 194, 255, 0.16);
+      color: #d1eaff;
+      border: 1px solid rgba(118, 194, 255, 0.28);
+      margin-bottom: 6px;
     }
 
     .callout {
-      margin: 12px 0 4px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: linear-gradient(120deg, rgba(99, 179, 255, 0.08), rgba(99, 179, 255, 0.02));
+      margin: 10px 0 6px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(118, 194, 255, 0.08);
       color: #dce8ff;
     }
 
@@ -334,13 +286,13 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 8px 0 12px;
-      font-size: 14px;
+      margin: 6px 0 10px;
+      font-size: 13px;
     }
 
     th, td {
       text-align: left;
-      padding: 10px 8px;
+      padding: 8px 6px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
@@ -351,7 +303,7 @@
 
     .pill {
       display: inline-block;
-      padding: 4px 8px;
+      padding: 3px 7px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       font-family: var(--mono);
@@ -362,7 +314,7 @@
 
     .footnote {
       color: rgba(215, 224, 255, 0.6);
-      font-size: 13px;
+      font-size: 12.5px;
       margin-top: 4px;
     }
 
@@ -374,34 +326,19 @@
       .sidebar {
         position: relative;
         top: 0;
-        order: 1;
-      }
-
-      .main {
-        order: 2;
-      }
-
-      .hero-grid {
-        grid-template-columns: 1fr;
+        border-right: none;
+        padding: 0 0 8px;
       }
     }
 
     @media (max-width: 720px) {
       .page {
-        padding: 20px 16px 48px;
+        padding: 18px 16px 36px;
       }
 
       .hero h1 {
-        font-size: 28px;
+        font-size: 23px;
       }
-    }
-
-    .doc-hero-blobs.ascii-blobs {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
     }
   </style>
 </head>
@@ -409,11 +346,7 @@
   <div class="page">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-badge">{ }</div>
-        <div>
-          <div style="font-size: 16px;">ASCII-blobs</div>
-          <div style="font-size: 12px; color: rgba(215, 224, 255, 0.65);">Metaball ASCII backgrounds</div>
-        </div>
+        <div style="font-size: 16px;">ASCII-blobs</div>
       </div>
       <nav>
         <a class="nav-link" href="#intro"><span>01</span>Overview</a>
@@ -429,43 +362,47 @@
 
     <main class="main">
       <header class="hero" id="intro">
-        <div class="tagline">High-performance ASCII metaballs</div>
-        <h1>ASCII-blobs Documentation</h1>
-        <p>Drop-in animated ASCII backgrounds for React and plain JavaScript. The renderer projects gaussian blobs onto a character grid, pre-renders glyph atlases, and keeps frame pacing predictable even on dense layouts.</p>
+        <div class="tagline">Docs</div>
+        <h1>ASCII-blobs</h1>
+        <p>Animated ASCII backgrounds for React and plain JavaScript. It maps gaussian blobs onto a grid using a pre-rendered glyph atlas. The draw cadence stays steady thanks to a capped delta and a reveal ramp.</p>
         <div class="cta-row">
           <a class="cta" href="https://daanhessen.github.io/ASCII-blobs/" target="_blank" rel="noreferrer">View demo</a>
           <a class="cta secondary" href="https://github.com/DaanHessen/ASCII-blobs" target="_blank" rel="noreferrer">Source on GitHub</a>
         </div>
 
-        <div class="hero-grid">
-          <div>
-            <h3>What you get</h3>
+        <div class="grid" style="margin-top: 12px;">
+          <div class="card">
+            <h4>What you get</h4>
             <ul>
               <li>React component with ref controls (pause, resume, reset, stats).</li>
-              <li>Vanilla class for framework-free embeds.</li>
-              <li>Typed configuration with sane defaults and clamped values.</li>
-              <li>Built-in themes plus customizable colors and glyph palette.</li>
-              <li>Full CSS bundle (<code>ascii-blobs/dist/style.css</code>) and auto-injected styles in both builds.</li>
+              <li>Vanilla class for framework-free use.</li>
+              <li>Typed configuration with safe defaults.</li>
+              <li>Built-in themes, plus customizable colors and glyph palette.</li>
+              <li>Styles inject automatically in both builds; standalone CSS is also available.</li>
             </ul>
-            <div class="callout"><strong>Defaults at a glance:</strong> 8 blobs, frame interval 42&nbsp;ms (~24 fps draw budget), cell size 14px, character set <code>" .,:;!~+=xoX#"</code>.</div>
           </div>
-          <div class="hero-visual" id="hero-visual">
-            <div class="overlay"></div>
-            <div class="caption">Live background driven by <code>AsciiBlobs</code></div>
+          <div class="card">
+            <h4>Defaults at a glance</h4>
+            <ul>
+              <li>8 blobs using the character set <code>" .,:;!~+=xoX#"</code>.</li>
+              <li>14px cell size and a 42&nbsp;ms frame interval (~24 fps draw budget).</li>
+              <li>1200&nbsp;ms reveal duration with a 400&nbsp;ms fade.</li>
+              <li>Blur and offscreen canvas are on by default for smoother glyphs.</li>
+            </ul>
           </div>
         </div>
       </header>
 
       <section class="section" id="install">
         <h2>Install</h2>
-        <p>The package ships ESM + CJS builds, TypeScript defs, the vanilla bundle, and a standalone stylesheet.</p>
+        <p>ESM and CJS builds include TypeScript types, the vanilla bundle, and CSS. Styles inject automatically when you import the React or vanilla entry.</p>
         <pre><code>npm install ascii-blobs</code></pre>
-        <p>If you serve the bundle from a static page (without a bundler), include <code>ascii-blobs.css</code> and <code>vanilla.mjs</code> from the package.</p>
+        <p>For static use without a bundler, include <code>ascii-blobs/dist/ascii-blobs.css</code> and <code>ascii-blobs/vanilla.mjs</code>.</p>
       </section>
 
       <section class="section" id="react">
         <h2>React usage</h2>
-        <p><code>AsciiBlobs</code> is a plain functional component. Styles are auto-injected once per page. Use the ref to pause, resume, reset, or read stats.</p>
+        <p><code>AsciiBlobs</code> is a standard functional component. Styles inject once per page. Use the ref to pause, resume, reset, or check stats.</p>
         <pre><code class="language-tsx">import { useRef } from "react";
 import { AsciiBlobs, getThemeClassName } from "ascii-blobs";
 import type { AsciiBlobsRef } from "ascii-blobs";
@@ -491,15 +428,15 @@ export function Hero() {
   );
 }</code></pre>
         <ul>
-          <li>Default positioning is <code>fixed</code> full-viewport. Override via <code>style</code> (as above) to scope it to a container.</li>
-          <li><code>AsciiBlobsRef</code> methods: <code>pause()</code>, <code>resume()</code>, <code>reset()</code>, <code>getStats()</code>.</li>
-          <li><code>onReady</code> runs after the internal grid and glyph atlas are initialized. <code>onBlobSpawn</code> fires whenever a blob is created or recycled.</li>
+          <li>The CSS sets the wrapper to <code>position: fixed</code> and fills the viewport. Override this with <code>style</code> (as shown) to scope it to a container.</li>
+          <li><code>AsciiBlobsRef</code> methods: <code>pause()</code>, <code>resume()</code>, <code>reset()</code>, and <code>getStats()</code>.</li>
+          <li><code>onReady</code> runs when the grid and glyph atlas are initialized. <code>onBlobSpawn</code> fires when a blob is created or recycled.</li>
         </ul>
       </section>
 
       <section class="section" id="vanilla">
         <h2>Vanilla usage (ESM)</h2>
-        <p>The vanilla build ships at <code>ascii-blobs/vanilla</code>. It renders into a wrapper inside your container, sets <code>position: relative</code> and <code>overflow: hidden</code> if missing, and keeps an internal animation loop.</p>
+        <p>The vanilla build is at <code>ascii-blobs/vanilla</code>. It renders into a wrapper inside your container and manages its own animation loop. It applies <code>position: relative</code> and <code>overflow: hidden</code> if not already set.</p>
         <pre><code class="language-js">import { AsciiBlobs, getThemeClassName } from "ascii-blobs/vanilla";
 
 const stage = document.querySelector("#stage");
@@ -519,64 +456,64 @@ console.log(blobs.getStats()); // { blobCount, fps, isPaused }
 
 // Cleanup
 window.addEventListener("beforeunload", () => blobs.destroy());</code></pre>
-        <div class="callout"><strong>Note:</strong> The wrapper uses <code>position: fixed</code> by default (from the CSS). Add a class or inline styles to change it to <code>absolute</code> when you want the effect confined to a specific element.</div>
+        <div class="callout"><strong>Note:</strong> The wrapper defaults to <code>position: fixed</code> via CSS. To confine the effect, add a class or inline styles to change it to <code>absolute</code>.</div>
       </section>
 
       <section class="section" id="config">
         <h2>Configuration reference</h2>
-        <p>All fields are optional; unspecified values fall back to the defaults below. Numeric values are clamped for safety (e.g. blob count ≥ 1, cell size ≥ 6, target FPS max 240).</p>
+        <p>All fields are optional and fall back to defaults. Numeric values are clamped for safety (e.g., blob count ≥ 1, cell size ≥ 6, target FPS max 240).</p>
 
         <h3>Colors</h3>
         <table>
           <tr><th>Field</th><th>Default</th><th>Description</th></tr>
-          <tr><td><code>primary</code></td><td><code>rgb(100, 180, 255)</code></td><td>Text color of lit glyphs.</td></tr>
-          <tr><td><code>background</code></td><td><code>#000000</code></td><td>Optional override for the backdrop gradient stops.</td></tr>
-          <tr><td><code>glow</code></td><td><code>rgba(100, 180, 255, 0.8)</code></td><td>Outer glow tint for glyph atlas.</td></tr>
-          <tr><td><code>shadow</code></td><td><code>rgba(100, 180, 255, 0.4)</code></td><td>Shadow tint for glyph atlas.</td></tr>
+          <tr><td><code>primary</code></td><td><code>rgb(100, 180, 255)</code></td><td>Main glyph color.</td></tr>
+          <tr><td><code>background</code></td><td><code>#000000</code></td><td>Optional override for backdrop gradient stops.</td></tr>
+          <tr><td><code>glow</code></td><td><code>rgba(100, 180, 255, 0.8)</code></td><td>Glow tint in the glyph atlas.</td></tr>
+          <tr><td><code>shadow</code></td><td><code>rgba(100, 180, 255, 0.4)</code></td><td>Shadow tint in the glyph atlas.</td></tr>
         </table>
 
         <h3>Characters</h3>
-        <p><code>characters</code> (default <code>" .,:;!~+=xoX#"</code>) is mapped to brightness. The renderer jitters the palette slightly per cell for variation.</p>
+        <p><code>characters</code> (default <code>" .,:;!~+=xoX#"</code>) maps characters to brightness levels. A small random bias per cell adds variation.</p>
 
         <h3>Blob behavior</h3>
         <table>
           <tr><th>Field</th><th>Default</th><th>Notes</th></tr>
-          <tr><td><code>count</code></td><td>8</td><td>Active blobs; the renderer always keeps this many alive.</td></tr>
-          <tr><td><code>minSpeed</code>/<code>maxSpeed</code></td><td>6 / 12</td><td>Pixels per second before internal scaling.</td></tr>
-          <tr><td><code>minRadius</code>/<code>maxRadius</code></td><td>60 / 140</td><td>Base size bounds; scaled to viewport.</td></tr>
+          <tr><td><code>count</code></td><td>8</td><td>Number of active blobs to keep alive.</td></tr>
+          <tr><td><code>minSpeed</code>/<code>maxSpeed</code></td><td>6 / 12</td><td>Speed seeds. Remapped internally and scaled to the viewport.</td></tr>
+          <tr><td><code>minRadius</code>/<code>maxRadius</code></td><td>60 / 140</td><td>Size seeds. Remapped internally and scaled to the viewport.</td></tr>
           <tr><td><code>spawnInterval</code></td><td>3000 ms</td><td>Controls lifespan variance and warm start offset.</td></tr>
-          <tr><td><code>lifespan</code></td><td>30000 ms</td><td>Total life per blob before recycling.</td></tr>
-          <tr><td><code>fadeInDuration</code></td><td>2000 ms</td><td>Blend-in time after spawn.</td></tr>
-          <tr><td><code>wobbleAmplitude</code></td><td>0.15</td><td>Scale variation of pulsation.</td></tr>
+          <tr><td><code>lifespan</code></td><td>30000 ms</td><td>Time before a blob is recycled.</td></tr>
+          <tr><td><code>fadeInDuration</code></td><td>2000 ms</td><td>Blend-in time after spawning.</td></tr>
+          <tr><td><code>wobbleAmplitude</code></td><td>0.15</td><td>Scale variation for pulsation.</td></tr>
           <tr><td><code>wobbleSpeed</code></td><td>0.0004</td><td>Angular speed for pulsation.</td></tr>
-          <tr><td><code>rotationSpeed</code></td><td>0.00003</td><td>Radians per ms of blob rotation.</td></tr>
+          <tr><td><code>rotationSpeed</code></td><td>0.00003</td><td>Rotation speed (radians per ms).</td></tr>
         </table>
 
         <h3>Animation</h3>
         <table>
           <tr><th>Field</th><th>Default</th><th>Details</th></tr>
-          <tr><td><code>frameInterval</code></td><td>42 ms</td><td>Minimum time between draws. Set this or <code>performance.targetFPS</code>.</td></tr>
-          <tr><td><code>revealDuration</code></td><td>1200 ms</td><td>Time window for the initial reveal ramp.</td></tr>
-          <tr><td><code>revealFade</code></td><td>400 ms</td><td>Per-cell fade-in after its delay.</td></tr>
+          <tr><td><code>frameInterval</code></td><td>42 ms</td><td>Minimum time between draws. If <code>performance.targetFPS</code> is set but this is undefined, it's calculated from the FPS target.</td></tr>
+          <tr><td><code>revealDuration</code></td><td>1200 ms</td><td>Duration of the initial reveal ramp.</td></tr>
+          <tr><td><code>revealFade</code></td><td>400 ms</td><td>Fade-in time for each cell after its delay.</td></tr>
         </table>
 
         <h3>Performance</h3>
         <table>
           <tr><th>Field</th><th>Default</th><th>Details</th></tr>
-          <tr><td><code>cellSize</code></td><td>14 px</td><td>Grid resolution; lower = sharper, heavier.</td></tr>
-          <tr><td><code>gaussianLutSize</code></td><td>1024</td><td>Lookup table size for gaussian falloff.</td></tr>
-          <tr><td><code>targetFPS</code></td><td>60</td><td>Used only when <code>frameInterval</code> is not provided (derive via <code>1000 / FPS</code>).</td></tr>
-          <tr><td><code>useOffscreenCanvas</code></td><td>true</td><td>Pre-renders glyph atlas offscreen when supported.</td></tr>
+          <tr><td><code>cellSize</code></td><td>14 px</td><td>Grid resolution. Lower values are sharper but more expensive.</td></tr>
+          <tr><td><code>gaussianLutSize</code></td><td>1024</td><td>Size of the gaussian falloff lookup table.</td></tr>
+          <tr><td><code>targetFPS</code></td><td>60</td><td>Used only if <code>frameInterval</code> is missing.</td></tr>
+          <tr><td><code>useOffscreenCanvas</code></td><td>true</td><td>Pre-renders glyph atlas offscreen if supported.</td></tr>
           <tr><td><code>enableBlur</code></td><td>true</td><td>Applies blur to the glyph atlas glow layer.</td></tr>
         </table>
 
         <h3>Other props</h3>
         <ul>
-          <li><code>className</code>: appended to the wrapper (themes plug in here).</li>
-          <li><code>style</code>: inline styles merged onto the wrapper (useful to override positioning/z-index).</li>
-          <li><code>onReady</code>: called after canvases, grid, and glyph atlas are initialized.</li>
-          <li><code>onBlobSpawn</code>: called whenever a blob is created or recycled.</li>
-          <li><code>interactive</code>: present in the type but currently unused by the renderer.</li>
+          <li><code>className</code>: Appended to the wrapper (for themes).</li>
+          <li><code>style</code>: Inline styles merged onto the wrapper (for positioning or z-index).</li>
+          <li><code>onReady</code>: Called after canvases, grid, and glyph atlas are initialized.</li>
+          <li><code>onBlobSpawn</code>: Called when a blob is created or recycled.</li>
+          <li><code>interactive</code>: Present in types but currently unused.</li>
         </ul>
       </section>
 
@@ -587,25 +524,25 @@ window.addEventListener("beforeunload", () => blobs.destroy());</code></pre>
             <div class="badge">React</div>
             <h4><code>&lt;AsciiBlobs /&gt;</code></h4>
             <ul>
-              <li>Props: any <code>AsciiBlobsConfig</code> fields + <code>className</code>/<code>style</code>.</li>
-              <li>CSS is injected automatically on first import.</li>
-              <li>Unmounting cleans up animation frames and resize listeners.</li>
+              <li>Props: <code>AsciiBlobsConfig</code> fields, <code>className</code>, and <code>style</code>.</li>
+              <li>CSS injects once on first import.</li>
+              <li>Unmounting cleans up animation frames and listeners.</li>
             </ul>
             <h4>Ref (<code>AsciiBlobsRef</code>)</h4>
             <ul>
               <li><code>pause()</code> / <code>resume()</code></li>
-              <li><code>reset()</code>: respawns all blobs and restarts the reveal animation.</li>
-              <li><code>getStats()</code>: returns <code>{ blobCount, fps, isPaused }</code>.</li>
+              <li><code>reset()</code>: Respawns blobs and restarts the reveal.</li>
+              <li><code>getStats()</code>: Returns <code>{ blobCount, fps, isPaused }</code>.</li>
             </ul>
           </div>
           <div class="card">
             <div class="badge">Vanilla</div>
             <h4><code>new AsciiBlobs(container, config?)</code></h4>
             <ul>
-              <li><code>container</code> can be an element or selector string.</li>
-              <li>CSS is injected automatically; the wrapper is appended to the container.</li>
-              <li><code>destroy()</code> tears down the canvases, listeners, and DOM.</li>
-              <li>Other methods mirror the React ref: <code>pause</code>, <code>resume</code>, <code>reset</code>, <code>getStats</code>.</li>
+              <li><code>container</code>: DOM element or selector string.</li>
+              <li>CSS injects automatically; wrapper appends to container.</li>
+              <li><code>destroy()</code>: Tears down canvases, listeners, and DOM.</li>
+              <li>Methods match React ref: <code>pause</code>, <code>resume</code>, <code>reset</code>, <code>getStats</code>.</li>
             </ul>
           </div>
           <div class="card">
@@ -618,72 +555,32 @@ window.addEventListener("beforeunload", () => blobs.destroy());</code></pre>
               <li><code>gaussianFalloff</code>, <code>createGaussianSampler</code></li>
               <li>Constants: <code>CELL_SIZE</code>, <code>ASCII_PALETTE</code>, <code>GAUSSIAN_LUT_SIZE</code>, etc.</li>
             </ul>
-            <p class="footnote">These are surfaced for customization; the renderer uses the same functions internally.</p>
+            <p class="footnote">Exposed for customization; the renderer uses these internally.</p>
           </div>
         </div>
       </section>
 
       <section class="section" id="themes">
         <h2>Themes and styling</h2>
-        <p>Theme class names are exported via <code>themes</code> and <code>getThemeClassName(ThemeName)</code>. Apply them through <code>className</code> (React) or <code>className</code> in the config (vanilla). Available theme keys:</p>
+        <p>Theme class names are exported via <code>themes</code> and <code>getThemeClassName(ThemeName)</code>. Apply them via <code>className</code> (React) or the <code>className</code> config option (vanilla). Available themes:</p>
         <p><span class="pill">default</span> <span class="pill">catppuccin-mocha</span> <span class="pill">catppuccin-latte</span> <span class="pill">dracula</span> <span class="pill">nord</span> <span class="pill">gruvbox</span> <span class="pill">tokyo-night</span></p>
-        <p>Set <code>colors.background</code> to retint the base gradient quickly. For deeper tweaks (accent layers, texture, vignette), add your own CSS targeting the wrapper class.</p>
+        <p>Set <code>colors.background</code> to quickly retint the base gradient. For deeper tweaks (accent layers, texture, vignette), add your own CSS targeting the wrapper class.</p>
       </section>
 
       <section class="section" id="performance">
         <h2>Performance tips</h2>
         <ul>
-          <li>Lower <code>blobBehavior.count</code> or raise <code>animation.frameInterval</code> for slower devices.</li>
-          <li><code>cellSize</code> has the biggest cost impact: smaller cells brighten detail but increase draw calls.</li>
-          <li><code>useOffscreenCanvas</code> and <code>enableBlur</code> are on by default; disable blur if you prefer crisper glyph edges.</li>
-          <li>The renderer debounces resize work (180 ms) and caps delta time at 120 ms to avoid spikes.</li>
-          <li>If a warmed start is desired, call <code>reset()</code> to refresh blob lifetimes without tearing down the instance.</li>
+          <li>On slower devices, lower <code>blobBehavior.count</code> or raise <code>animation.frameInterval</code>.</li>
+          <li><code>cellSize</code> has the biggest performance impact. Smaller cells show more detail but increase draw calls.</li>
+          <li><code>useOffscreenCanvas</code> and <code>enableBlur</code> are on by default. Disable blur for crisper glyph edges.</li>
+          <li>The renderer debounces resize operations (180 ms) and caps delta time at 120 ms to avoid spikes.</li>
+          <li>For a warmed start, call <code>reset()</code> to refresh blob lifetimes without tearing down the instance.</li>
         </ul>
       </section>
     </main>
   </div>
 
   <script type="module">
-    import { AsciiBlobs, getThemeClassName } from "../vanilla.mjs";
-
-    const heroContainer = document.getElementById("hero-visual");
-    let heroBlobs;
-
-    const initHero = () => {
-      if (!heroContainer) return;
-      if (heroBlobs) {
-        heroBlobs.destroy();
-      }
-      heroBlobs = new AsciiBlobs(heroContainer, {
-        className: `doc-hero-blobs ${getThemeClassName("tokyo-night")}`,
-        style: {
-          position: "absolute",
-          top: "0",
-          right: "0",
-          bottom: "0",
-          left: "0",
-          zIndex: "-1",
-        },
-        blobBehavior: {
-          count: 7,
-        },
-        colors: {
-          primary: "#7AA2F7",
-          glow: "rgba(122, 162, 247, 0.8)",
-          shadow: "rgba(122, 162, 247, 0.45)",
-        },
-        animation: {
-          frameInterval: 38,
-          revealDuration: 1200,
-          revealFade: 400,
-        },
-      });
-    };
-
-    initHero();
-    window.addEventListener("resize", () => heroBlobs?.reset());
-    window.addEventListener("unload", () => heroBlobs?.destroy());
-
     const navLinks = Array.from(document.querySelectorAll(".nav-link"));
     const sections = navLinks
       .map((link) => document.querySelector(link.getAttribute("href")))
