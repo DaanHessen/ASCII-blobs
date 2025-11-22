@@ -67,8 +67,6 @@
 
 Animated ASCII backgrounds using gaussian metaball rendering. It's fast, customizable, and framework-agnostic. I originally built this for my [portfolio](https://daanhessen.nl), but liked it enough to package it up for everyone else.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 ### Built With
@@ -155,7 +153,6 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Top contributors:
 
@@ -168,8 +165,6 @@ Don't forget to give the project a star! Thanks again!
 ## License
 
 Distributed under the MIT license. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
