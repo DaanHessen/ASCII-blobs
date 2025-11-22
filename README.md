@@ -89,6 +89,8 @@ Install via npm:
 npm install ascii-blobs
 ```
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 ## Usage
