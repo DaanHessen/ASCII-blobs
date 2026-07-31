@@ -1,217 +1,65 @@
 .ascii-blobs {
-  --ascii-primary: rgb(100, 180, 255);
-  --ascii-bg-base: #020817;
-  --ascii-bg-mid: #030b1c;
-  --ascii-bg-dark: #010611;
-  --ascii-accent-1: rgba(56, 99, 208, 0.16);
-  --ascii-accent-2: rgba(34, 74, 168, 0.13);
-  --ascii-backdrop-1: rgba(82, 123, 210, 0.28);
-  --ascii-backdrop-2: rgba(5, 15, 36, 0.92);
-  --ascii-backdrop-3: rgba(42, 96, 220, 0.2);
-  --ascii-backdrop-4: rgba(3, 8, 22, 0.92);
-  --ascii-backdrop-5: rgba(7, 20, 44, 0.85);
-  --ascii-backdrop-6: rgba(2, 6, 16, 0.95);
-  --ascii-texture-1: rgba(114, 144, 210, 0.07);
-  --ascii-texture-2: rgba(48, 72, 128, 0.08);
-  --ascii-texture-3: rgba(230, 238, 255, 0.06);
-  --ascii-vignette-start: rgba(0, 0, 0, 0.56);
-  --ascii-vignette-end: rgba(0, 0, 0, 0.68);
-  --ascii-glow: rgba(100, 180, 255, 0.8);
-  --ascii-shadow: rgba(100, 180, 255, 0.4);
+  --ascii-ink: rgb(196, 203, 214);
+  --ascii-ink-shadow: rgb(44, 51, 64);
+  --ascii-bg: #07080b;
+  --ascii-grain: 0.035;
 
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
   overflow: hidden;
+  pointer-events: none;
   z-index: 0;
-  isolation: isolate;
-  background:
-    radial-gradient(120% 90% at 15% 20%, var(--ascii-accent-1), transparent 55%),
-    radial-gradient(120% 90% at 85% 80%, var(--ascii-accent-2), transparent 60%),
-    linear-gradient(180deg, var(--ascii-bg-base), var(--ascii-bg-mid) 38%, var(--ascii-bg-dark) 100%);
-}
-
-.ascii-blobs__backdrop,
-.ascii-blobs__canvas,
-.ascii-blobs__texture,
-.ascii-blobs__vignette {
-  position: absolute;
-  inset: 0;
-}
-
-.ascii-blobs__backdrop {
-  z-index: 1;
-  background:
-    radial-gradient(90% 60% at 28% 18%, var(--ascii-backdrop-1), var(--ascii-backdrop-2)),
-    radial-gradient(75% 85% at 80% 78%, var(--ascii-backdrop-3), var(--ascii-backdrop-4)),
-    linear-gradient(200deg, var(--ascii-backdrop-5), var(--ascii-backdrop-6));
-  filter: blur(42px);
-  opacity: 0.65;
-  mix-blend-mode: screen;
+  background: var(--ascii-bg);
 }
 
 .ascii-blobs__canvas {
-  z-index: 2;
+  position: absolute;
+  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
-  image-rendering: optimizeSpeed;
-  -webkit-font-smoothing: antialiased;
 }
 
-.ascii-blobs__canvas--base {
-  opacity: 0.95;
-}
-
-.ascii-blobs__canvas--overlay {
-  z-index: 3;
-  mix-blend-mode: screen;
-  opacity: 0.9;
-}
-
-.ascii-blobs__texture {
-  z-index: 4;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      var(--ascii-texture-1) 0,
-      var(--ascii-texture-1) 1px,
-      transparent 1px,
-      transparent 18px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      var(--ascii-texture-2) 0,
-      var(--ascii-texture-2) 1px,
-      transparent 1px,
-      transparent 16px
-    ),
-  radial-gradient(circle at 50% 45%, var(--ascii-texture-3), transparent 68%);
-  mix-blend-mode: soft-light;
-  animation: textureDrift 42s linear infinite;
-  opacity: 0.78;
-}
-
-.ascii-blobs__vignette {
-  z-index: 5;
-  background:
-    radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.62) 100%),
-    linear-gradient(180deg, var(--ascii-vignette-start) 0%, rgba(0, 0, 0, 0) 40%, var(--ascii-vignette-end) 100%);
-}
-
-@keyframes textureDrift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(-22px, 18px, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@media (max-width: 768px) {
-  .ascii-blobs__texture {
-    opacity: 0.62;
-    animation-duration: 56s;
-  }
-
-  .ascii-blobs__canvas--overlay {
-    opacity: 0.84;
-  }
+/*
+ * Static film grain. The blob field is smooth by construction, and on 8-bit
+ * displays large soft areas band visibly; a fixed noise layer at very low
+ * opacity breaks the bands up without animating anything.
+ */
+.ascii-blobs__grain {
+  position: absolute;
+  inset: 0;
+  opacity: var(--ascii-grain);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ascii-blobs__texture {
-    animation: none;
+  .ascii-blobs__grain {
+    opacity: calc(var(--ascii-grain) * 0.6);
   }
 }
 
-.ascii-blobs--theme-catppuccin-mocha {
-  --ascii-primary: rgb(137, 180, 250);
-  --ascii-bg-base: #1e1e2e;
-  --ascii-bg-mid: #181825;
-  --ascii-bg-dark: #11111b;
-  --ascii-accent-1: rgba(137, 180, 250, 0.16);
-  --ascii-accent-2: rgba(116, 199, 236, 0.13);
-  --ascii-backdrop-1: rgba(137, 180, 250, 0.28);
-  --ascii-backdrop-3: rgba(116, 199, 236, 0.2);
-  --ascii-texture-1: rgba(137, 180, 250, 0.07);
-  --ascii-texture-2: rgba(116, 199, 236, 0.08);
-  --ascii-texture-3: rgba(205, 214, 244, 0.06);
+.ascii-blobs--theme-paper {
+  --ascii-ink: rgb(38, 38, 36);
+  --ascii-ink-shadow: rgb(178, 174, 166);
+  --ascii-bg: #eae7e0;
 }
 
-.ascii-blobs--theme-catppuccin-latte {
-  --ascii-primary: rgb(30, 102, 245);
-  --ascii-bg-base: #eff1f5;
-  --ascii-bg-mid: #e6e9ef;
-  --ascii-bg-dark: #dce0e8;
-  --ascii-accent-1: rgba(30, 102, 245, 0.16);
-  --ascii-accent-2: rgba(4, 165, 229, 0.13);
-  --ascii-backdrop-1: rgba(30, 102, 245, 0.28);
-  --ascii-backdrop-3: rgba(4, 165, 229, 0.2);
-  --ascii-texture-1: rgba(30, 102, 245, 0.07);
-  --ascii-texture-2: rgba(4, 165, 229, 0.08);
-  --ascii-texture-3: rgba(76, 79, 105, 0.06);
-  --ascii-vignette-start: rgba(255, 255, 255, 0.56);
-  --ascii-vignette-end: rgba(255, 255, 255, 0.68);
+.ascii-blobs--theme-terminal {
+  --ascii-ink: rgb(178, 232, 190);
+  --ascii-ink-shadow: rgb(28, 56, 40);
+  --ascii-bg: #06100a;
 }
 
-.ascii-blobs--theme-dracula {
-  --ascii-primary: rgb(139, 233, 253);
-  --ascii-bg-base: #282a36;
-  --ascii-bg-mid: #21222c;
-  --ascii-bg-dark: #191a21;
-  --ascii-accent-1: rgba(139, 233, 253, 0.16);
-  --ascii-accent-2: rgba(189, 147, 249, 0.13);
-  --ascii-backdrop-1: rgba(139, 233, 253, 0.28);
-  --ascii-backdrop-3: rgba(189, 147, 249, 0.2);
-  --ascii-texture-1: rgba(139, 233, 253, 0.07);
-  --ascii-texture-2: rgba(189, 147, 249, 0.08);
-  --ascii-texture-3: rgba(248, 248, 242, 0.06);
+.ascii-blobs--theme-oxide {
+  --ascii-ink: rgb(226, 174, 132);
+  --ascii-ink-shadow: rgb(70, 44, 34);
+  --ascii-bg: #0d0906;
 }
 
-.ascii-blobs--theme-nord {
-  --ascii-primary: rgb(136, 192, 208);
-  --ascii-bg-base: #2e3440;
-  --ascii-bg-mid: #3b4252;
-  --ascii-bg-dark: #242933;
-  --ascii-accent-1: rgba(136, 192, 208, 0.16);
-  --ascii-accent-2: rgba(129, 161, 193, 0.13);
-  --ascii-backdrop-1: rgba(136, 192, 208, 0.28);
-  --ascii-backdrop-3: rgba(129, 161, 193, 0.2);
-  --ascii-texture-1: rgba(136, 192, 208, 0.07);
-  --ascii-texture-2: rgba(129, 161, 193, 0.08);
-  --ascii-texture-3: rgba(216, 222, 233, 0.06);
-}
-
-.ascii-blobs--theme-gruvbox {
-  --ascii-primary: rgb(131, 165, 152);
-  --ascii-bg-base: #282828;
-  --ascii-bg-mid: #1d2021;
-  --ascii-bg-dark: #1b1b1b;
-  --ascii-accent-1: rgba(131, 165, 152, 0.16);
-  --ascii-accent-2: rgba(142, 192, 124, 0.13);
-  --ascii-backdrop-1: rgba(131, 165, 152, 0.28);
-  --ascii-backdrop-3: rgba(142, 192, 124, 0.2);
-  --ascii-texture-1: rgba(131, 165, 152, 0.07);
-  --ascii-texture-2: rgba(142, 192, 124, 0.08);
-  --ascii-texture-3: rgba(235, 219, 178, 0.06);
-}
-
-.ascii-blobs--theme-tokyo-night {
-  --ascii-primary: rgb(125, 207, 255);
-  --ascii-bg-base: #1a1b26;
-  --ascii-bg-mid: #16161e;
-  --ascii-bg-dark: #0f0f14;
-  --ascii-accent-1: rgba(125, 207, 255, 0.16);
-  --ascii-accent-2: rgba(122, 162, 247, 0.13);
-  --ascii-backdrop-1: rgba(125, 207, 255, 0.28);
-  --ascii-backdrop-3: rgba(122, 162, 247, 0.2);
-  --ascii-texture-1: rgba(125, 207, 255, 0.07);
-  --ascii-texture-2: rgba(122, 162, 247, 0.08);
-  --ascii-texture-3: rgba(192, 202, 245, 0.06);
+.ascii-blobs--theme-slate {
+  --ascii-ink: rgb(196, 203, 214);
+  --ascii-ink-shadow: rgb(44, 51, 64);
+  --ascii-bg: #07080b;
 }

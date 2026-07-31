@@ -1,15 +1,17 @@
-export type ThemeName = 'default' | 'catppuccin-mocha' | 'catppuccin-latte' | 'dracula' | 'nord' | 'gruvbox' | 'tokyo-night';
+/**
+ * Themes are two colours and a background. The renderer derives everything
+ * else — lit faces, shadowed faces, ramp density — from the lighting model, so
+ * a theme that names more than three colours is a theme that is fighting it.
+ */
+export type ThemeName = 'slate' | 'paper' | 'terminal' | 'oxide';
 
 export const themes = {
-  default: 'ascii-blobs',
-  'catppuccin-mocha': 'ascii-blobs ascii-blobs--theme-catppuccin-mocha',
-  'catppuccin-latte': 'ascii-blobs ascii-blobs--theme-catppuccin-latte',
-  dracula: 'ascii-blobs ascii-blobs--theme-dracula',
-  nord: 'ascii-blobs ascii-blobs--theme-nord',
-  gruvbox: 'ascii-blobs ascii-blobs--theme-gruvbox',
-  'tokyo-night': 'ascii-blobs ascii-blobs--theme-tokyo-night',
-} as const;
+  slate: 'ascii-blobs--theme-slate',
+  paper: 'ascii-blobs--theme-paper',
+  terminal: 'ascii-blobs--theme-terminal',
+  oxide: 'ascii-blobs--theme-oxide',
+} as const satisfies Record<ThemeName, string>;
 
-export function getThemeClassName(theme: ThemeName = 'default'): string {
+export function getThemeClassName(theme: ThemeName = 'slate'): string {
   return themes[theme];
 }
