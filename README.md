@@ -66,8 +66,6 @@
 
 [![screenshot of portfolio using ASCII-blobs][product-screenshot]](https://daanhessen.nl)
 
-Animated ASCII backgrounds using gaussian metaball rendering. It's fast, customizable, and framework-agnostic. I originally built this for my [portfolio](https://daanhessen.nl), but liked it enough to package it up for everyone else.
-
 
 
 ### Built With
