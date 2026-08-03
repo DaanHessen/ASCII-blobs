@@ -14,8 +14,8 @@
 <h3 align="center">ASCII-blobs</h3>
 
   <p align="center">
-    High performant, highly customizable ASCII backgrounds. Built for my personal portfolio and my first launched product:
-    <a href="https://krentenweger.nl"><strong>Krentenweger</strong></a>
+    High performant, highly customizable ASCII backgrounds. Built for my <a href="https://daanhessen.nl"><strong> personal portfolio</strong></a> and my first launched product:
+    <a href="https://krentenweger.nl"><strong>Krentenweger</strong></a>.
     <br />
     <a href="https://daanhessen.github.io/ASCII-blobs/docs/"><strong>Explore the docs »</strong></a>
     <br />
