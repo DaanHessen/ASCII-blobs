@@ -192,7 +192,7 @@ Project Link: [https://github.com/DaanHessen/ASCII-blobs](https://github.com/Daa
 [license-url]: https://github.com/DaanHessen/ASCII-blobs/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: docs/screenshot-2025-11-21_22-08-39.png
+[product-screenshot]: docs/landing_dh.png
 <!-- Shields.io badges. You can a comprehensive list with many more badges at: https://github.com/inttter/md-badges -->
 [TypeScript]: https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white
 [TypeScript-url]: https://www.typescriptlang.org/
